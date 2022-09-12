@@ -21,7 +21,7 @@ public class Main
         if (tokenList.size() == 1)
         {
             System.out.println("Syntax Error");
-            System.out.println("Invalid Token \"" + tokenList.get(0).getTokenType() + "\"");
+            System.out.println("Invalid Token \"" + tokenList.get(0).getToken() + "\"");
             System.out.println(args[0] + ":" + tokenList.get(0).getLineNum());
         }
         else

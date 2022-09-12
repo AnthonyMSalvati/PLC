@@ -35,34 +35,56 @@ public class JottTokenizer {
 			fileContents.add((char) character);
 		}
 		int lineNumber = 0;
-		for (int i = 0; i < fileContents.size(); i++)
-		{
+		for (int i = 0; i < fileContents.size(); i++) {
 			// if(newline) { lineNumber++;}
 
-			if (false){
+			if (false) {
 
-			}
-
-			else if (fileContents.get(i) == '/' || fileContents.get(i) == '+' ||
-						fileContents.get(i) == '-' || fileContents.get(i) == '*') {
+			} else if (fileContents.get(i) == '/' || fileContents.get(i) == '+' ||
+					fileContents.get(i) == '-' || fileContents.get(i) == '*') {
 				Token token;
 				token = new Token(fileContents.get(i).toString(), filename, lineNumber, TokenType.MATH_OP);
 				tokenList.add(token);
-			}
-
-			else if (fileContents.get(i) == ';') {
+			} else if (fileContents.get(i) == ';') {
 				Token token;
 				token = new Token(fileContents.get(i).toString(), filename, lineNumber, TokenType.SEMICOLON);
 				tokenList.add(token);
-			}
-
-			else if (fileContents.get(i) == ':') {
+			} else if (fileContents.get(i) == ':') {
 				Token token;
 				token = new Token(fileContents.get(i).toString(), filename, lineNumber, TokenType.COLON);
 				tokenList.add(token);
+			} else if (fileContents.get(i) == '=') {
+				Token tok;
+				if (fileContents.get(i + 1) == '=') {
+					tok = new Token("==", filename, lineNumber, TokenType.REL_OP);
+				} else tok = new Token(fileContents.get(i).toString(), filename, lineNumber, TokenType.ASSIGN);
+				tokenList.add(tok);
+			} else if (fileContents.get(i) == '!') {
+				if (fileContents.get(i + 1) == '=') {
+					Token tok = new Token(fileContents.get(i).toString(), filename, lineNumber, TokenType.REL_OP);
+					tokenList.add(tok);
+				} else //deletes tokens previously found, adds error "token" so it doesn't print stuff when in error state
+				{
+					tokenList.clear();
+					Token tok = new Token(fileContents.get(i).toString(), filename, lineNumber, TokenType.REL_OP); //gets location and string
+					tokenList.add(tok);
+					return tokenList;
+				}
+			} else if (fileContents.get(i) == '<') {
+				Token tok;
+				if (fileContents.get(i + 1) == '=') {
+					tok = new Token("<=", filename, lineNumber, TokenType.REL_OP);
+				} else tok = new Token(fileContents.get(i).toString(), filename, lineNumber, TokenType.REL_OP);
+				tokenList.add(tok);
+			} else if (fileContents.get(i) == '>') {
+				Token tok;
+				if (fileContents.get(i + 1) == '=') {
+					tok = new Token(">=", filename, lineNumber, TokenType.REL_OP);
+				} else tok = new Token(fileContents.get(i).toString(), filename, lineNumber, TokenType.REL_OP);
+				tokenList.add(tok);
+
 			}
 		}
-
 		return tokenList;
 	}
 }
