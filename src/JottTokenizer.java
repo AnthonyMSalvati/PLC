@@ -45,8 +45,10 @@ public class JottTokenizer {
 					while (i != fileContents.size() && !fileContents.get(i) == '\n'){
 						i += 1;
 					}
+					lineNumber += 1; //this may not play nicely with multi-line comments yet
 				} else {
 					i+= 1;
+					
 				}
 			}
 
