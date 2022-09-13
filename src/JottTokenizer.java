@@ -82,8 +82,32 @@ public class JottTokenizer {
 					tok = new Token(">=", filename, lineNumber, TokenType.REL_OP);
 				} else tok = new Token(fileContents.get(i).toString(), filename, lineNumber, TokenType.REL_OP);
 				tokenList.add(tok);
-
-			}
+			} else if (fileContents.get(i) == '.') {	// Code for dealing with decimals first
+				Token tok;
+				String token = ".";
+				while ((int)fileContents.get(i + 1) > 47 && (int)fileContents.get(i + 1) < 57) { // Loops over all numbers
+					token += fileContents.get(i + 1);
+					i++;
+				}
+				tok = new Token(token, filename, lineNumber, TokenType.NUMBER);
+				tokenList.add(tok);
+			} else if ((int)fileContents.get(i) > 47 && (int)fileContents.get(i) < 57) {	// Code for integers
+				Token tok;
+				String token = fileContents.get(i).toString();
+				while ((int)fileContents.get(i + 1) > 47 && (int)fileContents.get(i + 1) < 57) {	// Loop over whole integer
+					token += fileContents.get(i + 1);
+					i++;
+				}
+				if (fileContents.get(i + 1) == '.') {	// If followed by a decimal, continue code for decimals
+					token += ".";
+					while ((int)fileContents.get(i + 1) > 47 && (int)fileContents.get(i + 1) < 57) {
+						token += fileContents.get(i + 1);
+						i++;
+					}
+				}
+				tok = new Token(token, filename, lineNumber, TokenType.NUMBER);
+				tokenList.add(tok);
+			}	
 		}
 		return tokenList;
 	}
