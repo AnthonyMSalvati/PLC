@@ -37,10 +37,33 @@ public class JottTokenizer {
 		int lineNumber = 0;
 		for (int i = 0; i < fileContents.size(); i++) {
 			// if(newline) { lineNumber++;}
+			
+			// skip over whitespaces and handle single-line comments
+			// need to change later to handle multi-line comments
+			while (i != fileContents.size() && (fileContents.get(i) == ' ' || fileContents.get(i) == '#')) {
+				if (fileContents.get(i) == '#'){ //handle single-line comments
+					while (i != fileContents.size() && !fileContents.get(i) == '\n'){
+						i += 1;
+					}
+				} else {
+					i+= 1;
+				}
+			}
 
 			if (false) {
 
-			} else if (fileContents.get(i) == '/' || fileContents.get(i) == '+' ||
+			} else if (fileContents.get(i) == ',') { //COMMA
+				tokenList.add(new Token(fileContents.get(i).toString(), filename, lineNumber, TokenType.COMMA));
+			} else if (fileContents.get(i) == '[') { //BRACKET LEFT
+				tokenList.add(new Token(fileContents.get(i).toString(), filename, lineNumber, TokenType.L_BRACKET));
+			} else if (fileContents.get(i) == ']') { //BRACKET RIGHT
+				tokenList.add(new Token(fileContents.get(i).toString(), filename, lineNumber, TokenType.R_BRACKET));
+			} else if (fileContents.get(i) == '{') { //BRACE LEFT
+				tokenList.add(new Token(fileContents.get(i).toString(), filename, lineNumber, TokenType.L_BRACE));
+			} else if (fileContents.get(i) == '}') { //BRACE RIGHT
+				tokenList.add(new Token(fileContents.get(i).toString(), filename, lineNumber, TokenType.R_BRACE));
+			}
+			else if (fileContents.get(i) == '/' || fileContents.get(i) == '+' ||
 					fileContents.get(i) == '-' || fileContents.get(i) == '*') {
 				Token token;
 				token = new Token(fileContents.get(i).toString(), filename, lineNumber, TokenType.MATH_OP);
