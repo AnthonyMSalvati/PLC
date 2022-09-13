@@ -110,12 +110,14 @@ public class JottTokenizer {
 			} else if (fileContents.get(i) == '.') {	// Code for dealing with decimals first
 				Token tok;
 				String token = ".";
-				while ((int)fileContents.get(i + 1) > 47 && (int)fileContents.get(i + 1) < 57) { // Loops over all numbers
-					token += fileContents.get(i + 1);
-					i++;
+				if ((int)fileContents.get(i + 1) > 47 && (int)fileContents.get(i + 1) < 57) { // Checking if it's just a point
+					while ((int)fileContents.get(i + 1) > 47 && (int)fileContents.get(i + 1) < 57) { // Loops over all numbers
+						token += fileContents.get(i + 1);
+						i++;
+					}
+					tok = new Token(token, filename, lineNumber, TokenType.NUMBER);
+					tokenList.add(tok);
 				}
-				tok = new Token(token, filename, lineNumber, TokenType.NUMBER);
-				tokenList.add(tok);
 			} else if ((int)fileContents.get(i) > 47 && (int)fileContents.get(i) < 57) {	// Code for integers
 				Token tok;
 				String token = fileContents.get(i).toString();
