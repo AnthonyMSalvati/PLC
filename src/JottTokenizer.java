@@ -132,7 +132,50 @@ public class JottTokenizer {
 				}
 				tok = new Token(token, filename, lineNumber, TokenType.NUMBER);
 				tokenList.add(tok);
-			}	
+			} else if (Character.isLetter(fileContents.get(i))){// Handling Id_Keyword
+				String token;
+				while (Character.isLetter(fileContents.get(i)) || Character.isDigit(fileContents.get(i))) {
+					token += filecontents.get(i).toString();
+					i++;
+				}
+				if(Character.isLetter(fileContents.get(i)) || Character.isDigit(fileContents.get(i))){
+					Token tok = new Token(token, filename, lineNumber, TokenType.ID_KEYWORD);
+					tokenList.add(tok);
+				}
+				else {
+					System.out.println("Syntax Error");
+					System.out.println("Invalid Token \"" + tokenList.get(-1).getToken() + "\"");
+					System.out.println(args[0] + ":" + tokenList.get(-1).getLineNum());
+					System.exit() // Dunno if this is what he wants to happen?
+				}
+			}
+			else if (fileContents.get(i) = '"'){// Handling String
+				String token;
+				token = filecontents.get(i).toString();
+				i++;
+				while (Character.isLetter(fileContents.get(i)) || Character.isDigit(fileContents.get(i)) || fileContents.get(i)==' ') {
+					token += filecontents.get(i).toString();
+					i++;
+					else{
+						System.out.println("Syntax Error");
+						System.out.println("Invalid Token \"" + tokenList.get(-1).getToken() + "\"");
+						System.out.println(args[0] + ":" + tokenList.get(-1).getLineNum());
+						System.exit() // Dunno if this is what he wants to happen?
+					}
+				}
+				if(fileContents.get(i) == "\""){
+					token += filecontents.get(i).toString();
+					i++;
+					Token tok = new Token(token, filename, lineNumber, TokenType.STRING);
+					tokenList.add(tok);
+				}else{
+					System.out.println("Syntax Error");
+					System.out.println("Invalid Token \"" + tokenList.get(-1).getToken() + "\"");
+					System.out.println(args[0] + ":" + tokenList.get(-1).getLineNum());
+					System.exit()  // Dunno if this is what he wants to happen?
+				}
+
+			}
 		}
 		return tokenList;
 	}
