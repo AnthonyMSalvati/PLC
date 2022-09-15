@@ -45,18 +45,19 @@ public class JottTokenizer {
 
 		int lineNumber = 1;
 		for (int i = 0; i < fileContents.size(); i++) {
-			// if(newline) { lineNumber++;}
 
 			// skip over whitespaces and handle single-line comments (multi-line arent in Jott)
-			while (i != fileContents.size() && (fileContents.get(i) == ' ' || fileContents.get(i) == '#')) {
+			while (i != fileContents.size() && (fileContents.get(i) == ' ' || fileContents.get(i) == '#' || fileContents.get(i) == '\n')) {
 				if (fileContents.get(i) == '#') { //handle single-line comments
-					while (i != fileContents.size() && !(fileContents.get(i).equals('\n'))) {
+					while (i != fileContents.size() && !(fileContents.get(i) == '\n')) {
 						i += 1;
 					}
 					lineNumber += 1;
 				} else {
+					if (fileContents.get(i) == '\n') { //handle newline (out of comment)
+						lineNumber += 1;
+					}
 					i += 1;
-
 				}
 			}
 
