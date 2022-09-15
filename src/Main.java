@@ -12,10 +12,10 @@ public class Main
 {
     public static void main(String[] args)
     {
-        ArrayList<Token> tokenList = new ArrayList<>();
-        try {
-            tokenList = JottTokenizer.tokenize(args[0]);
-        } catch (IOException e){}
+        ArrayList<Token> tokenList;
+
+        tokenList = JottTokenizer.tokenize(args[0]);
+
 
         assert tokenList != null;
         if (tokenList.size() == 1)

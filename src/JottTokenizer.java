@@ -4,10 +4,7 @@
  * @author 
  **/
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 public class JottTokenizer {
@@ -18,43 +15,53 @@ public class JottTokenizer {
      * @param filename the name of the file to tokenize; can be relative or absolute path
      * @return an ArrayList of Jott Tokens
      */
-    public static ArrayList<Token> tokenize(String filename) throws IOException {
-		ArrayList<Token> tokenList = new ArrayList<>();
-		File file = new File(filename);
-		FileReader reader;
+    public static ArrayList<Token> tokenize(String filename) {
+		ArrayList<Token> tokenList;
 		try {
-			reader = new FileReader(file);
-		} catch (FileNotFoundException e) {
-			System.out.println("File not found");
+			File file = new File(filename);
+			FileReader reader;
+			try {
+				reader = new FileReader(file);
+			} catch (FileNotFoundException e) {
+				System.out.println("File not found");
+				return null;
+			}
+			int character;
+			ArrayList<Character> fileContents = new ArrayList<>();
+			while ((character = reader.read()) != -1) {
+				fileContents.add((char) character);
+			}
+			tokenList = tokenizeHelper(fileContents, filename);
+		} catch (IOException io) {
+			System.out.println("IO error");
 			return null;
 		}
-		int character;
-		ArrayList<Character> fileContents = new ArrayList<>();
-		while((character = reader.read()) != -1)
-		{
-			fileContents.add((char) character);
-		}
-		int lineNumber = 0;
+		return tokenList;
+	}
+
+
+	private static ArrayList<Token> tokenizeHelper (ArrayList<Character> fileContents, String filename) {
+		ArrayList<Token> tokenList = new ArrayList<>();
+
+		int lineNumber = 1;
 		for (int i = 0; i < fileContents.size(); i++) {
 			// if(newline) { lineNumber++;}
-			
+
 			// skip over whitespaces and handle single-line comments
 			// need to change later to handle multi-line comments
 			while (i != fileContents.size() && (fileContents.get(i) == ' ' || fileContents.get(i) == '#')) {
-				if (fileContents.get(i) == '#'){ //handle single-line comments
-					while (i != fileContents.size() && !fileContents.get(i) == '\n'){
+				if (fileContents.get(i) == '#') { //handle single-line comments
+					while (i != fileContents.size() && !(fileContents.get(i).equals('\n'))) {
 						i += 1;
 					}
 					lineNumber += 1; //this may not play nicely with multi-line comments yet
 				} else {
-					i+= 1;
-					
+					i += 1;
+
 				}
 			}
 
-			if (false) {
-
-			} else if (fileContents.get(i) == ',') { //COMMA
+			if (fileContents.get(i) == ',') { //COMMA
 				tokenList.add(new Token(fileContents.get(i).toString(), filename, lineNumber, TokenType.COMMA));
 			} else if (fileContents.get(i) == '[') { //BRACKET LEFT
 				tokenList.add(new Token(fileContents.get(i).toString(), filename, lineNumber, TokenType.L_BRACKET));
@@ -64,8 +71,7 @@ public class JottTokenizer {
 				tokenList.add(new Token(fileContents.get(i).toString(), filename, lineNumber, TokenType.L_BRACE));
 			} else if (fileContents.get(i) == '}') { //BRACE RIGHT
 				tokenList.add(new Token(fileContents.get(i).toString(), filename, lineNumber, TokenType.R_BRACE));
-			}
-			else if (fileContents.get(i) == '/' || fileContents.get(i) == '+' ||
+			} else if (fileContents.get(i) == '/' || fileContents.get(i) == '+' ||
 					fileContents.get(i) == '-' || fileContents.get(i) == '*') {
 				Token token;
 				token = new Token(fileContents.get(i).toString(), filename, lineNumber, TokenType.MATH_OP);
@@ -80,13 +86,15 @@ public class JottTokenizer {
 				tokenList.add(token);
 			} else if (fileContents.get(i) == '=') {
 				Token tok;
-				if (fileContents.get(i + 1) == '=') {
+				if ((fileContents.size() > (i + 1)) && fileContents.get(i + 1) == '=') {
+					i++;
 					tok = new Token("==", filename, lineNumber, TokenType.REL_OP);
 				} else tok = new Token(fileContents.get(i).toString(), filename, lineNumber, TokenType.ASSIGN);
 				tokenList.add(tok);
 			} else if (fileContents.get(i) == '!') {
-				if (fileContents.get(i + 1) == '=') {
-					Token tok = new Token(fileContents.get(i).toString(), filename, lineNumber, TokenType.REL_OP);
+				if ((fileContents.size() > (i + 1)) && fileContents.get(i + 1) == '=') {
+					i++;
+					Token tok = new Token("!=", filename, lineNumber, TokenType.REL_OP);
 					tokenList.add(tok);
 				} else //deletes tokens previously found, adds error "token" so it doesn't print stuff when in error state
 				{
@@ -97,88 +105,74 @@ public class JottTokenizer {
 				}
 			} else if (fileContents.get(i) == '<') {
 				Token tok;
-				if (fileContents.get(i + 1) == '=') {
+				if ((fileContents.size() > (i + 1)) && fileContents.get(i + 1) == '=') {
+					i++;
 					tok = new Token("<=", filename, lineNumber, TokenType.REL_OP);
 				} else tok = new Token(fileContents.get(i).toString(), filename, lineNumber, TokenType.REL_OP);
 				tokenList.add(tok);
 			} else if (fileContents.get(i) == '>') {
 				Token tok;
-				if (fileContents.get(i + 1) == '=') {
+				if ((fileContents.size() > (i + 1)) && fileContents.get(i + 1) == '=') {
+					i++;
 					tok = new Token(">=", filename, lineNumber, TokenType.REL_OP);
 				} else tok = new Token(fileContents.get(i).toString(), filename, lineNumber, TokenType.REL_OP);
 				tokenList.add(tok);
-			} else if (fileContents.get(i) == '.') {	// Code for dealing with decimals first
+			} else if (fileContents.get(i) == '.') {    // Code for dealing with decimals first
 				Token tok;
 				String token = ".";
-				if ((int)fileContents.get(i + 1) > 47 && (int)fileContents.get(i + 1) < 57) { // Checking if it's just a point
-					while ((int)fileContents.get(i + 1) > 47 && (int)fileContents.get(i + 1) < 57) { // Loops over all numbers
+				if ((fileContents.size() > (i + 1)) && (int) fileContents.get(i + 1) > 47 && (int) fileContents.get(i + 1) < 57) { // Checking if it's just a point
+					while ((int) fileContents.get(i + 1) > 47 && (int) fileContents.get(i + 1) < 57) { // Loops over all numbers
 						token += fileContents.get(i + 1);
 						i++;
 					}
 					tok = new Token(token, filename, lineNumber, TokenType.NUMBER);
 					tokenList.add(tok);
 				}
-			} else if ((int)fileContents.get(i) > 47 && (int)fileContents.get(i) < 57) {	// Code for integers
+			} else if ((int) fileContents.get(i) > 47 && (int) fileContents.get(i) < 57) {    // Code for integers
 				Token tok;
 				String token = fileContents.get(i).toString();
-				while ((int)fileContents.get(i + 1) > 47 && (int)fileContents.get(i + 1) < 57) {	// Loop over whole integer
+				while ((fileContents.size() > (i + 1)) && (int) fileContents.get(i + 1) > 47 && (int) fileContents.get(i + 1) < 57) {    // Loop over whole integer
 					token += fileContents.get(i + 1);
 					i++;
 				}
-				if (fileContents.get(i + 1) == '.') {	// If followed by a decimal, continue code for decimals
+				if (fileContents.get(i + 1) == '.') {    // If followed by a decimal, continue code for decimals
 					token += ".";
-					while ((int)fileContents.get(i + 1) > 47 && (int)fileContents.get(i + 1) < 57) {
+					i++;
+					while ((fileContents.size() > (i + 1)) && (int) fileContents.get(i + 1) > 47 && (int) fileContents.get(i + 1) < 57) {
 						token += fileContents.get(i + 1);
 						i++;
 					}
 				}
 				tok = new Token(token, filename, lineNumber, TokenType.NUMBER);
 				tokenList.add(tok);
-			} else if (Character.isLetter(fileContents.get(i))){// Handling Id_Keyword
-				String token;
-				while (Character.isLetter(fileContents.get(i)) || Character.isDigit(fileContents.get(i))) {
-					token += filecontents.get(i).toString();
+			} else if (Character.isLetter(fileContents.get(i))) {// Handling Id_Keyword
+				String token = "";
+				while ((fileContents.size() > (i)) && (Character.isLetter(fileContents.get(i)) || Character.isDigit(fileContents.get(i)))) {
+					token += fileContents.get(i).toString();
 					i++;
 				}
-				if(Character.isLetter(fileContents.get(i)) || Character.isDigit(fileContents.get(i))){
-					Token tok = new Token(token, filename, lineNumber, TokenType.ID_KEYWORD);
-					tokenList.add(tok);
-				}
-				else {
-					System.out.println("Syntax Error");
-					System.out.println("Invalid Token \"" + tokenList.get(-1).getToken() + "\"");
-					System.out.println(args[0] + ":" + tokenList.get(-1).getLineNum());
-					System.exit() // Dunno if this is what he wants to happen?
-				}
-			}
-			else if (fileContents.get(i) = '"'){// Handling String
+				Token tok = new Token(token, filename, lineNumber, TokenType.ID_KEYWORD);
+				tokenList.add(tok);
+
+			} else if (fileContents.get(i).equals('"')) {// Handling String
 				String token;
-				token = filecontents.get(i).toString();
+				token = fileContents.get(i).toString();
 				i++;
-				while (Character.isLetter(fileContents.get(i)) || Character.isDigit(fileContents.get(i)) || fileContents.get(i)==' ') {
-					token += filecontents.get(i).toString();
+				while (Character.isLetter(fileContents.get(i)) || Character.isDigit(fileContents.get(i)) || fileContents.get(i) == ' ') {
+					token += fileContents.get(i).toString();
 					i++;
-					else{
-						System.out.println("Syntax Error");
-						System.out.println("Invalid Token \"" + tokenList.get(-1).getToken() + "\"");
-						System.out.println(args[0] + ":" + tokenList.get(-1).getLineNum());
-						System.exit() // Dunno if this is what he wants to happen?
-					}
 				}
-				if(fileContents.get(i) == "\""){
-					token += filecontents.get(i).toString();
+				if (fileContents.get(i).equals('\"')) {
+					token += fileContents.get(i).toString();
 					i++;
 					Token tok = new Token(token, filename, lineNumber, TokenType.STRING);
 					tokenList.add(tok);
-				}else{
-					System.out.println("Syntax Error");
-					System.out.println("Invalid Token \"" + tokenList.get(-1).getToken() + "\"");
-					System.out.println(args[0] + ":" + tokenList.get(-1).getLineNum());
-					System.exit()  // Dunno if this is what he wants to happen?
+				} else {
+					// throw exception
 				}
 
 			}
 		}
 		return tokenList;
-	}
+    }
 }
