@@ -116,8 +116,8 @@ public class JottTokenizer {
 			} else if (fileContents.get(i) == '.') {    // Code for dealing with decimals first
 				Token tok;
 				String token = ".";
-				if ((fileContents.size() > (i + 1)) && (int) fileContents.get(i + 1) > 47 && (int) fileContents.get(i + 1) < 57) { // Checking if it's just a point
-					while ((int) fileContents.get(i + 1) > 47 && (int) fileContents.get(i + 1) < 57) { // Loops over all numbers
+				if ((fileContents.size() > (i + 1)) && Character.isDigit(fileContents.get(i + 1))) { // Checking if it's just a point
+					while (Character.isDigit(fileContents.get(i + 1))) { // Loops over all numbers
 						token += fileContents.get(i + 1);
 						i++;
 					}
@@ -126,17 +126,17 @@ public class JottTokenizer {
 				} else {
 					throw new InvalidTokenException(fileContents.get(i + 1).toString(), filename, Integer.toString(lineNumber));
 				}
-			} else if ((int) fileContents.get(i) > 47 && (int) fileContents.get(i) < 57) {    // Code for integers
+			} else if (Character.isDigit(fileContents.get(i + 1))) {    // Code for integers
 				Token tok;
 				String token = fileContents.get(i).toString();
-				while ((fileContents.size() > (i + 1)) && (int) fileContents.get(i + 1) > 47 && (int) fileContents.get(i + 1) < 57) {    // Loop over whole integer
+				while ((fileContents.size() > (i + 1)) && Character.isDigit(fileContents.get(i + 1))) {    // Loop over whole integer
 					token += fileContents.get(i + 1);
 					i++;
 				}
 				if (fileContents.get(i + 1) == '.') {    // If followed by a decimal, continue code for decimals
 					token += ".";
 					i++;
-					while ((fileContents.size() > (i + 1)) && (int) fileContents.get(i + 1) > 47 && (int) fileContents.get(i + 1) < 57) {
+					while ((fileContents.size() > (i + 1)) && Character.isDigit(fileContents.get(i + 1))) {
 						token += fileContents.get(i + 1);
 						i++;
 					}
