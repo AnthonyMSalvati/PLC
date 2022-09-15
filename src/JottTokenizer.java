@@ -124,6 +124,8 @@ public class JottTokenizer {
 					}
 					tok = new Token(token, filename, lineNumber, TokenType.NUMBER);
 					tokenList.add(tok);
+				} else {
+					throw new InvalidTokenException(fileContents.get(i + 1).toString(), filename, Integer.toString(lineNumber));
 				}
 			} else if ((int) fileContents.get(i) > 47 && (int) fileContents.get(i) < 57) {    // Code for integers
 				Token tok;
