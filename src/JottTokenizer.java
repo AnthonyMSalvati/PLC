@@ -15,7 +15,7 @@ public class JottTokenizer {
      * @param filename the name of the file to tokenize; can be relative or absolute path
      * @return an ArrayList of Jott Tokens
      */
-    public static ArrayList<Token> tokenize(String filename) {
+    public static ArrayList<Token> tokenize(String filename) throws InvalidTokenException {
 		ArrayList<Token> tokenList;
 		try {
 			File file = new File(filename);

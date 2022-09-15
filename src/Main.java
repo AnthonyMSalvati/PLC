@@ -14,22 +14,22 @@ public class Main
     {
         ArrayList<Token> tokenList;
 
-        tokenList = JottTokenizer.tokenize(args[0]);
-
+        try {
+            tokenList = JottTokenizer.tokenize(args[0]);
+        }
+        catch (InvalidTokenException e)
+        {
+            return;
+        }
 
         assert tokenList != null;
-        if (tokenList.size() == 1)
-        {
-            System.out.println("Syntax Error");
-            System.out.println("Invalid Token \"" + tokenList.get(0).getToken() + "\"");
-            System.out.println(args[0] + ":" + tokenList.get(0).getLineNum());
+        for (Token token : tokenList) {
+            System.out.print(token.getTokenType() + " ");
         }
-        else
-        {
-            for (Token token : tokenList) {
-                System.out.print(token.getTokenType() + " ");
-            }
-            System.out.println();
-        }
+        System.out.println();
+
+
+
+
     }
 }
