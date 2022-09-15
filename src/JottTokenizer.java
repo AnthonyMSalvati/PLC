@@ -32,7 +32,7 @@ public class JottTokenizer {
 				fileContents.add((char) character);
 			}
 			tokenList = tokenizeHelper(fileContents, filename);
-		} catch (IOException io) {
+		} catch (IOException | InvalidTokenException io) {
 			System.out.println("IO error");
 			return null;
 		}
@@ -40,7 +40,7 @@ public class JottTokenizer {
 	}
 
 
-	private static ArrayList<Token> tokenizeHelper (ArrayList<Character> fileContents, String filename) {
+	private static ArrayList<Token> tokenizeHelper (ArrayList<Character> fileContents, String filename) throws InvalidTokenException {
 		ArrayList<Token> tokenList = new ArrayList<>();
 
 		int lineNumber = 1;
@@ -98,10 +98,7 @@ public class JottTokenizer {
 					tokenList.add(tok);
 				} else //deletes tokens previously found, adds error "token" so it doesn't print stuff when in error state
 				{
-					tokenList.clear();
-					Token tok = new Token(fileContents.get(i).toString(), filename, lineNumber, TokenType.REL_OP); //gets location and string
-					tokenList.add(tok);
-					return tokenList;
+					throw new InvalidTokenException(fileContents.get(i).toString(), filename, Integer.toString(lineNumber));
 				}
 			} else if (fileContents.get(i) == '<') {
 				Token tok;
