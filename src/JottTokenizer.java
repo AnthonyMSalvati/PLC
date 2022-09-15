@@ -1,7 +1,11 @@
 /**
  * This class is responsible for tokenizing Jott code.
  * 
- * @author 
+ * @author Ben Froment
+ * @author Seth Walker
+ * @author Anthony Salvati
+ * @author Jason Raab
+ * @author Ian Paap-Gray
  **/
 
 import java.io.*;
@@ -15,7 +19,7 @@ public class JottTokenizer {
      * @param filename the name of the file to tokenize; can be relative or absolute path
      * @return an ArrayList of Jott Tokens
      */
-    public static ArrayList<Token> tokenize(String filename) throws InvalidTokenException {
+    public static ArrayList<Token> tokenize(String filename) {
 		ArrayList<Token> tokenList;
 		try {
 			File file = new File(filename);
@@ -32,10 +36,13 @@ public class JottTokenizer {
 				fileContents.add((char) character);
 			}
 			tokenList = tokenizeHelper(fileContents, filename);
-		} catch (IOException | InvalidTokenException io) {
+		} catch (IOException io) {
 			System.out.println("IO error");
 			return null;
+		} catch (InvalidTokenException ite) {
+			return null;
 		}
+
 		return tokenList;
 	}
 
@@ -125,9 +132,9 @@ public class JottTokenizer {
 					tok = new Token(token, filename, lineNumber, TokenType.NUMBER);
 					tokenList.add(tok);
 				} else {
-					throw new InvalidTokenException(fileContents.get(i + 1).toString(), filename, Integer.toString(lineNumber));
+					throw new InvalidTokenException(fileContents.get(i).toString(), filename, Integer.toString(lineNumber));
 				}
-			} else if (Character.isDigit(fileContents.get(i + 1))) {    // Code for integers
+			} else if (Character.isDigit(fileContents.get(i))) {    // Code for integers
 				Token tok;
 				String token = fileContents.get(i).toString();
 				while ((fileContents.size() > (i + 1)) && Character.isDigit(fileContents.get(i + 1))) {    // Loop over whole integer
@@ -154,7 +161,7 @@ public class JottTokenizer {
 				tokenList.add(tok);
 
 			} else if (fileContents.get(i).equals('"')) {// Handling String
-				String token;
+				String token = "";
 				token = fileContents.get(i).toString();
 				i++;
 				while (Character.isLetter(fileContents.get(i)) || Character.isDigit(fileContents.get(i)) || fileContents.get(i) == ' ') {

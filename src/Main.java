@@ -14,13 +14,7 @@ public class Main
     {
         ArrayList<Token> tokenList;
 
-        try {
-            tokenList = JottTokenizer.tokenize(args[0]);
-        }
-        catch (InvalidTokenException e)
-        {
-            return;
-        }
+        tokenList = JottTokenizer.tokenize(args[0]);
 
         assert tokenList != null;
         for (Token token : tokenList) {
