@@ -59,7 +59,7 @@ public class JottTokenizer {
 					while (i != fileContents.size() && !(fileContents.get(i) == '\n')) {
 						i += 1;
 					}
-					lineNumber += 1;
+
 				} else {
 					if (fileContents.get(i) == '\n') { //handle newline (out of comment)
 						lineNumber += 1;
@@ -152,17 +152,16 @@ public class JottTokenizer {
 				tok = new Token(token, filename, lineNumber, TokenType.NUMBER);
 				tokenList.add(tok);
 			} else if (Character.isLetter(fileContents.get(i))) {// Handling Id_Keyword
-				String token = "";
+				String token="";
 				while ((fileContents.size() > (i)) && (Character.isLetter(fileContents.get(i)) || Character.isDigit(fileContents.get(i)))) {
 					token += fileContents.get(i).toString();
 					i++;
 				}
 				Token tok = new Token(token, filename, lineNumber, TokenType.ID_KEYWORD);
 				tokenList.add(tok);
-
+				i--;
 			} else if (fileContents.get(i).equals('"')) {// Handling String
-				String token = "";
-				token = fileContents.get(i).toString();
+				String token = fileContents.get(i).toString();
 				i++;
 				while (Character.isLetter(fileContents.get(i)) || Character.isDigit(fileContents.get(i)) || fileContents.get(i) == ' ') {
 					token += fileContents.get(i).toString();
@@ -170,11 +169,10 @@ public class JottTokenizer {
 				}
 				if (fileContents.get(i).equals('\"')) {
 					token += fileContents.get(i).toString();
-					i++;
 					Token tok = new Token(token, filename, lineNumber, TokenType.STRING);
 					tokenList.add(tok);
 				} else {
-					// throw exception
+					throw new InvalidTokenException(fileContents.get(i).toString(), filename, Integer.toString(lineNumber));
 				}
 
 			}
