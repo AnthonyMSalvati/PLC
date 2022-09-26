@@ -1,6 +1,7 @@
 public class JottNode implements JottTree{
 
     private String value;
+    private String type;
 
     @Override
     public String convertToJott() {
