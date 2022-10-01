@@ -1,12 +1,14 @@
+package main;
+
+import Nodes.*;
+import java.util.ArrayList;
+
 /**
  * This class is responsible for paring Jott Tokens
  * into a Jott parse tree.
  *
- * @author
+ * @author Ben Froment
  */
-
-import java.util.ArrayList;
-
 public class JottParser {
 
     /**
@@ -16,6 +18,8 @@ public class JottParser {
      *         or null upon an error in parsing.
      */
     public static JottTree parse(ArrayList<Token> tokens){
+
+        ProgramNode node = new ProgramNode();
 
         return null;
     }

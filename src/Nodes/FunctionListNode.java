@@ -1,11 +1,16 @@
-public class JottNode implements JottTree{
+package Nodes;
 
-    private String value;
-    private String type;
+import main.JottTree;
+
+public class FunctionListNode implements JottTree {
+
+    public FunctionListNode() {
+
+    }
 
     @Override
     public String convertToJott() {
-        return value;
+        return null;
     }
 
     @Override

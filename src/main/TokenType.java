@@ -1,3 +1,5 @@
+package main;
+
 /**
  * This represents the types of tokens that can be in Jott.
  */
@@ -14,5 +16,5 @@ public enum TokenType {
     NUMBER,
     ID_KEYWORD,
     COLON,
-    STRING;
+    STRING
 }

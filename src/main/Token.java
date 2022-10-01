@@ -1,3 +1,5 @@
+package main;
+
 /**
  * Class representing a token string for the Jott translator
  *

@@ -1,4 +1,4 @@
-/**
+package main; /**
  * This class is responsible for tokenizing Jott code.
  * 
  * @author Ben Froment

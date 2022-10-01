@@ -1,4 +1,4 @@
 
 Run using 
 
-javac Main.java <filename> 
+javac main.Main.java <filename>
