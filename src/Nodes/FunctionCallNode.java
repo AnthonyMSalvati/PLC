@@ -1,11 +1,19 @@
 package Nodes;
 
 import main.JottTree;
+import main.Token;
+
+import java.util.ArrayList;
 
 public class FunctionCallNode implements JottTree {
 
     public FunctionCallNode() {
 
+    }
+
+    public static FunctionCallNode parseFunctionCallNode(ArrayList<Token> tokens) throws Exception {
+
+        return null;
     }
 
     @Override
