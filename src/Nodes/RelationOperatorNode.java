@@ -1,16 +1,33 @@
 package Nodes;
 
 import main.JottTree;
+import main.Token;
+import main.TokenType;
+import java.util.ArrayList;
 
+/**
+ * @author Ben Froment
+ */
 public class RelationOperatorNode implements JottTree {
 
-    public RelationOperatorNode() {
+    private final String value;
 
+    public RelationOperatorNode(String value) {
+        this.value = value;
+    }
+
+    public static RelationOperatorNode parseRelationOperatorNode (ArrayList<Token> tokens) {
+        if (tokens.get(0).getTokenType() == TokenType.REL_OP) {
+            String value = tokens.get(0).getToken();
+            tokens.remove(0);
+            return new RelationOperatorNode(value);
+        }
+        return null;
     }
 
     @Override
     public String convertToJott() {
-        return null;
+        return value;
     }
 
     @Override

@@ -3,9 +3,11 @@ package Nodes;
 import main.JottTree;
 import main.Token;
 import main.TokenType;
-
 import java.util.ArrayList;
 
+/**
+ * @author Ben Froment
+ */
 public class IdNode implements JottTree {
 
     private final String value;
@@ -15,7 +17,7 @@ public class IdNode implements JottTree {
         this.value = value;
     }
 
-    public static IdNode parseIdNode (ArrayList<Token> tokens) throws Exception{
+    public static IdNode parseIdNode (ArrayList<Token> tokens) {
         if (tokens.get(0).getTokenType() == TokenType.ID_KEYWORD) {
             String value = tokens.get(0).getToken();
 

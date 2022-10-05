@@ -3,9 +3,11 @@ package Nodes;
 import main.JottTree;
 import main.Token;
 import main.TokenType;
-
 import java.util.ArrayList;
 
+/**
+ * @author Ben Froment
+ */
 public class OperatorNode implements JottTree {
 
     private final String value;

@@ -1,16 +1,34 @@
 package Nodes;
 
 import main.JottTree;
+import main.Token;
+import main.TokenType;
+import java.util.ArrayList;
 
+/**
+ * @author  Ben Froment
+ */
 public class StringLiteralNode implements JottTree {
 
-    public StringLiteralNode() {
+    private final String value;
 
+    public StringLiteralNode(String value) {
+
+        this.value = value;
+    }
+
+    public static StringLiteralNode parseStringLiteralNode (ArrayList<Token> tokens) {
+        if (tokens.get(0).getTokenType() == TokenType.STRING) {
+            String value = tokens.get(0).getToken();
+            tokens.remove(0);
+            return new StringLiteralNode(value);
+        }
+        return null;
     }
 
     @Override
     public String convertToJott() {
-        return null;
+        return value;
     }
 
     @Override
