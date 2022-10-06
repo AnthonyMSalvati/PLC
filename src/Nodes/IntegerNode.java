@@ -9,10 +9,9 @@ import java.util.ArrayList;
 public class IntegerNode implements JottTree {
 
     private final SignNode sign;
-    private final int number;
+    private final DigitNode number;
 
-    public IntegerNode(SignNode sign, int number) {
-
+    public IntegerNode(SignNode sign, DigitNode number) {
         this.sign = sign;
         this.number = number;
     }
@@ -24,15 +23,15 @@ public class IntegerNode implements JottTree {
             if (tokens.get(0).getTokenType() != TokenType.NUMBER){
                 throw new Exception("Error: <sign> not followed by <digit>");
             }
-            int number = Integer.parseInt(tokens.get(0).getToken());
+            DigitNode number = DigitNode.parseDigitNode(tokens);
 
             tokens.remove(0);
             return new IntegerNode(sign, number);
         }
-        if (tokens.get(0).getTokenType() != TokenType.NUMBER){
+        if (tokens.get(0).getTokenType() != TokenType.NUMBER) {
             return null;
         }
-        int number = Integer.parseInt(tokens.get(0).getToken());
+        DigitNode number = DigitNode.parseDigitNode(tokens);
 
         tokens.remove(0);
         return new IntegerNode(null, number);
@@ -41,7 +40,7 @@ public class IntegerNode implements JottTree {
     @Override
     public String convertToJott() {
         if (sign != null) {
-            return sign.convertToJott() + number;
+            return sign.convertToJott() + number.convertToJott();
         }
         return String.valueOf(number);
     }
