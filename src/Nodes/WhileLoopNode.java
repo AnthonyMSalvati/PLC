@@ -10,11 +10,7 @@ import java.util.Arrays;
 
 public class WhileLoopNode implements JottTree {
 
-    private final String lBracket = "[";
-    private final String rBracket = "]";
     private final BooleanExpressionNode booleanExpressionNode;
-    private final String lBrace = "{";
-    private final String rBrace = "}";
     private final BodyNode bodyNode;
 
     public WhileLoopNode(BooleanExpressionNode booleanExpressionNode, BodyNode bodyNode)
@@ -68,6 +64,7 @@ public class WhileLoopNode implements JottTree {
                             else
                             {
                                 tokens.remove(0);
+                                return new WhileLoopNode(booleanExpressionNode, bodyNode);
                             }
                         }
                     }
