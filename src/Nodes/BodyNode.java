@@ -1,6 +1,10 @@
 package Nodes;
 
 import main.JottTree;
+import main.Token;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class BodyNode implements JottTree {
 
@@ -8,6 +12,10 @@ public class BodyNode implements JottTree {
 
     }
 
+    public static BodyNode parseBodyNode(ArrayList<Token> tokens)
+    {
+        return null;
+    }
     @Override
     public String convertToJott() {
         return null;
