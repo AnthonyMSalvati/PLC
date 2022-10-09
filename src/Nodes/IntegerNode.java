@@ -42,7 +42,7 @@ public class IntegerNode implements JottTree {
         if (sign != null) {
             return sign.convertToJott() + number.convertToJott();
         }
-        return String.valueOf(number);
+        return number.convertToJott();
     }
 
     @Override
