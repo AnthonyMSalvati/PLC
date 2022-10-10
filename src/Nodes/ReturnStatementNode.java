@@ -1,16 +1,47 @@
 package Nodes;
 
 import main.JottTree;
+import main.Token;
+import main.TokenType;
+
+import java.util.ArrayList;
 
 public class ReturnStatementNode implements JottTree {
 
-    public ReturnStatementNode() {
+    private final String value;
+    private final ExpressionNode expNode;
+    private final EndStatementNode endStmNode;
 
+    public ReturnStatementNode(String value, ExpressionNode expNode, EndStatementNode endStmNode) {
+        this.value = value;
+        this.expNode = expNode;
+        this.endStmNode = endStmNode;
     }
+
+    public static ReturnStatementNode parseReturnStatementNode(ArrayList<Token> tokens) throws Exception {
+        if (tokens.get(0).getTokenType() == TokenType.ID_KEYWORD) {
+            String value = tokens.get(0).getToken();
+            if (value.equals("return")) {
+                tokens.remove(0);
+                ExpressionNode expNode = ExpressionNode.parseExpressionNode(tokens);
+                if (expNode != null) {
+                    EndStatementNode endStmNode = EndStatementNode.parseEndStatementNode(tokens);
+                    if (endStmNode != null) {
+                        return new ReturnStatementNode(value, expNode, endStmNode);
+                    } else {
+                        throw new Exception("Error: expected <end_stmt>");
+                    }
+                } else {
+                    throw new Exception("Error: expected <expr>");
+                }
+            }
+        }    
+        return null;
+    }    
 
     @Override
     public String convertToJott() {
-        return null;
+        return value + expNode.convertToJott() + endStmNode.convertToJott();
     }
 
     @Override
