@@ -4,9 +4,7 @@ import main.JottTree;
 import main.Token;
 import main.TokenType;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class WhileLoopNode implements JottTree {
 
@@ -20,18 +18,17 @@ public class WhileLoopNode implements JottTree {
     }
 
     public static WhileLoopNode parseWhileLoopNode(ArrayList<Token> tokens) throws Exception {
-        int currentToken = 0;
 
         if (!(tokens.get(0).getToken() == "while"))
         {
-            throw new Exception("Error message"); //@TODO correct error messages
+            throw new Exception("Error: expected \"while\""); //@TODO correct error messages
         }
         else
         {
             tokens.remove(0);
             if (!(tokens.get(0).getTokenType() == TokenType.L_BRACKET))
             {
-                throw new Exception("Error message");
+                throw new Exception("Error: expected \"[\"");
             }
             else
             {
@@ -41,14 +38,14 @@ public class WhileLoopNode implements JottTree {
                 {
                     if (!(tokens.get(0).getTokenType() == TokenType.R_BRACKET))
                     {
-                        throw new Exception("Error message");
+                        throw new Exception("Error: expected \"]\"");
                     }
                     else
                     {
                         tokens.remove(0);
-                        if (!(tokens.get(currentToken).getTokenType() == TokenType.L_BRACE))
+                        if (!(tokens.get(0).getTokenType() == TokenType.L_BRACE))
                         {
-                            throw new Exception("Error message");
+                            throw new Exception("Error: expected \"{\"");
                         }
                         else
                         {
@@ -58,25 +55,29 @@ public class WhileLoopNode implements JottTree {
                             {
                                 if (!(tokens.get(0).getTokenType() == TokenType.R_BRACE))
                                 {
-                                    throw new Exception("Error message");
+                                    throw new Exception("Error: expected \"}\"");
+                                }
+                                else
+                                {
+                                    tokens.remove(0);
+                                    return new WhileLoopNode(booleanExpressionNode, bodyNode);
                                 }
                             }
-                            else
-                            {
-                                tokens.remove(0);
-                                return new WhileLoopNode(booleanExpressionNode, bodyNode);
-                            }
+                            else throw new Exception("Error: unhandled in BodyNode");
                         }
                     }
                 }
+                else
+                {
+                    throw new Exception("Error: unhandled in BooleanExpressionNode"); //should be handled in BooleanExpressionNode
+                }
             }
         }
-        return null;
     }
     @Override
     public String convertToJott() {
 
-        return "while[" + this.booleanExpressionNode.convertToJott() + "]{" + bodyNode.convertToJott() +"}";
+        return "while[" + this.booleanExpressionNode.convertToJott() + "]{" + this.bodyNode.convertToJott() +"}";
     }
 
     @Override
