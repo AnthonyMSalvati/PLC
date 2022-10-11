@@ -5,6 +5,9 @@ import main.Token;
 
 import java.util.ArrayList;
 
+/**
+* @author Ian Paap-Gray
+*/
 public class FunctionCallNode implements JottTree {
 
 	private final IdNode id;

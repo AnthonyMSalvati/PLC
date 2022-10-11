@@ -4,6 +4,9 @@ import main.JottTree;
 import main.Token;
 import java.util.ArrayList;
 
+/**
+* @author Ian Paap-Gray
+*/
 public class ParameterNode implements JottTree {
 
 	private final ExpressionNode expr;
