@@ -43,6 +43,7 @@ public class ParameterNode implements JottTree {
 		if (this.expr != null && this.params_t != null) {
 			return this.expr.convertToJott() + this.params_t.convertToJott();
 		}
+		// notes on similar situation in ParameterTailNode, so see that
         return null; // does this cover the epsilon case?
     }
 
