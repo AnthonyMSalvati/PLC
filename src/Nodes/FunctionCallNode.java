@@ -23,7 +23,7 @@ public class FunctionCallNode implements JottTree {
     public static FunctionCallNode parseFunctionCallNode(ArrayList<Token> tokens) throws Exception {
 		IdNode id = IdNode.parseIdNode(tokens);
 		if (id != null) {
-			params = ParameterNode.parseParameterNode(tokens);
+			ParameterNode params = ParameterNode.parseParameterNode(tokens);
 			if (params != null) {
 				return new FunctionCallNode(id, params);
 			}
