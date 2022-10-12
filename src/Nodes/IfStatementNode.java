@@ -22,9 +22,9 @@ public class IfStatementNode implements JottTree {
     }
 
     public static IfStatementNode parseIfStatementNode(ArrayList<Token> tokens) throws Exception {
-        if (!(tokens.get(0).getToken() == "if"))
+        if (!(tokens.get(0).getToken().equals("if")))
         {
-            throw new Exception("Error: expected \"if\"");
+            return null;
         }
         else
         {

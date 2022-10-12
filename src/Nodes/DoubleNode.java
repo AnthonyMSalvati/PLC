@@ -48,8 +48,8 @@ public class DoubleNode implements JottTree {
     private static boolean isDouble (String s) {
         try {
             Integer.parseInt(s);
-        } catch (NumberFormatException e) {
             return false;
+        } catch (NumberFormatException ignored) {
         }
         try {
             Double.parseDouble(s);

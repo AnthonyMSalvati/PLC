@@ -50,10 +50,7 @@ public class StatementNode implements JottTree {
 		FunctionCallNode func_call = FunctionCallNode.parseFunctionCallNode(tokens);
 		if (func_call != null) {
 			EndStatementNode end_stmt = EndStatementNode.parseEndStatementNode(tokens);
-			if (end_stmt != null) {
-				return new StatementNode(func_call, end_stmt);
-			}
-			throw new Exception("Error: expected <end_stmt>");
+			return new StatementNode(func_call, end_stmt);
 		}
 		return null;
 	}

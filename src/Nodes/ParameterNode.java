@@ -32,19 +32,22 @@ public class ParameterNode implements JottTree {
 			if (params_t != null) {
 				return new ParameterNode(expr, params_t);
 			}
-			throw new Exception("Error: expected <params_t>");
+			return new ParameterNode(expr, null);
 		}
 		// if there are infinite loops this may be the cause
-		return new ParameterNode();
+		return null;
 	}
 
     @Override
     public String convertToJott() {
-		if (this.expr != null && this.params_t != null) {
-			return this.expr.convertToJott() + this.params_t.convertToJott();
+		if (this.expr != null) {
+			if (this.params_t != null) {
+				return this.expr.convertToJott() + this.params_t.convertToJott();
+			}
+			return this.expr.convertToJott();
 		}
 		// notes on similar situation in ParameterTailNode, so see that
-        return null; // does this cover the epsilon case?
+        return ""; // does this cover the epsilon case?
     }
 
     @Override

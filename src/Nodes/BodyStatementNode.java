@@ -18,7 +18,7 @@ public class BodyStatementNode implements JottTree {
         this.stmNode = stmNode;
     }
 
-    public static BodyStatementNode parseBodyStatementNode(ArrayList<Token> tokens) {
+    public static BodyStatementNode parseBodyStatementNode(ArrayList<Token> tokens) throws Exception {
         IfStatementNode ifStmNode = IfStatementNode.parseIfStatementNode(tokens);
         if (ifStmNode != null) {
             return new BodyStatementNode(ifStmNode, null, null);

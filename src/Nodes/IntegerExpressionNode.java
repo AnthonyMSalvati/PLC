@@ -68,6 +68,28 @@ public class IntegerExpressionNode implements JottTree {
         this.integerExpressionNode = integerExpressionNode;
     }
 
+    public IntegerExpressionNode (IdNode idNode, IntegerNode integerNode,
+                                  OperatorNode operatorNode) {
+        this.integerNode2 = null;
+        this.functionCallNode = null;
+        this.integerExpressionNode = null;
+
+        this.idNode = idNode;
+        this.integerNode1 = integerNode;
+        this.operatorNode = operatorNode;
+    }
+
+    public IntegerExpressionNode (IdNode idNode, IntegerExpressionNode integerExpressionNode,
+                                  OperatorNode operatorNode) {
+        this.integerNode2 = null;
+        this.functionCallNode = null;
+        this.integerNode1 = null;
+
+        this.idNode = idNode;
+        this.operatorNode = operatorNode;
+        this.integerExpressionNode = integerExpressionNode;
+    }
+
     public static IntegerExpressionNode parseIntegerExpressionNode (ArrayList<Token> tokens) throws Exception {
         FunctionCallNode functionCallNode = FunctionCallNode.parseFunctionCallNode(tokens);
         if (functionCallNode != null) {
@@ -75,7 +97,25 @@ public class IntegerExpressionNode implements JottTree {
         }
         IdNode idNode = IdNode.parseIdNode(tokens);
         if (idNode != null) {
-            return new IntegerExpressionNode(idNode);
+            OperatorNode operatorNode = OperatorNode.parseOperatorNode(tokens);
+            if (operatorNode != null) {
+                OperatorNode operatorNode2 = OperatorNode.parseOperatorNode(new ArrayList<>(Collections.singletonList(tokens.get(1))));
+                if (operatorNode2 != null) {
+                    IntegerExpressionNode integerExpressionNode = parseIntegerExpressionNode(tokens);
+                    if (integerExpressionNode != null) {
+                        return new IntegerExpressionNode(idNode, integerExpressionNode, operatorNode);
+                    }
+                }
+
+                IntegerNode integerNode = IntegerNode.parseIntegerNode(tokens);
+                if (integerNode != null) {
+                    return new IntegerExpressionNode(idNode, integerNode, operatorNode);
+                } else {
+                    throw new Exception("Error: <id> <op> not followed by <int>");
+                }
+            } else {
+                return new IntegerExpressionNode(idNode);
+            }
         }
         IntegerNode integerNode1 = IntegerNode.parseIntegerNode(tokens);
         if (integerNode1 != null) {
@@ -111,6 +151,16 @@ public class IntegerExpressionNode implements JottTree {
         }
 
         if (idNode != null) {
+            if (operatorNode != null) {
+                if (integerExpressionNode != null) {
+                    return idNode.convertToJott() + operatorNode.convertToJott() +
+                            integerExpressionNode.convertToJott();
+                }
+                if(integerNode1 != null) {
+                    return idNode.convertToJott() + operatorNode.convertToJott() +
+                            integerNode1.convertToJott();
+                }
+            }
             return idNode.convertToJott();
         }
 

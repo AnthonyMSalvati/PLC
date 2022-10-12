@@ -19,9 +19,9 @@ public class WhileLoopNode implements JottTree {
 
     public static WhileLoopNode parseWhileLoopNode(ArrayList<Token> tokens) throws Exception {
 
-        if (!(tokens.get(0).getToken() == "while"))
+        if (!(tokens.get(0).getToken().equals("while")))
         {
-            throw new Exception("Error: expected \"while\""); //@TODO correct error messages
+            return null;
         }
         else
         {

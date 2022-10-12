@@ -12,7 +12,6 @@ public class BodyNode implements JottTree {
     private final BodyStatementNode bodyStmNode;
     private final BodyNode bodyNode;
     private final ReturnStatementNode returnStmNode;
-    private final String empty = "E";
 
     public BodyNode(BodyStatementNode bodyStmNode, BodyNode bodyNode, ReturnStatementNode returnStmNode) {
         this.bodyStmNode = bodyStmNode;
@@ -21,33 +20,38 @@ public class BodyNode implements JottTree {
     }
 
     public static BodyNode parseBodyNode(ArrayList<Token> tokens) throws Exception {
-        BodyStatementNode bodyStm = BodyStatementNode.parseBodyStatementNode(tokens);
-        if (bodyStm != null) {
-            BodyNode bodyNode = BodyNode.parseBodyNode(tokens);
-            if (bodyNode != null) {
-                return new BodyNode(bodyStm, bodyNode, null);
-            } else {
-                throw new Exception("Error: expected <body>");
-            }
-        } else {
-            ReturnStatementNode returnStmNode = ReturnStatementNode.parseReturnStatementNode(tokens);
-            if (returnStmNode != null) {
-                return new BodyNode(bodyStm, null, returnStmNode);
-            } else {
-                return null; 
+        if (!tokens.get(0).getToken().equals("return")) {
+            BodyStatementNode bodyStm = BodyStatementNode.parseBodyStatementNode(tokens);
+            if (bodyStm != null) {
+                BodyNode bodyNode = BodyNode.parseBodyNode(tokens);
+                if (bodyNode != null) {
+                    return new BodyNode(bodyStm, bodyNode, null);
+                }
+                return new BodyNode(bodyStm, null, null);
             }
         }
+        ReturnStatementNode returnStmNode = ReturnStatementNode.parseReturnStatementNode(tokens);
+        if (returnStmNode != null) {
+            return new BodyNode(null, null, returnStmNode);
+        } else {
+            return null;
+        }
+
     }
+
 
     @Override
     public String convertToJott() {
-        if (bodyStmNode != null && bodyNode != null) {
-            return bodyStmNode.convertToJott() + bodyNode.convertToJott();
-        } else if (returnStmNode != null) {
-            return returnStmNode.convertToJott();
-        } else {
-            return empty;
+        if (bodyStmNode != null) {
+            if (bodyNode != null) {
+                return bodyStmNode.convertToJott() + bodyNode.convertToJott();
+            }
+            return bodyStmNode.convertToJott();
         }
+        if (returnStmNode != null) {
+            return returnStmNode.convertToJott();
+        }
+        return "";
     }
 
     @Override

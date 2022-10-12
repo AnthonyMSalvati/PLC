@@ -2,6 +2,8 @@ package Nodes;
 
 import main.JottTree;
 import main.Token;
+import main.TokenType;
+
 import java.util.ArrayList;
 
 /**
@@ -13,7 +15,7 @@ public class ParameterTailNode implements JottTree {
 	private final ParameterTailNode params_t;
 
 	// ,<expr><params_t>
-	public ParameterNode(ExpressionNode expr, ParameterTailNode params_t) {
+	public ParameterTailNode(ExpressionNode expr, ParameterTailNode params_t) {
 		this.expr = expr;
 		this.params_t = params_t;
 	}
@@ -38,13 +40,16 @@ public class ParameterTailNode implements JottTree {
 			throw new Exception("Error: expected <expr>");
 		}
 		// again, make sure this doesnt have infinite loop issues
-		return new ParameterTailNode();
+		return null;
 	}
 
     @Override
     public String convertToJott() {
-		if (this.expr != null && this.params_t != null) {
-			return this.expr.convertToJott() + this.params_t.convertToJott();
+		if (this.expr != null) {
+			if (this.params_t != null) {
+				return this.expr.convertToJott() + this.params_t.convertToJott();
+			}
+			return this.expr.convertToJott();
 		}
 		/* in ParameterNode, this returns null, but here I have it return
 		an empty string. I believe one of those will cause an issue, but

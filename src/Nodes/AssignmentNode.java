@@ -105,131 +105,117 @@ public class AssignmentNode implements JottTree {
     }
 
     public static AssignmentNode parseAssignmentNode (ArrayList<Token> tokens) throws Exception {
+
         if (tokens.get(0).getTokenType() == TokenType.ID_KEYWORD) {
             String value = tokens.get(0).getToken();
             IdNode idNode;
-            switch (value) {
-                case "Double":
-                    tokens.remove(0);
-                    idNode = IdNode.parseIdNode(tokens);
-                    if (idNode != null) {
-                        if (tokens.get(0).getTokenType() != TokenType.ASSIGN){
-                            throw new Exception("Error: expected '=' sign");
-                        }
-                        DoubleExpressionNode doubleExpressionNode =
-                                DoubleExpressionNode.parseDoubleExpressionNode(tokens);
-                        if (doubleExpressionNode != null) {
-                            EndStatementNode endStatementNode = EndStatementNode.parseEndStatementNode(tokens);
-                            if (endStatementNode != null) {
+            if (tokens.get(2).getTokenType() == TokenType.ASSIGN) {
+                switch (value) {
+                    case "Double":
+                        tokens.remove(0);
+                        idNode = IdNode.parseIdNode(tokens);
+                        if (idNode != null) {
+                            if (tokens.get(0).getTokenType() != TokenType.ASSIGN) {
+                                throw new Exception("Error: expected '=' sign");
+                            }
+                            tokens.remove(0);
+                            DoubleExpressionNode doubleExpressionNode =
+                                    DoubleExpressionNode.parseDoubleExpressionNode(tokens);
+                            if (doubleExpressionNode != null) {
+                                EndStatementNode endStatementNode = EndStatementNode.parseEndStatementNode(tokens);
                                 return new AssignmentNode("Double", idNode,
                                         doubleExpressionNode, endStatementNode);
                             }
-                            throw new Exception("Error: expected <end_statement>");
+                            throw new Exception("Error: expected <d_expr>");
                         }
-                        throw new Exception("Error: expected <d_expr>");
-                    }
-                    throw new Exception("Error: expected <id>");
-                case "Integer":
-                    tokens.remove(0);
-                    idNode = IdNode.parseIdNode(tokens);
-                    if (idNode != null) {
-                        if (tokens.get(0).getTokenType() != TokenType.ASSIGN){
-                            throw new Exception("Error: expected '=' sign");
-                        }
-                        IntegerExpressionNode integerExpressionNode =
-                                IntegerExpressionNode.parseIntegerExpressionNode(tokens);
-                        if (integerExpressionNode != null) {
-                            EndStatementNode endStatementNode = EndStatementNode.parseEndStatementNode(tokens);
-                            if (endStatementNode != null) {
+                        throw new Exception("Error: expected <id>");
+                    case "Integer":
+                        tokens.remove(0);
+                        idNode = IdNode.parseIdNode(tokens);
+                        if (idNode != null) {
+                            if (tokens.get(0).getTokenType() != TokenType.ASSIGN) {
+                                throw new Exception("Error: expected '=' sign");
+                            }
+                            tokens.remove(0);
+                            IntegerExpressionNode integerExpressionNode =
+                                    IntegerExpressionNode.parseIntegerExpressionNode(tokens);
+                            if (integerExpressionNode != null) {
+                                EndStatementNode endStatementNode = EndStatementNode.parseEndStatementNode(tokens);
                                 return new AssignmentNode("Integer", idNode,
                                         integerExpressionNode, endStatementNode);
                             }
-                            throw new Exception("Error: expected <end_statement>");
+                            throw new Exception("Error: expected <i_expr>");
                         }
-                        throw new Exception("Error: expected <i_expr>");
-                    }
-                    throw new Exception("Error: expected <id>");
-                case "String":
-                    tokens.remove(0);
-                    idNode = IdNode.parseIdNode(tokens);
-                    if (idNode != null) {
-                        if (tokens.get(0).getTokenType() != TokenType.ASSIGN){
-                            throw new Exception("Error: expected '=' sign");
-                        }
-                        StringExpressionNode stringExpressionNode =
-                                StringExpressionNode.parseStringExpressionNode(tokens);
-                        if (stringExpressionNode != null) {
-                            EndStatementNode endStatementNode = EndStatementNode.parseEndStatementNode(tokens);
-                            if (endStatementNode != null) {
+                        throw new Exception("Error: expected <id>");
+                    case "String":
+                        tokens.remove(0);
+                        idNode = IdNode.parseIdNode(tokens);
+                        if (idNode != null) {
+                            if (tokens.get(0).getTokenType() != TokenType.ASSIGN) {
+                                throw new Exception("Error: expected '=' sign");
+                            }
+                            tokens.remove(0);
+                            StringExpressionNode stringExpressionNode =
+                                    StringExpressionNode.parseStringExpressionNode(tokens);
+                            if (stringExpressionNode != null) {
+                                EndStatementNode endStatementNode = EndStatementNode.parseEndStatementNode(tokens);
                                 return new AssignmentNode("String", idNode,
                                         stringExpressionNode, endStatementNode);
                             }
-                            throw new Exception("Error: expected <end_statement>");
+                            throw new Exception("Error: expected <s_expr>");
                         }
-                        throw new Exception("Error: expected <s_expr>");
-                    }
-                    throw new Exception("Error: expected <id>");
-                case "Boolean":
-                    tokens.remove(0);
-                    idNode = IdNode.parseIdNode(tokens);
-                    if (idNode != null) {
-                        if (tokens.get(0).getTokenType() != TokenType.ASSIGN){
-                            throw new Exception("Error: expected '=' sign");
-                        }
-                        BooleanExpressionNode booleanExpressionNode =
-                                BooleanExpressionNode.parseBooleanExpressionNode(tokens);
-                        if (booleanExpressionNode != null) {
-                            EndStatementNode endStatementNode = EndStatementNode.parseEndStatementNode(tokens);
-                            if (endStatementNode != null) {
+                        throw new Exception("Error: expected <id>");
+                    case "Boolean":
+                        tokens.remove(0);
+                        idNode = IdNode.parseIdNode(tokens);
+                        if (idNode != null) {
+                            if (tokens.get(0).getTokenType() != TokenType.ASSIGN) {
+                                throw new Exception("Error: expected '=' sign");
+                            }
+                            tokens.remove(0);
+                            BooleanExpressionNode booleanExpressionNode =
+                                    BooleanExpressionNode.parseBooleanExpressionNode(tokens);
+                            if (booleanExpressionNode != null) {
+                                EndStatementNode endStatementNode = EndStatementNode.parseEndStatementNode(tokens);
                                 return new AssignmentNode("Boolean", idNode,
                                         booleanExpressionNode, endStatementNode);
                             }
-                            throw new Exception("Error: expected <end_statement>");
+                            throw new Exception("Error: expected <b_expr>");
                         }
-                        throw new Exception("Error: expected <b_expr>");
-                    }
-                    throw new Exception("Error: expected <id>");
-            }
-            idNode = IdNode.parseIdNode(tokens);
-            if (idNode != null) {
-                if (tokens.get(0).getTokenType() != TokenType.ASSIGN){
-                    throw new Exception("Error: expected '=' sign");
+                        throw new Exception("Error: expected <id>");
                 }
-                DoubleExpressionNode doubleExpressionNode =
-                        DoubleExpressionNode.parseDoubleExpressionNode(tokens);
-                if (doubleExpressionNode != null) {
-                    EndStatementNode endStatementNode = EndStatementNode.parseEndStatementNode(tokens);
-                    if (endStatementNode != null) {
+            }
+            if (tokens.get(1).getTokenType() == TokenType.ASSIGN) {
+                idNode = IdNode.parseIdNode(tokens);
+                if (idNode != null) {
+                    if (tokens.get(0).getTokenType() != TokenType.ASSIGN) {
+                        throw new Exception("Error: expected '=' sign");
+                    }
+                    tokens.remove(0);
+                    DoubleExpressionNode doubleExpressionNode =
+                            DoubleExpressionNode.parseDoubleExpressionNode(tokens);
+                    if (doubleExpressionNode != null) {
+                        EndStatementNode endStatementNode = EndStatementNode.parseEndStatementNode(tokens);
                         return new AssignmentNode(idNode, doubleExpressionNode, endStatementNode);
                     }
-                    throw new Exception("Error: expected <end_statement>");
-                }
-                IntegerExpressionNode integerExpressionNode =
-                        IntegerExpressionNode.parseIntegerExpressionNode(tokens);
-                if (integerExpressionNode != null) {
-                    EndStatementNode endStatementNode = EndStatementNode.parseEndStatementNode(tokens);
-                    if (endStatementNode != null) {
+                    IntegerExpressionNode integerExpressionNode =
+                            IntegerExpressionNode.parseIntegerExpressionNode(tokens);
+                    if (integerExpressionNode != null) {
+                        EndStatementNode endStatementNode = EndStatementNode.parseEndStatementNode(tokens);
                         return new AssignmentNode(idNode, integerExpressionNode, endStatementNode);
                     }
-                    throw new Exception("Error: expected <end_statement>");
-                }
-                StringExpressionNode stringExpressionNode =
-                        StringExpressionNode.parseStringExpressionNode(tokens);
-                if (stringExpressionNode != null) {
-                    EndStatementNode endStatementNode = EndStatementNode.parseEndStatementNode(tokens);
-                    if (endStatementNode != null) {
+                    StringExpressionNode stringExpressionNode =
+                            StringExpressionNode.parseStringExpressionNode(tokens);
+                    if (stringExpressionNode != null) {
+                        EndStatementNode endStatementNode = EndStatementNode.parseEndStatementNode(tokens);
                         return new AssignmentNode(idNode, stringExpressionNode, endStatementNode);
                     }
-                    throw new Exception("Error: expected <end_statement>");
-                }
-                BooleanExpressionNode booleanExpressionNode =
-                        BooleanExpressionNode.parseBooleanExpressionNode(tokens);
-                if (booleanExpressionNode != null) {
-                    EndStatementNode endStatementNode = EndStatementNode.parseEndStatementNode(tokens);
-                    if (endStatementNode != null) {
+                    BooleanExpressionNode booleanExpressionNode =
+                            BooleanExpressionNode.parseBooleanExpressionNode(tokens);
+                    if (booleanExpressionNode != null) {
+                        EndStatementNode endStatementNode = EndStatementNode.parseEndStatementNode(tokens);
                         return new AssignmentNode(idNode, booleanExpressionNode, endStatementNode);
                     }
-                    throw new Exception("Error: expected <end_statement>");
                 }
             }
         }
@@ -241,19 +227,19 @@ public class AssignmentNode implements JottTree {
         if (value != null) {
             if (idNode != null) {
                 if (doubleExpressionNode != null) {
-                    return value + idNode.convertToJott() + "=" +
+                    return value + " " + idNode.convertToJott() + "=" +
                             doubleExpressionNode.convertToJott() + endStatementNode.convertToJott();
                 }
                 if (integerExpressionNode != null) {
-                    return value + idNode.convertToJott() + "=" +
+                    return value + " " + idNode.convertToJott() + "=" +
                             integerExpressionNode.convertToJott() + endStatementNode.convertToJott();
                 }
                 if (stringExpressionNode != null) {
-                    return value + idNode.convertToJott() + "=" +
+                    return value + " " + idNode.convertToJott() + "=" +
                             stringExpressionNode.convertToJott() + endStatementNode.convertToJott();
                 }
                 if (booleanExpressionNode != null) {
-                    return value + idNode.convertToJott() + "=" +
+                    return value + " " + idNode.convertToJott() + "=" +
                             booleanExpressionNode.convertToJott() + endStatementNode.convertToJott();
                 }
             }

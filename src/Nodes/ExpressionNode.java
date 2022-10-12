@@ -2,6 +2,8 @@ package Nodes;
 
 import main.JottTree;
 import main.Token;
+import main.TokenType;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -77,28 +79,46 @@ public class ExpressionNode implements JottTree {
         if (functionCallNode != null) {
             return new ExpressionNode(functionCallNode);
         }
+        if (tokens.size() > 1) {
+            OperatorNode operatorNode = OperatorNode.parseOperatorNode(
+                    new ArrayList<>(Collections.singletonList(tokens.get(1))));
+            if (operatorNode != null) {
+                IntegerExpressionNode integerExpressionNode = IntegerExpressionNode.parseIntegerExpressionNode(tokens);
+                if (integerExpressionNode != null) {
+                    return new ExpressionNode(integerExpressionNode);
+                }
+                DoubleExpressionNode doubleExpressionNode = DoubleExpressionNode.parseDoubleExpressionNode(tokens);
+                if (doubleExpressionNode != null) {
+                    return new ExpressionNode(doubleExpressionNode);
+                }
+                StringExpressionNode stringExpressionNode = StringExpressionNode.parseStringExpressionNode(tokens);
+                if (stringExpressionNode != null) {
+                    return new ExpressionNode(stringExpressionNode);
+                }
+            }
+            RelationOperatorNode relationOperatorNode = RelationOperatorNode.parseRelationOperatorNode(
+                    new ArrayList<>(Collections.singletonList(tokens.get(1))));
+            if (relationOperatorNode != null) {
+                BooleanExpressionNode booleanExpressionNode = BooleanExpressionNode.parseBooleanExpressionNode(tokens);
+                if (booleanExpressionNode != null) {
+                    return new ExpressionNode(booleanExpressionNode);
+                }
+            }
+        }
         IdNode idNode = IdNode.parseIdNode(tokens);
         if (idNode != null) {
             return new ExpressionNode(idNode);
-        }
-        RelationOperatorNode relationOperatorNode = RelationOperatorNode.parseRelationOperatorNode(
-                new ArrayList<>(Collections.singletonList(tokens.get(1))));
-        if (relationOperatorNode != null) {
-            BooleanExpressionNode booleanExpressionNode = BooleanExpressionNode.parseBooleanExpressionNode(tokens);
-            if (booleanExpressionNode != null) {
-                return new ExpressionNode(booleanExpressionNode);
-            }
-        }
-        DoubleExpressionNode doubleExpressionNode = DoubleExpressionNode.parseDoubleExpressionNode(tokens);
-        if (doubleExpressionNode != null) {
-            return new ExpressionNode(doubleExpressionNode);
         }
         IntegerExpressionNode integerExpressionNode = IntegerExpressionNode.parseIntegerExpressionNode(tokens);
         if (integerExpressionNode != null) {
             return new ExpressionNode(integerExpressionNode);
         }
+        DoubleExpressionNode doubleExpressionNode = DoubleExpressionNode.parseDoubleExpressionNode(tokens);
+        if (doubleExpressionNode != null) {
+            return new ExpressionNode(doubleExpressionNode);
+        }
         StringExpressionNode stringExpressionNode = StringExpressionNode.parseStringExpressionNode(tokens);
-        if (stringExpressionNode != null){
+        if (stringExpressionNode != null) {
             return new ExpressionNode(stringExpressionNode);
         }
         return null;

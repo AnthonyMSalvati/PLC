@@ -2,6 +2,7 @@ package Nodes;
 
 import main.JottTree;
 import main.Token;
+import main.TokenType;
 
 import java.util.ArrayList;
 
@@ -24,14 +25,31 @@ public class FunctionCallNode implements JottTree {
     }
 
     public static FunctionCallNode parseFunctionCallNode(ArrayList<Token> tokens) throws Exception {
-		IdNode id = IdNode.parseIdNode(tokens);
-		if (id != null) {
-			ParameterNode params = ParameterNode.parseParameterNode(tokens);
-			if (params != null) {
-				return new FunctionCallNode(id, params);
-			}
-			return new FunctionCallNode(id);
-		}
+        if (tokens.size() > 1) {
+            if (tokens.get(1).getTokenType() == TokenType.L_BRACKET) {
+                IdNode id = IdNode.parseIdNode(tokens);
+                if (id != null) {
+                    if (tokens.get(0).getTokenType() == TokenType.L_BRACKET) {
+                        tokens.remove(0);
+                        ParameterNode params = ParameterNode.parseParameterNode(tokens);
+                        if (params != null) {
+                            if (tokens.get(0).getTokenType() == TokenType.R_BRACKET) {
+                                tokens.remove(0);
+                                return new FunctionCallNode(id, params);
+                            }
+                            throw new Exception("Error: expected R_BRACKET");
+                        }
+                        if (tokens.get(0).getTokenType() == TokenType.R_BRACKET) {
+                            tokens.remove(0);
+                            return new FunctionCallNode(id);
+                        }
+                        throw new Exception("Error: expected R_BRACKET");
+                    }
+                    throw new Exception("Error: expected L_BRACKET");
+                }
+                return null;
+            }
+        }
         return null;
     }
 
@@ -39,11 +57,11 @@ public class FunctionCallNode implements JottTree {
     public String convertToJott() {
 		if (this.id != null) {
 			if (this.params != null) {
-				return this.id.convertToJott() + this.params.convertToJott();
+				return this.id.convertToJott() + "[" +
+                        this.params.convertToJott() + "]";
 			}
-			return this.id.convertToJott();
 		}
-        return null;
+        return "";
     }
 
     @Override

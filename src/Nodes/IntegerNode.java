@@ -24,17 +24,19 @@ public class IntegerNode implements JottTree {
                 throw new Exception("Error: <sign> not followed by <digit>");
             }
             DigitNode number = DigitNode.parseDigitNode(tokens);
-
-            tokens.remove(0);
-            return new IntegerNode(sign, number);
+            if (number != null) {
+                return new IntegerNode(sign, number);
+            }
+            throw new Exception("Error: <sign> not followed by <digit>");
         }
         if (tokens.get(0).getTokenType() != TokenType.NUMBER) {
             return null;
         }
         DigitNode number = DigitNode.parseDigitNode(tokens);
-
-        tokens.remove(0);
-        return new IntegerNode(null, number);
+        if (number != null) {
+            return new IntegerNode(null, number);
+        }
+        return null;
     }
 
     @Override

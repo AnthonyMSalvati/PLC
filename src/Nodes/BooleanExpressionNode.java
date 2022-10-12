@@ -126,14 +126,7 @@ public class BooleanExpressionNode implements JottTree {
     }
 
     public static BooleanExpressionNode parseBooleanExpressionNode (ArrayList<Token> tokens) throws Exception {
-        FunctionCallNode functionCallNode = FunctionCallNode.parseFunctionCallNode(tokens);
-        if (functionCallNode != null) {
-            return new BooleanExpressionNode(functionCallNode);
-        }
-        IdNode idNode = IdNode.parseIdNode(tokens);
-        if (idNode != null) {
-            return new BooleanExpressionNode(idNode);
-        }
+
         BooleanNode booleanNode = BooleanNode.parseBooleanNode(tokens);
         if (booleanNode != null) {
             return new BooleanExpressionNode(booleanNode);
@@ -185,6 +178,14 @@ public class BooleanExpressionNode implements JottTree {
                 throw new Exception("Error: expected <b_expr");
             }
             throw new Exception("Error: expected <rel_op>");
+        }
+        FunctionCallNode functionCallNode = FunctionCallNode.parseFunctionCallNode(tokens);
+        if (functionCallNode != null) {
+            return new BooleanExpressionNode(functionCallNode);
+        }
+        IdNode idNode = IdNode.parseIdNode(tokens);
+        if (idNode != null) {
+            return new BooleanExpressionNode(idNode);
         }
 
         return null;

@@ -12,11 +12,12 @@ public class EndStatementNode implements JottTree {
     }
 
     public static EndStatementNode parseEndStatementNode(ArrayList<Token> tokens) throws Exception {
-        if (!(tokens.get(0).getToken() == ";"))
+        if (!(tokens.get(0).getToken().equals(";")))
         {
             throw new Exception("Statement not ended with \";\"");
         }
         else {
+            tokens.remove(0);
             return new EndStatementNode();
         }
     }

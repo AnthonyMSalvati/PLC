@@ -26,11 +26,7 @@ public class ReturnStatementNode implements JottTree {
                 ExpressionNode expNode = ExpressionNode.parseExpressionNode(tokens);
                 if (expNode != null) {
                     EndStatementNode endStmNode = EndStatementNode.parseEndStatementNode(tokens);
-                    if (endStmNode != null) {
-                        return new ReturnStatementNode(value, expNode, endStmNode);
-                    } else {
-                        throw new Exception("Error: expected <end_stmt>");
-                    }
+                    return new ReturnStatementNode(value, expNode, endStmNode);
                 } else {
                     throw new Exception("Error: expected <expr>");
                 }
@@ -41,7 +37,7 @@ public class ReturnStatementNode implements JottTree {
 
     @Override
     public String convertToJott() {
-        return value + expNode.convertToJott() + endStmNode.convertToJott();
+        return value + " " + expNode.convertToJott() + endStmNode.convertToJott();
     }
 
     @Override

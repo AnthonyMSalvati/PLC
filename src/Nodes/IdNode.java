@@ -18,6 +18,9 @@ public class IdNode implements JottTree {
     }
 
     public static IdNode parseIdNode (ArrayList<Token> tokens) {
+        if (tokens.size() == 0) {
+            return null;
+        }
         if (tokens.get(0).getTokenType() == TokenType.ID_KEYWORD) {
             String value = tokens.get(0).getToken();
 

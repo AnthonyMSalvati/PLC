@@ -17,15 +17,13 @@ public class VariableDeclarationNode implements JottTree {
         this.endStatementNode = endStatementNode;
     }
 
-    public static VariableDeclarationNode parseVariableDeclarationNode(ArrayList<Token> tokens) {
+    public static VariableDeclarationNode parseVariableDeclarationNode(ArrayList<Token> tokens) throws Exception {
         TypeNode typeNode = TypeNode.parseTypeNode(tokens);
         if (typeNode != null) {
             IdNode idNode = IdNode.parseIdNode(tokens);
             if (idNode != null) {
                 EndStatementNode endStatementNode = EndStatementNode.parseEndStatementNode(tokens);
-                if (endStatementNode != null) {
-                    return new VariableDeclarationNode(typeNode, idNode, endStatementNode);
-                }
+                return new VariableDeclarationNode(typeNode, idNode, endStatementNode);
             }
         }
         return null;
