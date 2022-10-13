@@ -29,7 +29,7 @@ public class ProgramNode implements JottTree {
         if (functionListNode != null) {
             return functionListNode.convertToJott();
         }
-        return null;
+        return "";
     }
 
     @Override

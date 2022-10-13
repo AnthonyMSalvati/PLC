@@ -59,7 +59,7 @@ public class StringExpressionNode implements JottTree {
         } else if (stringLiteralNode != null) {
             return stringLiteralNode.convertToJott();
         }
-        return null;
+        return "";
     }
 
     @Override

@@ -39,7 +39,7 @@ public class VariableDeclarationNode implements JottTree {
                 }
             }
         }
-        return null;
+        return "";
     }
 
     @Override

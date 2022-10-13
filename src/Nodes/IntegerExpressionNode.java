@@ -177,7 +177,7 @@ public class IntegerExpressionNode implements JottTree {
             }
             return integerNode1.convertToJott();
         }
-        return null;
+        return "";
     }
 
     @Override

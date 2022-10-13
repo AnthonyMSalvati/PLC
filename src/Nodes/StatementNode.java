@@ -67,7 +67,7 @@ public class StatementNode implements JottTree {
 		if (this.func_call != null && this.end_stmt != null) {
 			return this.func_call.convertToJott() + this.end_stmt.convertToJott();
 		}
-        return null;
+        return "";
     }
 
     @Override
