@@ -6,6 +6,9 @@ import main.TokenType;
 
 import java.util.ArrayList;
 
+/**
+ * @author Ben Froment
+ */
 public class AssignmentNode implements JottTree {
 
     private final String value;
@@ -262,7 +265,7 @@ public class AssignmentNode implements JottTree {
                         booleanExpressionNode.convertToJott() + endStatementNode.convertToJott();
             }
         }
-        return null;
+        return "";
     }
 
     @Override

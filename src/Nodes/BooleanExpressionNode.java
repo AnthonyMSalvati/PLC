@@ -143,7 +143,7 @@ public class BooleanExpressionNode implements JottTree {
                             if (integerExpressionNode2 != null) {
                                 return new BooleanExpressionNode(integerExpressionNode1, integerExpressionNode2, relationOperatorNode);
                             }
-                            throw new Exception("Error: expected <i_expr");
+                            throw new Exception("Error: expected <i_expr>");
                         }
                         throw new Exception("Error: expected <rel_op>");
                     }
@@ -156,7 +156,7 @@ public class BooleanExpressionNode implements JottTree {
                             if (doubleExpressionNode2 != null) {
                                 return new BooleanExpressionNode(doubleExpressionNode1, doubleExpressionNode2, relationOperatorNode);
                             }
-                            throw new Exception("Error: expected <d_expr");
+                            throw new Exception("Error: expected <d_expr>");
                         }
                         throw new Exception("Error: expected <rel_op>");
                     }
@@ -174,7 +174,7 @@ public class BooleanExpressionNode implements JottTree {
                         if (stringExpressionNode2 != null) {
                             return new BooleanExpressionNode(stringExpressionNode1, stringExpressionNode2, relationOperatorNode);
                         }
-                        throw new Exception("Error: expected <s_expr");
+                        throw new Exception("Error: expected <s_expr>");
                     }
                     throw new Exception("Error: expected <rel_op>");
                 }
@@ -186,7 +186,7 @@ public class BooleanExpressionNode implements JottTree {
                         if (booleanExpressionNode2 != null) {
                             return new BooleanExpressionNode(booleanExpressionNode1, booleanExpressionNode2, relationOperatorNode);
                         }
-                        throw new Exception("Error: expected <b_expr");
+                        throw new Exception("Error: expected <b_expr>");
                     }
                     throw new Exception("Error: expected <rel_op>");
                 }
@@ -201,7 +201,7 @@ public class BooleanExpressionNode implements JottTree {
                 if (integerExpressionNode2 != null) {
                     return new BooleanExpressionNode(integerExpressionNode1, integerExpressionNode2, relationOperatorNode);
                 }
-                throw new Exception("Error: expected <i_expr");
+                throw new Exception("Error: expected <i_expr>");
             }
             throw new Exception("Error: expected <rel_op>");
         }
@@ -213,7 +213,7 @@ public class BooleanExpressionNode implements JottTree {
                 if (doubleExpressionNode2 != null) {
                     return new BooleanExpressionNode(doubleExpressionNode1, doubleExpressionNode2, relationOperatorNode);
                 }
-                throw new Exception("Error: expected <d_expr");
+                throw new Exception("Error: expected <d_expr>");
             }
             throw new Exception("Error: expected <rel_op>");
         }
@@ -225,7 +225,7 @@ public class BooleanExpressionNode implements JottTree {
                 if (stringExpressionNode2 != null) {
                     return new BooleanExpressionNode(stringExpressionNode1, stringExpressionNode2, relationOperatorNode);
                 }
-                throw new Exception("Error: expected <s_expr");
+                throw new Exception("Error: expected <s_expr>");
             }
             throw new Exception("Error: expected <rel_op>");
         }
@@ -237,7 +237,7 @@ public class BooleanExpressionNode implements JottTree {
                 if (booleanExpressionNode2 != null) {
                     return new BooleanExpressionNode(booleanExpressionNode1, booleanExpressionNode2, relationOperatorNode);
                 }
-                throw new Exception("Error: expected <b_expr");
+                throw new Exception("Error: expected <b_expr>");
             }
             throw new Exception("Error: expected <rel_op>");
         }
@@ -296,7 +296,7 @@ public class BooleanExpressionNode implements JottTree {
                 }
             }
         }
-        return null;
+        return "";
     }
 
     @Override
