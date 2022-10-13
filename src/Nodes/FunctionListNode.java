@@ -38,7 +38,7 @@ public class FunctionListNode implements JottTree {
             }
             return functionDefNode.convertToJott();
         }
-        return null;
+        return "";
     }
 
     @Override

@@ -20,6 +20,9 @@ public class BodyNode implements JottTree {
     }
 
     public static BodyNode parseBodyNode(ArrayList<Token> tokens) throws Exception {
+        if (tokens.size() == 0) {
+            return null;
+        }
         if (!tokens.get(0).getToken().equals("return")) {
             BodyStatementNode bodyStm = BodyStatementNode.parseBodyStatementNode(tokens);
             if (bodyStm != null) {

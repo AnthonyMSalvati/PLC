@@ -1,5 +1,6 @@
 package Nodes;
 
+import main.InvalidParseException;
 import main.JottTree;
 import main.Token;
 import main.TokenType;
@@ -23,8 +24,11 @@ public class DoubleNode implements JottTree {
         SignNode sign = SignNode.parseSignNode(tokens);
 
         if (sign != null) {
-            if (tokens.get(0).getTokenType() != TokenType.NUMBER){
-                throw new Exception("Error: <sign> not followed by <digit>");
+            Token token;
+            token = tokens.get(0);
+            if (token.getTokenType() != TokenType.NUMBER){
+                throw new InvalidParseException("Error: <sign> not followed by <digit>", token.getFilename(),
+                        token.getLineNum());
             }
             if (isDouble(tokens.get(0).getToken())) {
                 double number = Double.parseDouble(tokens.get(0).getToken());

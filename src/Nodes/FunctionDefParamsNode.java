@@ -1,5 +1,6 @@
 package Nodes;
 
+import main.InvalidParseException;
 import main.JottTree;
 import main.Token;
 import main.TokenType;
@@ -23,9 +24,11 @@ public class FunctionDefParamsNode implements JottTree {
     }
 
     public static FunctionDefParamsNode parseFunctionDefParamsNode(ArrayList<Token> tokens) throws Exception {
+        Token token;
         IdNode idNode = IdNode.parseIdNode(tokens);
         if (idNode != null) {
-            if (tokens.get(0).getTokenType() == TokenType.COLON) {
+            token = tokens.get(0);
+            if (token.getTokenType() == TokenType.COLON) {
                 tokens.remove(0);
                 TypeNode typeNode = TypeNode.parseTypeNode(tokens);
                 if (typeNode != null) {
@@ -36,9 +39,11 @@ public class FunctionDefParamsNode implements JottTree {
                     }
                     return new FunctionDefParamsNode(idNode, typeNode, null);
                 }
-                throw new Exception("Error: expected <type>");
+                throw new InvalidParseException("Error: expected <type>", token.getFilename(),
+                        token.getLineNum());
             }
-            throw new Exception("Error: expected COLON");
+            throw new InvalidParseException("Error: expected \":\"", token.getFilename(),
+                    token.getLineNum());
         }
         return null;
     }

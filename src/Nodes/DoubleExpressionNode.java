@@ -1,5 +1,6 @@
 package Nodes;
 
+import main.InvalidParseException;
 import main.JottTree;
 import main.Token;
 import java.util.ArrayList;
@@ -89,7 +90,8 @@ public class DoubleExpressionNode implements JottTree {
                 if (doubleNode2 != null) {
                     return new DoubleExpressionNode(doubleNode1, doubleNode2, operatorNode);
                 } else {
-                    throw new Exception("Error: <dbl> <op> not followed by <dbl>");
+                    throw new InvalidParseException("Error: <dbl> <op> not followed by <dbl>", tokens.get(0).getFilename(),
+                            tokens.get(0).getLineNum());
                 }
             } else {
                 return new DoubleExpressionNode(doubleNode1);
@@ -123,7 +125,7 @@ public class DoubleExpressionNode implements JottTree {
             }
             return doubleNode1.convertToJott();
         }
-        return null;
+        return "";
     }
 
     @Override

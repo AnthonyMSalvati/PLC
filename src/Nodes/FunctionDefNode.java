@@ -1,5 +1,6 @@
 package Nodes;
 
+import main.InvalidParseException;
 import main.JottTree;
 import main.Token;
 import main.TokenType;
@@ -25,39 +26,50 @@ public class FunctionDefNode implements JottTree {
     }
 
     public static FunctionDefNode parseFunctionDefNode(ArrayList<Token> tokens) throws Exception {
+        Token token;
         IdNode idNode = IdNode.parseIdNode(tokens);
         if (idNode != null) {
-            if (tokens.get(0).getTokenType() == TokenType.L_BRACKET) {
+            token = tokens.get(0);
+            if (token.getTokenType() == TokenType.L_BRACKET) {
                 tokens.remove(0);
                 FunctionDefParamsNode functionDefParamsNode = FunctionDefParamsNode.parseFunctionDefParamsNode(tokens);
-                //if (functionDefParamsNode != null) {
-                    if (tokens.get(0).getTokenType() == TokenType.R_BRACKET) {
+                token = tokens.get(0);
+                if (token.getTokenType() == TokenType.R_BRACKET) {
+                    tokens.remove(0);
+                    token = tokens.get(0);
+                    if (token.getTokenType() == TokenType.COLON) {
                         tokens.remove(0);
-                        if (tokens.get(0).getTokenType() == TokenType.COLON) {
-                            tokens.remove(0);
-                            FunctionReturnNode functionReturnNode = FunctionReturnNode.parseFunctionReturnNode(tokens);
-                            if (functionReturnNode != null) {
-                                if (tokens.get(0).getTokenType() == TokenType.L_BRACE) {
-                                    tokens.remove(0);
-                                    BodyNode bodyNode = BodyNode.parseBodyNode(tokens);
-                                    if (bodyNode != null) {
-                                        if (tokens.get(0).getTokenType() == TokenType.R_BRACE) {
+                        FunctionReturnNode functionReturnNode = FunctionReturnNode.parseFunctionReturnNode(tokens);
+                        if (functionReturnNode != null) {
+                            token = tokens.get(0);
+                            if (token.getTokenType() == TokenType.L_BRACE) {
+                                tokens.remove(0);
+                                BodyNode bodyNode = BodyNode.parseBodyNode(tokens);
+                                if (bodyNode != null) {
+                                    if (tokens.size() != 0) {
+                                        token = tokens.get(0);
+                                        if (token.getTokenType() == TokenType.R_BRACE) {
                                             tokens.remove(0);
                                             return new FunctionDefNode(idNode, functionDefParamsNode,
                                                     functionReturnNode, bodyNode);
                                         }
-                                        throw new Exception("Error: expected R_BRACE");
                                     }
+                                    throw new InvalidParseException("Error: expected \"}\"", token.getFilename(),
+                                            token.getLineNum());
                                 }
-                                throw new Exception("Error: expected L_BRACE");
                             }
+                            throw new InvalidParseException("Error: expected \"{\"", token.getFilename(),
+                                    token.getLineNum());
                         }
-                        throw new Exception("Error: expected COLON");
                     }
-                    throw new Exception("Error: expected R_BRACKET");
-                //}
+                    throw new InvalidParseException("Error: expected \":\"", token.getFilename(),
+                            token.getLineNum());
+                }
+                throw new InvalidParseException("Error: expected \"]\"", token.getFilename(),
+                        token.getLineNum());
             }
-            throw new Exception("Error: expected L_BRACKET");
+            throw new InvalidParseException("Error: expected \"{\"", token.getFilename(),
+                    token.getLineNum());
         }
         return null;
     }

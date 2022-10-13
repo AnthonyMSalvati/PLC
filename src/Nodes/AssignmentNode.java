@@ -110,18 +110,20 @@ public class AssignmentNode implements JottTree {
 
     public static AssignmentNode parseAssignmentNode (ArrayList<Token> tokens) throws Exception {
         Token token;
-        if (tokens.get(0).getTokenType() == TokenType.ID_KEYWORD) {
+        token = tokens.get(0);
+        if (token.getTokenType() == TokenType.ID_KEYWORD) {
             String value = tokens.get(0).getToken();
             IdNode idNode;
-            if (tokens.get(2).getTokenType() == TokenType.ASSIGN) {
+            if (tokens.size() > 2 && tokens.get(2).getTokenType() == TokenType.ASSIGN) {
                 switch (value) {
                     case "Double":
                         tokens.remove(0);
                         idNode = IdNode.parseIdNode(tokens);
                         if (idNode != null) {
-                            if (tokens.get(0).getTokenType() != TokenType.ASSIGN) {
-                                throw new InvalidParseException("Error: expected '=' sign", tokens.get(0).getFilename(),
-                                        tokens.get(0).getLineNum());
+                            token = tokens.get(0);
+                            if (token.getTokenType() != TokenType.ASSIGN) {
+                                throw new InvalidParseException("Error: expected '=' sign", token.getFilename(),
+                                        token.getLineNum());
                             }
                             tokens.remove(0);
                             DoubleExpressionNode doubleExpressionNode =
@@ -131,18 +133,19 @@ public class AssignmentNode implements JottTree {
                                 return new AssignmentNode("Double", idNode,
                                         doubleExpressionNode, endStatementNode);
                             }
-                            throw new InvalidParseException("Error: expected <d_expr>", tokens.get(0).getFilename(),
-                                    tokens.get(0).getLineNum());
+                            throw new InvalidParseException("Error: expected <d_expr>", token.getFilename(),
+                                    token.getLineNum());
                         }
-                        throw new InvalidParseException("Error: expected <id>", tokens.get(0).getFilename(),
-                                tokens.get(0).getLineNum());
+                        throw new InvalidParseException("Error: expected <id>", token.getFilename(),
+                                token.getLineNum());
                     case "Integer":
                         tokens.remove(0);
                         idNode = IdNode.parseIdNode(tokens);
                         if (idNode != null) {
-                            if (tokens.get(0).getTokenType() != TokenType.ASSIGN) {
-                                throw new InvalidParseException("Error: expected '=' sign", tokens.get(0).getFilename(),
-                                        tokens.get(0).getLineNum());
+                            token = tokens.get(0);
+                            if (token.getTokenType() != TokenType.ASSIGN) {
+                                throw new InvalidParseException("Error: expected '=' sign", token.getFilename(),
+                                        token.getLineNum());
                             }
                             tokens.remove(0);
                             IntegerExpressionNode integerExpressionNode =
@@ -152,18 +155,19 @@ public class AssignmentNode implements JottTree {
                                 return new AssignmentNode("Integer", idNode,
                                         integerExpressionNode, endStatementNode);
                             }
-                            throw new InvalidParseException("Error: expected <i_expr>", tokens.get(0).getFilename(),
-                                    tokens.get(0).getLineNum());
+                            throw new InvalidParseException("Error: expected <i_expr>", token.getFilename(),
+                                    token.getLineNum());
                         }
-                        throw new InvalidParseException("Error: expected <id>", tokens.get(0).getFilename(),
-                                tokens.get(0).getLineNum());
+                        throw new InvalidParseException("Error: expected <id>", token.getFilename(),
+                                token.getLineNum());
                     case "String":
                         tokens.remove(0);
                         idNode = IdNode.parseIdNode(tokens);
                         if (idNode != null) {
-                            if (tokens.get(0).getTokenType() != TokenType.ASSIGN) {
-                                throw new InvalidParseException("Error: expected '=' sign", tokens.get(0).getFilename(),
-                                        tokens.get(0).getLineNum());
+                            token = tokens.get(0);
+                            if (token.getTokenType() != TokenType.ASSIGN) {
+                                throw new InvalidParseException("Error: expected '=' sign", token.getFilename(),
+                                        token.getLineNum());
                             }
                             tokens.remove(0);
                             StringExpressionNode stringExpressionNode =
@@ -173,18 +177,19 @@ public class AssignmentNode implements JottTree {
                                 return new AssignmentNode("String", idNode,
                                         stringExpressionNode, endStatementNode);
                             }
-                            throw new InvalidParseException("Error: expected <s_expr>", tokens.get(0).getFilename(),
-                                    tokens.get(0).getLineNum());
+                            throw new InvalidParseException("Error: expected <s_expr>", token.getFilename(),
+                                    token.getLineNum());
                         }
-                        throw new InvalidParseException("Error: expected <id>", tokens.get(0).getFilename(),
-                                tokens.get(0).getLineNum());
+                        throw new InvalidParseException("Error: expected <id>", token.getFilename(),
+                                token.getLineNum());
                     case "Boolean":
                         tokens.remove(0);
                         idNode = IdNode.parseIdNode(tokens);
                         if (idNode != null) {
-                            if (tokens.get(0).getTokenType() != TokenType.ASSIGN) {
-                                throw new InvalidParseException("Error: expected '=' sign", tokens.get(0).getFilename(),
-                                        tokens.get(0).getLineNum());
+                            token = tokens.get(0);
+                            if (token.getTokenType() != TokenType.ASSIGN) {
+                                throw new InvalidParseException("Error: expected '=' sign", token.getFilename(),
+                                        token.getLineNum());
                             }
                             tokens.remove(0);
                             BooleanExpressionNode booleanExpressionNode =
@@ -194,19 +199,20 @@ public class AssignmentNode implements JottTree {
                                 return new AssignmentNode("Boolean", idNode,
                                         booleanExpressionNode, endStatementNode);
                             }
-                            throw new InvalidParseException("Error: expected <b_expr>", tokens.get(0).getFilename(),
-                                    tokens.get(0).getLineNum());
+                            throw new InvalidParseException("Error: expected <b_expr>", token.getFilename(),
+                                    token.getLineNum());
                         }
-                        throw new InvalidParseException("Error: expected <id>", tokens.get(0).getFilename(),
-                                tokens.get(0).getLineNum());
+                        throw new InvalidParseException("Error: expected <id>", token.getFilename(),
+                                token.getLineNum());
                 }
             }
-            if (tokens.get(1).getTokenType() == TokenType.ASSIGN) {
+            if (tokens.size() > 1 && tokens.get(1).getTokenType() == TokenType.ASSIGN) {
                 idNode = IdNode.parseIdNode(tokens);
                 if (idNode != null) {
-                    if (tokens.get(0).getTokenType() != TokenType.ASSIGN) {
-                        throw new InvalidParseException("Error: expected '=' sign", tokens.get(0).getFilename(),
-                                tokens.get(0).getLineNum());
+                    token = tokens.get(0);
+                    if (token.getTokenType() != TokenType.ASSIGN) {
+                        throw new InvalidParseException("Error: expected '=' sign", token.getFilename(),
+                                token.getLineNum());
                     }
                     tokens.remove(0);
                     DoubleExpressionNode doubleExpressionNode =

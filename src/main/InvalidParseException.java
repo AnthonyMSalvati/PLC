@@ -2,10 +2,19 @@ package main;
 
 public class InvalidParseException extends Exception{
 
-    public InvalidParseException(String message, String fileName, int lineNumber)
-    {
+    private final String message;
+    private final String fileName;
+    private final int lineNumber;
+
+    public InvalidParseException(String message, String fileName, int lineNumber) {
+        this.message = message;
+        this.fileName = fileName;
+        this.lineNumber = lineNumber;
+    }
+
+    public void printError(){
         System.err.println("Syntax Error");
-        System.err.println(message);
-        System.err.println(fileName + ":" + Integer.toString(lineNumber));
+        System.err.println(this.message);
+        System.err.println(this.fileName + ":" + this.lineNumber);
     }
 }

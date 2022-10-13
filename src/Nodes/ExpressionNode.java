@@ -144,7 +144,7 @@ public class ExpressionNode implements JottTree {
         if (stringExpressionNode != null) {
             return stringExpressionNode.convertToJott();
         }
-        return null;
+        return "";
     }
 
     @Override

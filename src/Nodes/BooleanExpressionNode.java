@@ -1,5 +1,6 @@
 package Nodes;
 
+import main.InvalidParseException;
 import main.JottTree;
 import main.Token;
 import java.util.ArrayList;
@@ -143,9 +144,11 @@ public class BooleanExpressionNode implements JottTree {
                             if (integerExpressionNode2 != null) {
                                 return new BooleanExpressionNode(integerExpressionNode1, integerExpressionNode2, relationOperatorNode);
                             }
-                            throw new Exception("Error: expected <i_expr>");
+                            throw new InvalidParseException("Error: expected <i_expr>", tokens.get(0).getFilename(),
+                                    tokens.get(0).getLineNum());
                         }
-                        throw new Exception("Error: expected <rel_op>");
+                        throw new InvalidParseException("Error: expected <rel_op>", tokens.get(0).getFilename(),
+                                tokens.get(0).getLineNum());
                     }
                 }   catch (NumberFormatException ignored) {
                     DoubleExpressionNode doubleExpressionNode1 = DoubleExpressionNode.parseDoubleExpressionNode(tokens);
@@ -156,15 +159,12 @@ public class BooleanExpressionNode implements JottTree {
                             if (doubleExpressionNode2 != null) {
                                 return new BooleanExpressionNode(doubleExpressionNode1, doubleExpressionNode2, relationOperatorNode);
                             }
-                            throw new Exception("Error: expected <d_expr>");
+                            throw new InvalidParseException("Error: expected <d_expr>", tokens.get(0).getFilename(),
+                                    tokens.get(0).getLineNum());
                         }
-                        throw new Exception("Error: expected <rel_op>");
+                        throw new InvalidParseException("Error: expected <rel_op>", tokens.get(0).getFilename(),
+                                tokens.get(0).getLineNum());
                     }
-                }
-                try {
-                    Double.parseDouble(tokens.get(2).getToken());
-                } catch (NumberFormatException ignored) {
-
                 }
                 StringExpressionNode stringExpressionNode1 = StringExpressionNode.parseStringExpressionNode(tokens);
                 if (stringExpressionNode1 != null) {
@@ -174,9 +174,11 @@ public class BooleanExpressionNode implements JottTree {
                         if (stringExpressionNode2 != null) {
                             return new BooleanExpressionNode(stringExpressionNode1, stringExpressionNode2, relationOperatorNode);
                         }
-                        throw new Exception("Error: expected <s_expr>");
+                        throw new InvalidParseException("Error: expected <s_expr>", tokens.get(0).getFilename(),
+                                tokens.get(0).getLineNum());
                     }
-                    throw new Exception("Error: expected <rel_op>");
+                    throw new InvalidParseException("Error: expected <rel_op>", tokens.get(0).getFilename(),
+                            tokens.get(0).getLineNum());
                 }
                 BooleanExpressionNode booleanExpressionNode1 = BooleanExpressionNode.parseBooleanExpressionNode(tokens);
                 if (booleanExpressionNode1 != null) {
@@ -186,13 +188,14 @@ public class BooleanExpressionNode implements JottTree {
                         if (booleanExpressionNode2 != null) {
                             return new BooleanExpressionNode(booleanExpressionNode1, booleanExpressionNode2, relationOperatorNode);
                         }
-                        throw new Exception("Error: expected <b_expr>");
+                        throw new InvalidParseException("Error: expected <b_expr>", tokens.get(0).getFilename(),
+                                tokens.get(0).getLineNum());
                     }
-                    throw new Exception("Error: expected <rel_op>");
+                    throw new InvalidParseException("Error: expected <rel_op>", tokens.get(0).getFilename(),
+                            tokens.get(0).getLineNum());
                 }
             }
         }
-        Integer.parseInt(tokens.get(2).getToken());
         IntegerExpressionNode integerExpressionNode1 = IntegerExpressionNode.parseIntegerExpressionNode(tokens);
         if (integerExpressionNode1 != null) {
             RelationOperatorNode relationOperatorNode = RelationOperatorNode.parseRelationOperatorNode(tokens);
@@ -201,9 +204,11 @@ public class BooleanExpressionNode implements JottTree {
                 if (integerExpressionNode2 != null) {
                     return new BooleanExpressionNode(integerExpressionNode1, integerExpressionNode2, relationOperatorNode);
                 }
-                throw new Exception("Error: expected <i_expr>");
+                throw new InvalidParseException("Error: expected <i_expr>", tokens.get(0).getFilename(),
+                        tokens.get(0).getLineNum());
             }
-            throw new Exception("Error: expected <rel_op>");
+            throw new InvalidParseException("Error: expected <rel_op>", tokens.get(0).getFilename(),
+                    tokens.get(0).getLineNum());
         }
         DoubleExpressionNode doubleExpressionNode1 = DoubleExpressionNode.parseDoubleExpressionNode(tokens);
         if (doubleExpressionNode1 != null) {
@@ -213,9 +218,11 @@ public class BooleanExpressionNode implements JottTree {
                 if (doubleExpressionNode2 != null) {
                     return new BooleanExpressionNode(doubleExpressionNode1, doubleExpressionNode2, relationOperatorNode);
                 }
-                throw new Exception("Error: expected <d_expr>");
+                throw new InvalidParseException("Error: expected <d_expr>", tokens.get(0).getFilename(),
+                        tokens.get(0).getLineNum());
             }
-            throw new Exception("Error: expected <rel_op>");
+            throw new InvalidParseException("Error: expected <rel_op>", tokens.get(0).getFilename(),
+                    tokens.get(0).getLineNum());
         }
         StringExpressionNode stringExpressionNode1 = StringExpressionNode.parseStringExpressionNode(tokens);
         if (stringExpressionNode1 != null) {
@@ -225,9 +232,11 @@ public class BooleanExpressionNode implements JottTree {
                 if (stringExpressionNode2 != null) {
                     return new BooleanExpressionNode(stringExpressionNode1, stringExpressionNode2, relationOperatorNode);
                 }
-                throw new Exception("Error: expected <s_expr>");
+                throw new InvalidParseException("Error: expected <s_expr>", tokens.get(0).getFilename(),
+                        tokens.get(0).getLineNum());
             }
-            throw new Exception("Error: expected <rel_op>");
+            throw new InvalidParseException("Error: expected <rel_op>", tokens.get(0).getFilename(),
+                    tokens.get(0).getLineNum());
         }
         BooleanExpressionNode booleanExpressionNode1 = BooleanExpressionNode.parseBooleanExpressionNode(tokens);
         if (booleanExpressionNode1 != null) {
@@ -237,9 +246,11 @@ public class BooleanExpressionNode implements JottTree {
                 if (booleanExpressionNode2 != null) {
                     return new BooleanExpressionNode(booleanExpressionNode1, booleanExpressionNode2, relationOperatorNode);
                 }
-                throw new Exception("Error: expected <b_expr>");
+                throw new InvalidParseException("Error: expected <b_expr>", tokens.get(0).getFilename(),
+                        tokens.get(0).getLineNum());
             }
-            throw new Exception("Error: expected <rel_op>");
+            throw new InvalidParseException("Error: expected <rel_op>", tokens.get(0).getFilename(),
+                    tokens.get(0).getLineNum());
         }
         FunctionCallNode functionCallNode = FunctionCallNode.parseFunctionCallNode(tokens);
         if (functionCallNode != null) {

@@ -1,5 +1,6 @@
 package Nodes;
 
+import main.InvalidParseException;
 import main.JottTree;
 import main.Token;
 import main.TokenType;
@@ -25,27 +26,35 @@ public class FunctionCallNode implements JottTree {
     }
 
     public static FunctionCallNode parseFunctionCallNode(ArrayList<Token> tokens) throws Exception {
+	    Token token;
         if (tokens.size() > 1) {
-            if (tokens.get(1).getTokenType() == TokenType.L_BRACKET) {
+            token = tokens.get(1);
+            if (token.getTokenType() == TokenType.L_BRACKET) {
                 IdNode id = IdNode.parseIdNode(tokens);
                 if (id != null) {
-                    if (tokens.get(0).getTokenType() == TokenType.L_BRACKET) {
+                    token = tokens.get(0);
+                    if (token.getTokenType() == TokenType.L_BRACKET) {
                         tokens.remove(0);
                         ParameterNode params = ParameterNode.parseParameterNode(tokens);
                         if (params != null) {
-                            if (tokens.get(0).getTokenType() == TokenType.R_BRACKET) {
+                            token = tokens.get(0);
+                            if (token.getTokenType() == TokenType.R_BRACKET) {
                                 tokens.remove(0);
                                 return new FunctionCallNode(id, params);
                             }
-                            throw new Exception("Error: expected R_BRACKET");
+                            throw new InvalidParseException("Error: expected \"]\"", token.getFilename(),
+                                    token.getLineNum());
                         }
-                        if (tokens.get(0).getTokenType() == TokenType.R_BRACKET) {
+                        token = tokens.get(0);
+                        if (token.getTokenType() == TokenType.R_BRACKET) {
                             tokens.remove(0);
                             return new FunctionCallNode(id);
                         }
-                        throw new Exception("Error: expected R_BRACKET");
+                        throw new InvalidParseException("Error: expected \"]\"", token.getFilename(),
+                                token.getLineNum());
                     }
-                    throw new Exception("Error: expected L_BRACKET");
+                    throw new InvalidParseException("Error: expected \"[\"", token.getFilename(),
+                            token.getLineNum());
                 }
                 return null;
             }

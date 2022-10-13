@@ -40,6 +40,7 @@ public class JottTokenizer {
 			System.out.println("IO error");
 			return null;
 		} catch (InvalidTokenException ite) {
+			ite.printError();
 			return null;
 		}
 

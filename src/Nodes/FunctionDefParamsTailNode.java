@@ -1,5 +1,6 @@
 package Nodes;
 
+import main.InvalidParseException;
 import main.JottTree;
 import main.Token;
 import main.TokenType;
@@ -23,11 +24,14 @@ public class FunctionDefParamsTailNode implements JottTree {
     }
 
     public static FunctionDefParamsTailNode parseFunctionDefParamsTailNode(ArrayList<Token> tokens) throws Exception {
-        if (tokens.get(0).getTokenType() == TokenType.COMMA) {
+        Token token;
+        token = tokens.get(0);
+        if (token.getTokenType() == TokenType.COMMA) {
             tokens.remove(0);
             IdNode idNode = IdNode.parseIdNode(tokens);
             if (idNode != null) {
-                if (tokens.get(0).getTokenType() == TokenType.COLON) {
+                token = tokens.get(0);
+                if (token.getTokenType() == TokenType.COLON) {
                     tokens.remove(0);
                     TypeNode typeNode = TypeNode.parseTypeNode(tokens);
                     if (typeNode != null) {
@@ -38,11 +42,14 @@ public class FunctionDefParamsTailNode implements JottTree {
                         }
                         return new FunctionDefParamsTailNode(idNode, typeNode, null);
                     }
-                    throw new Exception("Error: expected <type>");
+                    throw new InvalidParseException("Error: expected <type", token.getFilename(),
+                            token.getLineNum());
                 }
-                throw new Exception("Error: expected COLON");
+                throw new InvalidParseException("Error: expected \":\"", token.getFilename(),
+                        token.getLineNum());
             }
-            throw new Exception("Error: expected <id>");
+            throw new InvalidParseException("Error: expected <id>", token.getFilename(),
+                    token.getLineNum());
         }
         return null;
     }

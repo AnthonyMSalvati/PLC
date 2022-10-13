@@ -1,5 +1,6 @@
 package Nodes;
 
+import main.InvalidParseException;
 import main.JottTree;
 import main.Token;
 import main.TokenType;
@@ -27,56 +28,41 @@ public class ElseIfStatementNode implements JottTree {
     }
 
     public static ElseIfStatementNode parseElseIfStatementNode(ArrayList<Token> tokens) throws Exception {
-        if (!(tokens.get(0).getToken() == "elseif"))
-        {
+        Token token;
+        token = tokens.get(0);
+        if (!(token.getToken().equals("elseif"))) {
             return new ElseIfStatementNode();
-        }
-        else
-        {
+        } else {
             tokens.remove(0);
-            if (!(tokens.get(0).getTokenType() == TokenType.L_BRACKET))
-            {
-                throw new Exception("Error: expected \"[\"");
-            }
-            else
-            {
+            token = tokens.get(0);
+            if (!(token.getTokenType() == TokenType.L_BRACKET)) {
+                throw new InvalidParseException("Error: expected \"[\"", token.getFilename(),
+                        token.getLineNum());
+            } else {
                 tokens.remove(0);
                 BooleanExpressionNode booleanExpressionNode = BooleanExpressionNode.parseBooleanExpressionNode(tokens);
 
-                if (booleanExpressionNode == null)
-                {
-                    throw new Exception("Error: unhandled in BooleanExpressionNode"); //should be handled in BooleanExpressionNode
-                }
-                else
-                {
-                    if (!(tokens.get(0).getTokenType() == TokenType.R_BRACKET))
-                    {
-                        throw new Exception("Error: expected \"]\"");
-                    }
-                    else
-                    {
+                if (booleanExpressionNode != null) {
+                    token = tokens.get(0);
+                    if (!(token.getTokenType() == TokenType.R_BRACKET)) {
+                        throw new InvalidParseException("Error: expected \"]\"", token.getFilename(),
+                                token.getLineNum());
+                    } else {
                         tokens.remove(0);
-                        if (!(tokens.get(0).getTokenType() == TokenType.L_BRACE))
-                        {
-                            throw new Exception("Error: expected \"{\"");
-                        }
-                        else
-                        {
+                        token = tokens.get(0);
+                        if (!(token.getTokenType() == TokenType.L_BRACE)) {
+                            throw new InvalidParseException("Error: expected \"{\"", token.getFilename(),
+                                    token.getLineNum());
+                        } else {
                             tokens.remove(0);
                             BodyNode bodyNode = BodyNode.parseBodyNode(tokens);
 
-                            if (bodyNode == null)
-                            {
-                                throw new Exception("Error: unhandled in BodyNode"); //should be handled in BodyNode
-                            }
-                            else
-                            {
-                                if (!(tokens.get(0).getTokenType() == TokenType.R_BRACE))
-                                {
-                                    throw new Exception("Error: expected \"}\"");
-                                }
-                                else
-                                {
+                            if (bodyNode != null) {
+                                token = tokens.get(0);
+                                if (!(token.getTokenType() == TokenType.R_BRACE)) {
+                                    throw new InvalidParseException("Error: expected \"}\"", token.getFilename(),
+                                            token.getLineNum());
+                                } else {
                                     tokens.remove(0);
                                     ElseIfStatementNode elseIfStatementNode = ElseIfStatementNode.parseElseIfStatementNode(tokens);
 
@@ -88,18 +74,20 @@ public class ElseIfStatementNode implements JottTree {
                 }
             }
         }
+        return null;
     }
+
     @Override
     public String convertToJott() {
-
-        if (bodyNode == null)
-        {
-            return "";
+        if (bodyNode != null) {
+            if (booleanExpressionNode != null) {
+                if (elseIfStatementNode != null) {
+                    return "elseif[" + this.booleanExpressionNode.convertToJott() + "]{" +
+                            this.bodyNode.convertToJott() + "}" + this.elseIfStatementNode.convertToJott();
+                }
+            }
         }
-        else
-        {
-            return "elseif[" + this.booleanExpressionNode.convertToJott() + "]{" + this.bodyNode.convertToJott() + "}" + this.elseIfStatementNode.convertToJott();
-        }
+        return "";
     }
 
     @Override

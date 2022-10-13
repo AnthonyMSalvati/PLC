@@ -1,5 +1,6 @@
 package Nodes;
 
+import main.InvalidParseException;
 import main.JottTree;
 import main.Token;
 
@@ -12,9 +13,12 @@ public class EndStatementNode implements JottTree {
     }
 
     public static EndStatementNode parseEndStatementNode(ArrayList<Token> tokens) throws Exception {
-        if (!(tokens.get(0).getToken().equals(";")))
+        Token token;
+        token = tokens.get(0);
+        if (!(token.getToken().equals(";")))
         {
-            throw new Exception("Statement not ended with \";\"");
+            throw new InvalidParseException("Statement not ended with \";\"", token.getFilename(),
+                    token.getLineNum());
         }
         else {
             tokens.remove(0);

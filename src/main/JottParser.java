@@ -1,7 +1,10 @@
 package main;
 
 import Nodes.*;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * This class is responsible for paring Jott Tokens
@@ -22,7 +25,12 @@ public class JottParser {
         ProgramNode node;
         try {
             node = ProgramNode.parseProgramNode(tokens);
+        } catch (InvalidParseException ipe) {
+            ipe.printError();
+            return null;
         } catch (Exception e) {
+            System.err.println(e.getMessage());
+            //System.out.println(Arrays.toString(e.getStackTrace()));
             return null;
         }
 
