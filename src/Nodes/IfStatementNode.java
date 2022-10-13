@@ -3,6 +3,7 @@ package Nodes;
 import main.JottTree;
 import main.Token;
 import main.TokenType;
+import main.InvalidParseException;
 
 import java.util.ArrayList;
 
@@ -21,7 +22,7 @@ public class IfStatementNode implements JottTree {
         this.elseStatementNode = elseStatementNode;
     }
 
-    public static IfStatementNode parseIfStatementNode(ArrayList<Token> tokens) throws Exception {
+    public static IfStatementNode parseIfStatementNode(ArrayList<Token> tokens) throws InvalidParseException {
         if (!(tokens.get(0).getToken().equals("if")))
         {
             return null;
@@ -31,7 +32,7 @@ public class IfStatementNode implements JottTree {
             tokens.remove(0);
             if (!(tokens.get(0).getTokenType() == TokenType.L_BRACKET))
             {
-                throw new Exception("Error: expected \"[\"");
+                throw new InvalidParseException("Error: expected \"[\"", tokens.get(0).getFilename(), tokens.get(0).getLineNum());
             }
             else
             {
