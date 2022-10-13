@@ -131,6 +131,68 @@ public class BooleanExpressionNode implements JottTree {
         if (booleanNode != null) {
             return new BooleanExpressionNode(booleanNode);
         }
+        if (tokens.size() > 1) {
+            if (tokens.size() > 2) {
+                try {
+                    Integer.parseInt(tokens.get(2).getToken());
+                    IntegerExpressionNode integerExpressionNode1 = IntegerExpressionNode.parseIntegerExpressionNode(tokens);
+                    if (integerExpressionNode1 != null) {
+                        RelationOperatorNode relationOperatorNode = RelationOperatorNode.parseRelationOperatorNode(tokens);
+                        if (relationOperatorNode != null) {
+                            IntegerExpressionNode integerExpressionNode2 = IntegerExpressionNode.parseIntegerExpressionNode(tokens);
+                            if (integerExpressionNode2 != null) {
+                                return new BooleanExpressionNode(integerExpressionNode1, integerExpressionNode2, relationOperatorNode);
+                            }
+                            throw new Exception("Error: expected <i_expr");
+                        }
+                        throw new Exception("Error: expected <rel_op>");
+                    }
+                }   catch (NumberFormatException ignored) {
+                    DoubleExpressionNode doubleExpressionNode1 = DoubleExpressionNode.parseDoubleExpressionNode(tokens);
+                    if (doubleExpressionNode1 != null) {
+                        RelationOperatorNode relationOperatorNode = RelationOperatorNode.parseRelationOperatorNode(tokens);
+                        if (relationOperatorNode != null) {
+                            DoubleExpressionNode doubleExpressionNode2 = DoubleExpressionNode.parseDoubleExpressionNode(tokens);
+                            if (doubleExpressionNode2 != null) {
+                                return new BooleanExpressionNode(doubleExpressionNode1, doubleExpressionNode2, relationOperatorNode);
+                            }
+                            throw new Exception("Error: expected <d_expr");
+                        }
+                        throw new Exception("Error: expected <rel_op>");
+                    }
+                }
+                try {
+                    Double.parseDouble(tokens.get(2).getToken());
+                } catch (NumberFormatException ignored) {
+
+                }
+                StringExpressionNode stringExpressionNode1 = StringExpressionNode.parseStringExpressionNode(tokens);
+                if (stringExpressionNode1 != null) {
+                    RelationOperatorNode relationOperatorNode = RelationOperatorNode.parseRelationOperatorNode(tokens);
+                    if (relationOperatorNode != null) {
+                        StringExpressionNode stringExpressionNode2 = StringExpressionNode.parseStringExpressionNode(tokens);
+                        if (stringExpressionNode2 != null) {
+                            return new BooleanExpressionNode(stringExpressionNode1, stringExpressionNode2, relationOperatorNode);
+                        }
+                        throw new Exception("Error: expected <s_expr");
+                    }
+                    throw new Exception("Error: expected <rel_op>");
+                }
+                BooleanExpressionNode booleanExpressionNode1 = BooleanExpressionNode.parseBooleanExpressionNode(tokens);
+                if (booleanExpressionNode1 != null) {
+                    RelationOperatorNode relationOperatorNode = RelationOperatorNode.parseRelationOperatorNode(tokens);
+                    if (relationOperatorNode != null) {
+                        BooleanExpressionNode booleanExpressionNode2 = BooleanExpressionNode.parseBooleanExpressionNode(tokens);
+                        if (booleanExpressionNode2 != null) {
+                            return new BooleanExpressionNode(booleanExpressionNode1, booleanExpressionNode2, relationOperatorNode);
+                        }
+                        throw new Exception("Error: expected <b_expr");
+                    }
+                    throw new Exception("Error: expected <rel_op>");
+                }
+            }
+        }
+        Integer.parseInt(tokens.get(2).getToken());
         IntegerExpressionNode integerExpressionNode1 = IntegerExpressionNode.parseIntegerExpressionNode(tokens);
         if (integerExpressionNode1 != null) {
             RelationOperatorNode relationOperatorNode = RelationOperatorNode.parseRelationOperatorNode(tokens);
