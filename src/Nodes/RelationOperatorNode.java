@@ -7,15 +7,19 @@ import java.util.ArrayList;
 
 /**
  * @author Ben Froment
+ *
+ * Node that represents a relation operation
  */
 public class RelationOperatorNode implements JottTree {
 
     private final String value;
 
+    // > | >= | < | <= | == | !=
     public RelationOperatorNode(String value) {
         this.value = value;
     }
 
+    // Function called by its parent node to parse the list of tokens
     public static RelationOperatorNode parseRelationOperatorNode (ArrayList<Token> tokens) {
         if (tokens.get(0).getTokenType() == TokenType.REL_OP) {
             String value = tokens.get(0).getToken();

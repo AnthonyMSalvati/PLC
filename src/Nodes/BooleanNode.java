@@ -8,16 +8,20 @@ import java.util.ArrayList;
 
 /**
  * @author Ben Froment
+ *
+ * Node represeting the boolean values true and false
  */
 public class BooleanNode implements JottTree {
 
     private final String value;
 
+    // True | False
     public BooleanNode(String value) {
 
         this.value = value;
     }
 
+    // Function called by its parent node to parse the list of tokens
     public static BooleanNode parseBooleanNode (ArrayList<Token> tokens) {
         if (tokens.get(0).getTokenType() == TokenType.ID_KEYWORD) {
             String value = tokens.get(0).getToken();

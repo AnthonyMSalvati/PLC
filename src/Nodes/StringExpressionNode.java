@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 /**
  * @author Ben Froment
+ *
+ * Node that represents a string expression
  */
 public class StringExpressionNode implements JottTree {
 
@@ -13,6 +15,7 @@ public class StringExpressionNode implements JottTree {
     private final IdNode idNode;
     private final FunctionCallNode functionCallNode;
 
+    // < id >
     public StringExpressionNode(IdNode idNode) {
         this.stringLiteralNode = null;
         this.functionCallNode = null;
@@ -20,6 +23,7 @@ public class StringExpressionNode implements JottTree {
         this.idNode = idNode;
     }
 
+    // < func_call >
     public StringExpressionNode(FunctionCallNode functionCallNode){
         this.idNode = null;
         this.stringLiteralNode = null;
@@ -27,6 +31,7 @@ public class StringExpressionNode implements JottTree {
         this.functionCallNode = functionCallNode;
     }
 
+    // < str_literal >
     public StringExpressionNode(StringLiteralNode stringLiteralNode) {
         this.idNode = null;
         this.functionCallNode = null;
@@ -34,6 +39,7 @@ public class StringExpressionNode implements JottTree {
         this.stringLiteralNode = stringLiteralNode;
     }
 
+    // Function called by its parent node to parse the list of tokens
     public static StringExpressionNode parseStringExpressionNode (ArrayList<Token> tokens) throws Exception {
         FunctionCallNode functionCallNode = FunctionCallNode.parseFunctionCallNode(tokens);
         if (functionCallNode != null) {

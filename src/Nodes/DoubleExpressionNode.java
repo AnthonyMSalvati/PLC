@@ -8,6 +8,8 @@ import java.util.Collections;
 
 /**
  * @author Ben Froment
+ *
+ * Node representing a double expression
  */
 public class DoubleExpressionNode implements JottTree {
 
@@ -18,6 +20,7 @@ public class DoubleExpressionNode implements JottTree {
     private final DoubleExpressionNode doubleExpressionNode;
     private final FunctionCallNode functionCallNode;
 
+    // < id >
     public DoubleExpressionNode(IdNode idNode) {
         this.doubleNode1 = null;
         this.doubleNode2 = null;
@@ -27,6 +30,8 @@ public class DoubleExpressionNode implements JottTree {
 
         this.idNode = idNode;
     }
+
+    // < func_call >
     public DoubleExpressionNode(FunctionCallNode functionCallNode) {
         this.idNode = null;
         this.doubleNode1 = null;
@@ -36,6 +41,8 @@ public class DoubleExpressionNode implements JottTree {
 
         this.functionCallNode = functionCallNode;
     }
+
+    // < dbl >
     public DoubleExpressionNode(DoubleNode doubleNode1) {
         this.idNode = null;
         this.functionCallNode = null;
@@ -45,6 +52,8 @@ public class DoubleExpressionNode implements JottTree {
 
         this.doubleNode1 = doubleNode1;
     }
+
+    // < dbl > < op > < dbl >
     public DoubleExpressionNode(DoubleNode doubleNode1, DoubleNode doubleNode2, OperatorNode operatorNode) {
         this.idNode = null;
         this.functionCallNode = null;
@@ -54,6 +63,8 @@ public class DoubleExpressionNode implements JottTree {
         this.doubleNode2 = doubleNode2;
         this.operatorNode = operatorNode;
     }
+
+    // < dbl > < op> < d_expr >
     public DoubleExpressionNode(DoubleNode doubleNode1, DoubleExpressionNode doubleExpressionNode,
                                 OperatorNode operatorNode) {
         this.idNode = null;
@@ -65,6 +76,7 @@ public class DoubleExpressionNode implements JottTree {
         this.operatorNode = operatorNode;
     }
 
+    // < id > < op > < d_expr >
     public DoubleExpressionNode(IdNode idNode, DoubleExpressionNode doubleExpressionNode,
                                 OperatorNode operatorNode) {
         this.functionCallNode = null;
@@ -76,6 +88,7 @@ public class DoubleExpressionNode implements JottTree {
         this.operatorNode = operatorNode;
     }
 
+    // < id > < op > < dbl >
     public DoubleExpressionNode(IdNode idNode, DoubleNode doubleNode,
                                 OperatorNode operatorNode) {
         this.functionCallNode = null;
@@ -87,7 +100,7 @@ public class DoubleExpressionNode implements JottTree {
         this.operatorNode = operatorNode;
     }
 
-
+    // Function called by its parent node to parse the list of tokens
     public static DoubleExpressionNode parseDoubleExpressionNode (ArrayList<Token> tokens) throws Exception {
         FunctionCallNode functionCallNode = FunctionCallNode.parseFunctionCallNode(tokens);
         if (functionCallNode != null) {

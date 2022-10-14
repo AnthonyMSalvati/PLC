@@ -9,6 +9,9 @@ import java.util.ArrayList;
 
 /**
  * @author Ben Froment
+ *
+ * Helper node for the FunctionDefParamsNode
+ * Allows for multiple parameters to a function
  */
 public class FunctionDefParamsTailNode implements JottTree {
 
@@ -16,6 +19,7 @@ public class FunctionDefParamsTailNode implements JottTree {
     private final TypeNode typeNode;
     private final FunctionDefParamsTailNode functionDefParamsTailNode;
 
+    // , < id >: < type > < func_def_params_t >
     public FunctionDefParamsTailNode(IdNode idNode, TypeNode typeNode,
                                  FunctionDefParamsTailNode functionDefParamsTailNode) {
         this.idNode = idNode;
@@ -23,6 +27,7 @@ public class FunctionDefParamsTailNode implements JottTree {
         this.functionDefParamsTailNode = functionDefParamsTailNode;
     }
 
+    // Function called by its parent node to parse the list of tokens
     public static FunctionDefParamsTailNode parseFunctionDefParamsTailNode(ArrayList<Token> tokens) throws Exception {
         Token token;
         token = tokens.get(0);

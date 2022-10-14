@@ -6,16 +6,23 @@ import main.TokenType;
 
 import java.util.ArrayList;
 
+/**
+ * @author Ben Froment
+ *
+ * Node representing an integer value
+ */
 public class IntegerNode implements JottTree {
 
     private final SignNode sign;
     private final DigitNode number;
 
+    // < sign > < digit > < digit > >*
     public IntegerNode(SignNode sign, DigitNode number) {
         this.sign = sign;
         this.number = number;
     }
 
+    // Function called by its parent node to parse the list of tokens
     public static IntegerNode parseIntegerNode (ArrayList<Token> tokens) throws Exception {
         SignNode sign = SignNode.parseSignNode(tokens);
 

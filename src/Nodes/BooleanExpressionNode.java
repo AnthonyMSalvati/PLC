@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 /**
  * @author Ben Froment
+ *
+ * Node representing a boolean expression
  */
 public class BooleanExpressionNode implements JottTree {
 
@@ -23,6 +25,7 @@ public class BooleanExpressionNode implements JottTree {
     private final BooleanExpressionNode booleanExpressionNode2;
     private final RelationOperatorNode relationOperatorNode;
 
+    // < id >
     public BooleanExpressionNode(IdNode idNode) {
         this.idNode = idNode;
         this.functionCallNode = null;
@@ -37,6 +40,8 @@ public class BooleanExpressionNode implements JottTree {
         this.booleanExpressionNode2 = null;
         this.relationOperatorNode = null;
     }
+
+    // < func_call >
     public BooleanExpressionNode(FunctionCallNode functionCallNode) {
         this.idNode = null;
         this.functionCallNode = functionCallNode;
@@ -51,6 +56,8 @@ public class BooleanExpressionNode implements JottTree {
         this.booleanExpressionNode2 = null;
         this.relationOperatorNode = null;
     }
+
+    // < bool >
     public BooleanExpressionNode(BooleanNode booleanNode) {
         this.idNode = null;
         this.functionCallNode = null;
@@ -65,6 +72,8 @@ public class BooleanExpressionNode implements JottTree {
         this.booleanExpressionNode2 = null;
         this.relationOperatorNode = null;
     }
+
+    // < i_expr > < rel_op > < i_expr >
     public BooleanExpressionNode(IntegerExpressionNode integerExpressionNode1, IntegerExpressionNode integerExpressionNode2,
                                  RelationOperatorNode relationOperatorNode) {
         this.idNode = null;
@@ -80,6 +89,8 @@ public class BooleanExpressionNode implements JottTree {
         this.booleanExpressionNode1 = null;
         this.booleanExpressionNode2 = null;
     }
+
+    // < d_expr > < rel_op > < d_expr >
     public BooleanExpressionNode(DoubleExpressionNode doubleExpressionNode1, DoubleExpressionNode doubleExpressionNode2,
                                  RelationOperatorNode relationOperatorNode) {
         this.idNode = null;
@@ -95,6 +106,8 @@ public class BooleanExpressionNode implements JottTree {
         this.booleanExpressionNode1 = null;
         this.booleanExpressionNode2 = null;
     }
+
+    // < s_expr > < rel_op > < s_expr >
     public BooleanExpressionNode(StringExpressionNode stringExpressionNode1, StringExpressionNode stringExpressionNode2,
                                  RelationOperatorNode relationOperatorNode) {
         this.idNode = null;
@@ -110,6 +123,8 @@ public class BooleanExpressionNode implements JottTree {
         this.booleanExpressionNode1 = null;
         this.booleanExpressionNode2 = null;
     }
+
+    // < b_expr > < rel_op > < b_expr >
     public BooleanExpressionNode(BooleanExpressionNode booleanExpressionNode1, BooleanExpressionNode booleanExpressionNode2,
                                  RelationOperatorNode relationOperatorNode) {
         this.idNode = null;
@@ -126,6 +141,7 @@ public class BooleanExpressionNode implements JottTree {
         this.relationOperatorNode = relationOperatorNode;
     }
 
+    // Function called by its parent node to parse the list of tokens
     public static BooleanExpressionNode parseBooleanExpressionNode (ArrayList<Token> tokens) throws Exception {
 
         BooleanNode booleanNode = BooleanNode.parseBooleanNode(tokens);

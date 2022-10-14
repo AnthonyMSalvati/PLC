@@ -9,6 +9,8 @@ import java.util.Collections;
 
 /**
  * @author Ben Froment
+ *
+ * Node represeting different kinds of expressions
  */
 public class ExpressionNode implements JottTree {
 
@@ -19,6 +21,7 @@ public class ExpressionNode implements JottTree {
     private final StringExpressionNode stringExpressionNode;
     private final BooleanExpressionNode booleanExpressionNode;
 
+    // < id >
     public ExpressionNode(IdNode idNode) {
         this.functionCallNode = null;
         this.integerExpressionNode = null;
@@ -28,6 +31,8 @@ public class ExpressionNode implements JottTree {
 
         this.idNode = idNode;
     }
+
+    // < func_call >
     public ExpressionNode(FunctionCallNode functionCallNode) {
         this.idNode = null;
         this.integerExpressionNode = null;
@@ -37,6 +42,8 @@ public class ExpressionNode implements JottTree {
 
         this.functionCallNode = functionCallNode;
     }
+
+    // < i_expr >
     public ExpressionNode(IntegerExpressionNode integerExpressionNode) {
         this.idNode = null;
         this.functionCallNode = null;
@@ -46,6 +53,8 @@ public class ExpressionNode implements JottTree {
 
         this.integerExpressionNode = integerExpressionNode;
     }
+
+    // < d_expr >
     public ExpressionNode(DoubleExpressionNode doubleExpressionNode) {
         this.idNode = null;
         this.functionCallNode = null;
@@ -55,6 +64,8 @@ public class ExpressionNode implements JottTree {
 
         this.doubleExpressionNode = doubleExpressionNode;
     }
+
+    // < s_expr >
     public ExpressionNode(StringExpressionNode stringExpressionNode) {
         this.idNode = null;
         this.functionCallNode = null;
@@ -64,6 +75,8 @@ public class ExpressionNode implements JottTree {
 
         this.stringExpressionNode = stringExpressionNode;
     }
+
+    // < b_expr >
     public ExpressionNode(BooleanExpressionNode booleanExpressionNode) {
         this.idNode = null;
         this.functionCallNode = null;
@@ -74,6 +87,7 @@ public class ExpressionNode implements JottTree {
         this.booleanExpressionNode = booleanExpressionNode;
     }
 
+    // Function called by its parent node to parse the list of tokens
     public static ExpressionNode parseExpressionNode (ArrayList<Token> tokens) throws Exception {
         FunctionCallNode functionCallNode = FunctionCallNode.parseFunctionCallNode(tokens);
         if (functionCallNode != null) {

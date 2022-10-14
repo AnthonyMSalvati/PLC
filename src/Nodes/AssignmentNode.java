@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 /**
  * @author Ben Froment
+ *
+ * Node representing an assignment statement
  */
 public class AssignmentNode implements JottTree {
 
@@ -20,6 +22,7 @@ public class AssignmentNode implements JottTree {
     private final BooleanExpressionNode booleanExpressionNode;
     private final EndStatementNode endStatementNode;
 
+    // Double < id > = < d_expr > < end_statement >
     public AssignmentNode(String value, IdNode idNode,
                           DoubleExpressionNode doubleExpressionNode, EndStatementNode endStatementNode) {
         this.value = value;
@@ -31,6 +34,7 @@ public class AssignmentNode implements JottTree {
         this.booleanExpressionNode = null;
     }
 
+    // Integer < id > = < i_expr > < end_statement >
     public AssignmentNode(String value, IdNode idNode, IntegerExpressionNode integerExpressionNode,
                            EndStatementNode endStatementNode) {
         this.value = value;
@@ -42,6 +46,7 @@ public class AssignmentNode implements JottTree {
         this.booleanExpressionNode = null;
     }
 
+    // String < id > = < s_expr > < end_statement >
     public AssignmentNode(String value, IdNode idNode, StringExpressionNode stringExpressionNode,
                           EndStatementNode endStatementNode) {
         this.value = value;
@@ -53,6 +58,7 @@ public class AssignmentNode implements JottTree {
         this.booleanExpressionNode = null;
     }
 
+    // Boolean < id > = < b_expr > < end_statement >
     public AssignmentNode(String value, IdNode idNode, BooleanExpressionNode booleanExpressionNode,
                           EndStatementNode endStatementNode) {
         this.value = value;
@@ -64,6 +70,7 @@ public class AssignmentNode implements JottTree {
         this.stringExpressionNode = null;
     }
 
+    // < id > = < d_expr > < end_statement >
     public AssignmentNode(IdNode idNode, DoubleExpressionNode doubleExpressionNode,
                           EndStatementNode endStatementNode) {
         this.idNode = idNode;
@@ -75,6 +82,7 @@ public class AssignmentNode implements JottTree {
         this.booleanExpressionNode = null;
     }
 
+    // < id > = < i_expr > < end_statement >
     public AssignmentNode(IdNode idNode, IntegerExpressionNode integerExpressionNode,
                           EndStatementNode endStatementNode) {
         this.idNode = idNode;
@@ -86,6 +94,7 @@ public class AssignmentNode implements JottTree {
         this.booleanExpressionNode = null;
     }
 
+    // < id > = < s_expr > < end_statement >
     public AssignmentNode(IdNode idNode, StringExpressionNode stringExpressionNode,
                           EndStatementNode endStatementNode) {
         this.idNode = idNode;
@@ -97,6 +106,7 @@ public class AssignmentNode implements JottTree {
         this.booleanExpressionNode = null;
     }
 
+    // < id > = < b_expr > < end_statement >
     public AssignmentNode(IdNode idNode, BooleanExpressionNode booleanExpressionNode,
                           EndStatementNode endStatementNode) {
         this.idNode = idNode;
@@ -108,6 +118,7 @@ public class AssignmentNode implements JottTree {
         this.stringExpressionNode = null;
     }
 
+    // Function called by its parent node to parse the list of tokens
     public static AssignmentNode parseAssignmentNode (ArrayList<Token> tokens) throws Exception {
         Token token;
         token = tokens.get(0);

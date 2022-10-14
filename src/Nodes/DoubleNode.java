@@ -8,18 +8,22 @@ import java.util.ArrayList;
 
 /**
  * @author Ben Froment
+ *
+ * Node representing a double value
  */
 public class DoubleNode implements JottTree {
 
     private final SignNode sign;
     private final double number;
 
+    //  < sign > < digit >* . < digit > < digit > >*
     public DoubleNode(SignNode sign, double number) {
 
         this.sign = sign;
         this.number = number;
     }
 
+    // Function called by its parent node to parse the list of tokens
     public static DoubleNode parseDoubleNode (ArrayList<Token> tokens) throws Exception {
         SignNode sign = SignNode.parseSignNode(tokens);
 

@@ -7,6 +7,8 @@ import java.util.Collections;
 
 /**
  * @author Ben Froment
+ *
+ * Node representing an integer expression
  */
 public class IntegerExpressionNode implements JottTree {
 
@@ -17,6 +19,7 @@ public class IntegerExpressionNode implements JottTree {
     private final IntegerExpressionNode integerExpressionNode;
     private final FunctionCallNode functionCallNode;
 
+    // < id >
     public IntegerExpressionNode(IdNode idNode) {
         this.integerNode1 = null;
         this.integerNode2 = null;
@@ -27,6 +30,7 @@ public class IntegerExpressionNode implements JottTree {
         this.idNode = idNode;
     }
 
+    // < func_call >
     public IntegerExpressionNode (FunctionCallNode functionCallNode){
         this.idNode = null;
         this.integerNode1 = null;
@@ -37,6 +41,7 @@ public class IntegerExpressionNode implements JottTree {
         this.functionCallNode = functionCallNode;
     }
 
+    // < int >
     public IntegerExpressionNode (IntegerNode integerNode1) {
         this.idNode = null;
         this.integerNode2 = null;
@@ -47,6 +52,7 @@ public class IntegerExpressionNode implements JottTree {
         this.integerNode1 = integerNode1;
     }
 
+    // < int > < op > < int >
     public IntegerExpressionNode (IntegerNode integerNode1, IntegerNode integerNode2, OperatorNode operatorNode) {
         this.idNode = null;
         this.integerExpressionNode = null;
@@ -57,6 +63,7 @@ public class IntegerExpressionNode implements JottTree {
         this.operatorNode = operatorNode;
     }
 
+    // < int > < op > < i_expr >
     public IntegerExpressionNode (IntegerNode integerNode1, IntegerExpressionNode integerExpressionNode,
                                   OperatorNode operatorNode) {
         this.idNode = null;
@@ -68,6 +75,7 @@ public class IntegerExpressionNode implements JottTree {
         this.integerExpressionNode = integerExpressionNode;
     }
 
+    // < id > < op > < int >
     public IntegerExpressionNode (IdNode idNode, IntegerNode integerNode,
                                   OperatorNode operatorNode) {
         this.integerNode2 = null;
@@ -79,6 +87,7 @@ public class IntegerExpressionNode implements JottTree {
         this.operatorNode = operatorNode;
     }
 
+    // < id > < op> < i_expr >
     public IntegerExpressionNode (IdNode idNode, IntegerExpressionNode integerExpressionNode,
                                   OperatorNode operatorNode) {
         this.integerNode2 = null;
@@ -90,6 +99,7 @@ public class IntegerExpressionNode implements JottTree {
         this.integerExpressionNode = integerExpressionNode;
     }
 
+    // Function called by its parent node to parse the list of tokens
     public static IntegerExpressionNode parseIntegerExpressionNode (ArrayList<Token> tokens) throws Exception {
         FunctionCallNode functionCallNode = FunctionCallNode.parseFunctionCallNode(tokens);
         if (functionCallNode != null) {

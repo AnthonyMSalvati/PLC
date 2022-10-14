@@ -7,17 +7,21 @@ import java.util.ArrayList;
 
 /**
  * @author Ben Froment
+ *
+ * Node representing a list of functions
  */
 public class FunctionListNode implements JottTree {
 
     private final FunctionDefNode functionDefNode;
     private final FunctionListNode functionListNode;
 
+    //  < function_def > < function_list >
     public FunctionListNode(FunctionDefNode functionDefNode, FunctionListNode functionListNode) {
         this.functionDefNode = functionDefNode;
         this.functionListNode = functionListNode;
     }
 
+    // Function called by its parent node to parse the list of tokens
     public static FunctionListNode parseFunctionListNode(ArrayList<Token> tokens) throws Exception {
         FunctionDefNode functionDefNode = FunctionDefNode.parseFunctionDefNode(tokens);
         if (functionDefNode != null) {
