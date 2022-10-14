@@ -65,6 +65,29 @@ public class DoubleExpressionNode implements JottTree {
         this.operatorNode = operatorNode;
     }
 
+    public DoubleExpressionNode(IdNode idNode, DoubleExpressionNode doubleExpressionNode,
+                                OperatorNode operatorNode) {
+        this.functionCallNode = null;
+        this.doubleNode1 = null;
+        this.doubleNode2 = null;
+
+        this.idNode = idNode;
+        this.doubleExpressionNode = doubleExpressionNode;
+        this.operatorNode = operatorNode;
+    }
+
+    public DoubleExpressionNode(IdNode idNode, DoubleNode doubleNode,
+                                OperatorNode operatorNode) {
+        this.functionCallNode = null;
+        this.doubleNode2 = null;
+        this.doubleExpressionNode = null;
+
+        this.idNode = idNode;
+        this.doubleNode1 = doubleNode;
+        this.operatorNode = operatorNode;
+    }
+
+
     public static DoubleExpressionNode parseDoubleExpressionNode (ArrayList<Token> tokens) throws Exception {
         FunctionCallNode functionCallNode = FunctionCallNode.parseFunctionCallNode(tokens);
         if (functionCallNode != null) {
@@ -72,7 +95,26 @@ public class DoubleExpressionNode implements JottTree {
         }
         IdNode idNode = IdNode.parseIdNode(tokens);
         if (idNode != null) {
-            return new DoubleExpressionNode(idNode);
+            OperatorNode operatorNode = OperatorNode.parseOperatorNode(tokens);
+            if (operatorNode != null) {
+                OperatorNode operatorNode2 = OperatorNode.parseOperatorNode(new ArrayList<>(Collections.singletonList(tokens.get(1))));
+                if (operatorNode2 != null) {
+                    DoubleExpressionNode doubleExpressionNode = parseDoubleExpressionNode(tokens);
+                    if (doubleExpressionNode != null) {
+                        return new DoubleExpressionNode(idNode, doubleExpressionNode, operatorNode);
+                    }
+                }
+
+                DoubleNode doubleNode =  DoubleNode.parseDoubleNode(tokens);
+                if (doubleNode != null) {
+                    return new DoubleExpressionNode(idNode, doubleNode, operatorNode);
+                } else {
+                    throw new InvalidParseException("Error: <dbl> <op> not followed by <dbl>", tokens.get(0).getFilename(),
+                            tokens.get(0).getLineNum());
+                }
+            } else {
+                return new DoubleExpressionNode(idNode);
+            }
         }
         DoubleNode doubleNode1 = DoubleNode.parseDoubleNode(tokens);
         if (doubleNode1 != null) {
@@ -109,6 +151,16 @@ public class DoubleExpressionNode implements JottTree {
         }
 
         if (idNode != null) {
+            if (operatorNode != null) {
+                if (doubleExpressionNode != null) {
+                    return idNode.convertToJott() + operatorNode.convertToJott() +
+                            doubleExpressionNode.convertToJott();
+                }
+                if (doubleNode1 != null) {
+                    return idNode.convertToJott() + operatorNode.convertToJott() +
+                            doubleNode1.convertToJott();
+                }
+            }
             return idNode.convertToJott();
         }
 

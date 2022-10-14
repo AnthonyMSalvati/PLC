@@ -83,17 +83,24 @@ public class ExpressionNode implements JottTree {
             OperatorNode operatorNode = OperatorNode.parseOperatorNode(
                     new ArrayList<>(Collections.singletonList(tokens.get(1))));
             if (operatorNode != null) {
-                IntegerExpressionNode integerExpressionNode = IntegerExpressionNode.parseIntegerExpressionNode(tokens);
-                if (integerExpressionNode != null) {
-                    return new ExpressionNode(integerExpressionNode);
-                }
-                DoubleExpressionNode doubleExpressionNode = DoubleExpressionNode.parseDoubleExpressionNode(tokens);
-                if (doubleExpressionNode != null) {
-                    return new ExpressionNode(doubleExpressionNode);
-                }
-                StringExpressionNode stringExpressionNode = StringExpressionNode.parseStringExpressionNode(tokens);
-                if (stringExpressionNode != null) {
-                    return new ExpressionNode(stringExpressionNode);
+                if (tokens.size() > 2) {
+                    try {
+                        Integer.parseInt(tokens.get(2).getToken());
+                        IntegerExpressionNode integerExpressionNode = IntegerExpressionNode.parseIntegerExpressionNode(tokens);
+                        if (integerExpressionNode != null) {
+                            return new ExpressionNode(integerExpressionNode);
+                        }
+                    } catch (NumberFormatException ignored) {
+
+                    }
+                    DoubleExpressionNode doubleExpressionNode = DoubleExpressionNode.parseDoubleExpressionNode(tokens);
+                    if (doubleExpressionNode != null) {
+                        return new ExpressionNode(doubleExpressionNode);
+                    }
+                    StringExpressionNode stringExpressionNode = StringExpressionNode.parseStringExpressionNode(tokens);
+                    if (stringExpressionNode != null) {
+                        return new ExpressionNode(stringExpressionNode);
+                    }
                 }
             }
             RelationOperatorNode relationOperatorNode = RelationOperatorNode.parseRelationOperatorNode(
