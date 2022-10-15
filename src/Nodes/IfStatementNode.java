@@ -22,7 +22,7 @@ public class IfStatementNode implements JottTree {
         this.elseStatementNode = elseStatementNode;
     }
 
-    public static IfStatementNode parseIfStatementNode(ArrayList<Token> tokens) throws InvalidParseException {
+    public static IfStatementNode parseIfStatementNode(ArrayList<Token> tokens) throws Exception {
         if (!(tokens.get(0).getToken().equals("if")))
         {
             return null;
@@ -41,20 +41,23 @@ public class IfStatementNode implements JottTree {
 
                 if (booleanExpressionNode == null)
                 {
-                    throw new Exception("Error: unhandled in BooleanExpressionNode"); //should be handled in BooleanExpressionNode
+                    throw new InvalidParseException("Error: unhandled in BooleanExpressionNode", 
+                    tokens.get(0).getFilename(), tokens.get(0).getLineNum()); //should be handled in BooleanExpressionNode
                 }
                 else
                 {
                     if (!(tokens.get(0).getTokenType() == TokenType.R_BRACKET))
                     {
-                        throw new Exception("Error: expected \"]\"");
+                        throw new InvalidParseException("Error: expected \"]\"", 
+                        tokens.get(0).getFilename(), tokens.get(0).getLineNum());
                     }
                     else
                     {
                         tokens.remove(0);
                         if (!(tokens.get(0).getTokenType() == TokenType.L_BRACE))
                         {
-                            throw new Exception("Error: expected \"{\"");
+                            throw new InvalidParseException("Error: expected \"{\"", 
+                            tokens.get(0).getFilename(), tokens.get(0).getLineNum());
                         }
                         else
                         {
@@ -63,13 +66,15 @@ public class IfStatementNode implements JottTree {
 
                             if (bodyNode == null)
                             {
-                                throw new Exception("Error: unhandled in BodyNode"); //should be handled in body node
+                                throw new InvalidParseException("Error: unhandled in BodyNode", 
+                                tokens.get(0).getFilename(), tokens.get(0).getLineNum()); //should be handled in body node
                             }
                             else
                             {
                                 if (!(tokens.get(0).getTokenType() == TokenType.R_BRACE))
                                 {
-                                    throw new Exception("Error: expected \"}\"");
+                                    throw new InvalidParseException("Error: expected \"}\"", 
+                                    tokens.get(0).getFilename(), tokens.get(0).getLineNum());
                                 }
                                 else {
                                     tokens.remove(0);

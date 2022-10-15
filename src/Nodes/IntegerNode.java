@@ -3,6 +3,7 @@ package Nodes;
 import main.JottTree;
 import main.Token;
 import main.TokenType;
+import main.InvalidParseException;
 
 import java.util.ArrayList;
 
@@ -28,13 +29,15 @@ public class IntegerNode implements JottTree {
 
         if (sign != null) {
             if (tokens.get(0).getTokenType() != TokenType.NUMBER){
-                throw new Exception("Error: <sign> not followed by <digit>");
+                throw new InvalidParseException("Error: <sign> not followed by <digit>", 
+                tokens.get(0).getFilename(), tokens.get(0).getLineNum());
             }
             DigitNode number = DigitNode.parseDigitNode(tokens);
             if (number != null) {
                 return new IntegerNode(sign, number);
             }
-            throw new Exception("Error: <sign> not followed by <digit>");
+            throw new InvalidParseException("Error: <sign> not followed by <digit>", 
+            tokens.get(0).getFilename(), tokens.get(0).getLineNum());
         }
         if (tokens.get(0).getTokenType() != TokenType.NUMBER) {
             return null;

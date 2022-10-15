@@ -4,6 +4,7 @@ import main.JottTree;
 import main.Token;
 import java.util.ArrayList;
 import java.util.Collections;
+import main.InvalidParseException;
 
 /**
  * @author Ben Froment
@@ -121,7 +122,8 @@ public class IntegerExpressionNode implements JottTree {
                 if (integerNode != null) {
                     return new IntegerExpressionNode(idNode, integerNode, operatorNode);
                 } else {
-                    throw new Exception("Error: <id> <op> not followed by <int>");
+                    throw new InvalidParseException("Error: <id> <op> not followed by <int>", 
+                    tokens.get(0).getFilename(), tokens.get(0).getLineNum());
                 }
             } else {
                 return new IntegerExpressionNode(idNode);
@@ -143,7 +145,8 @@ public class IntegerExpressionNode implements JottTree {
                 if (integerNode2 != null) {
                     return new IntegerExpressionNode(integerNode1, integerNode2, operatorNode);
                 } else {
-                    throw new Exception("Error: <int> <op> not followed by <int>");
+                    throw new InvalidParseException("Error: <int> <op> not followed by <int>", 
+                    tokens.get(0).getFilename(), tokens.get(0).getLineNum());
                 }
             } else {
                 return new IntegerExpressionNode(integerNode1);

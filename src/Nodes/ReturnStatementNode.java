@@ -3,6 +3,7 @@ package Nodes;
 import main.JottTree;
 import main.Token;
 import main.TokenType;
+import main.InvalidParseException;
 
 import java.util.ArrayList;
 
@@ -28,7 +29,8 @@ public class ReturnStatementNode implements JottTree {
                     EndStatementNode endStmNode = EndStatementNode.parseEndStatementNode(tokens);
                     return new ReturnStatementNode(value, expNode, endStmNode);
                 } else {
-                    throw new Exception("Error: expected <expr>");
+                    throw new InvalidParseException("Error: expected <expr>", 
+                    tokens.get(0).getFilename(), tokens.get(0).getLineNum());
                 }
             }
         }    

@@ -3,6 +3,7 @@ package Nodes;
 import main.JottTree;
 import main.Token;
 import main.TokenType;
+import main.InvalidParseException;
 
 import java.util.ArrayList;
 
@@ -35,9 +36,11 @@ public class ParameterTailNode implements JottTree {
 				if (params_t != null) {
 					return new ParameterTailNode(expr, params_t);
 				}
-				throw new Exception("Error: expected <params_t>");
+				throw new InvalidParseException("Error: expected <params_t>", 
+				tokens.get(0).getFilename(), tokens.get(0).getLineNum());
 			}
-			throw new Exception("Error: expected <expr>");
+			throw new InvalidParseException("Error: expected <expr>", 
+			tokens.get(0).getFilename(), tokens.get(0).getLineNum());
 		}
 		// again, make sure this doesnt have infinite loop issues
 		return null;
