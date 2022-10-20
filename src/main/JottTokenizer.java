@@ -1,4 +1,4 @@
-/**
+package main; /**
  * This class is responsible for tokenizing Jott code.
  * 
  * @author Ben Froment
@@ -40,6 +40,7 @@ public class JottTokenizer {
 			System.out.println("IO error");
 			return null;
 		} catch (InvalidTokenException ite) {
+			ite.printError();
 			return null;
 		}
 
@@ -54,17 +55,19 @@ public class JottTokenizer {
 		for (int i = 0; i < fileContents.size(); i++) {
 
 			// skip over whitespaces and handle single-line comments (multi-line arent in Jott)
-			while (i != fileContents.size() && (fileContents.get(i) == ' ' || fileContents.get(i) == '#' || fileContents.get(i) == '\n')) {
+			while ((fileContents.get(i) == ' ' || fileContents.get(i) == '#' || fileContents.get(i) == '\n')) {
 				if (fileContents.get(i) == '#') { //handle single-line comments
 					while (i != fileContents.size() && !(fileContents.get(i) == '\n')) {
 						i += 1;
 					}
-
 				} else {
 					if (fileContents.get(i) == '\n') { //handle newline (out of comment)
 						lineNumber += 1;
 					}
 					i += 1;
+				}
+				if (i == fileContents.size()) {
+					return tokenList;
 				}
 			}
 
