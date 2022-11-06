@@ -353,20 +353,19 @@ public class AssignmentNode implements JottTree {
                 else return false;
             }
         }
-
         else return false;
 
-        if (type == "Integer" && this.integerExpressionNode.validateTree()) {
-            return true;
+        if (type == "Integer") {
+            return this.integerExpressionNode.validateTree();
         }
-        else if(type == "Double" && this.doubleExpressionNode.validateTree()){
-            return true;
+        else if(type == "Double"){
+            return this.doubleExpressionNode.validateTree();
         }
-        else if (type == "String" && this.stringExpressionNode.validateTree()){
-            return true;
+        else if (type == "String"){
+            return this.stringExpressionNode.validateTree();
         }
-        else if (type == "Boolean" && this.booleanExpressionNode.validateTree()) {
-            return true;
+        else if (type == "Boolean") {
+            return this.booleanExpressionNode.validateTree();
         }
         return false;
     }
