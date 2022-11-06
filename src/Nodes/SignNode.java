@@ -55,6 +55,6 @@ public class SignNode implements JottTree {
 
     @Override
     public boolean validateTree() {
-        return false;
+        return true;
     }
 }

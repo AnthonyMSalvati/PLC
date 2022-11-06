@@ -55,6 +55,6 @@ public class BooleanNode implements JottTree {
 
     @Override
     public boolean validateTree() {
-        return false;
+        return true;
     }
 }

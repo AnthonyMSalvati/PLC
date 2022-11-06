@@ -47,6 +47,6 @@ public class EndStatementNode implements JottTree {
 
     @Override
     public boolean validateTree() {
-        return false;
+        return true;
     }
 }

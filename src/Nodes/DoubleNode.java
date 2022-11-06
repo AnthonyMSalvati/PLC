@@ -92,6 +92,9 @@ public class DoubleNode implements JottTree {
 
     @Override
     public boolean validateTree() {
+        if (this.sign.validateTree()){
+            return true;
+        }
         return false;
     }
 }

@@ -74,6 +74,9 @@ public class IntegerNode implements JottTree {
 
     @Override
     public boolean validateTree() {
+        if (sign.validateTree()) {
+            return true;
+        }
         return false;
     }
 }

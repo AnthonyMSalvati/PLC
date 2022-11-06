@@ -50,7 +50,5 @@ public class DigitNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
-        return false;
-    }
+    public boolean validateTree() {return true;}
 }
