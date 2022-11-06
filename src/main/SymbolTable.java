@@ -51,4 +51,9 @@ public class SymbolTable {
         }
         return null;
     }
+
+    public HashMap<String, Symbol> getSymbolTable()
+    {
+        return this.scopes;
+    }
 }
