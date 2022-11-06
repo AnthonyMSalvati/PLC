@@ -58,6 +58,11 @@ public class IdNode implements JottTree {
 
     @Override
     public boolean validateTree() {
+        String regex = "^[a-z]\\w*";
+        if (value.matches(regex))
+        {
+            return true;
+        }
         return false;
     }
 }
