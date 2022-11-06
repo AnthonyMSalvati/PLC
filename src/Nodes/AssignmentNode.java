@@ -356,29 +356,17 @@ public class AssignmentNode implements JottTree {
 
         else return false;
 
-        if (type == "Integer" && (this.integerExpressionNode != null)){
-            if (this.integerExpressionNode.validateTree()){
-                return true;
-            }
-            return false;
+        if (type == "Integer" && this.integerExpressionNode.validateTree()) {
+            return true;
         }
-        else if(type == "Double" &&(this.doubleExpressionNode != null)){
-            if (this.doubleExpressionNode.validateTree()){
-                return true;
-            }
-            return false;
+        else if(type == "Double" && this.doubleExpressionNode.validateTree()){
+            return true;
         }
-        else if (type == "String" && (this.stringExpressionNode != null)){
-            if (this.stringExpressionNode.validateTree()){
-                return true;
-            }
-            return false;
+        else if (type == "String" && this.stringExpressionNode.validateTree()){
+            return true;
         }
-        else if (type == "Boolean" && (this.booleanExpressionNode != null)) {
-            if (this.booleanExpressionNode.validateTree()) {
-                return true;
-            }
-            return false;
+        else if (type == "Boolean" && this.booleanExpressionNode.validateTree()) {
+            return true;
         }
         return false;
     }
