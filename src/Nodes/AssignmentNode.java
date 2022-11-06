@@ -1,11 +1,9 @@
 package Nodes;
 
-import main.InvalidParseException;
-import main.JottTree;
-import main.Token;
-import main.TokenType;
+import main.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * @author Ben Froment
@@ -21,6 +19,7 @@ public class AssignmentNode implements JottTree {
     private final StringExpressionNode stringExpressionNode;
     private final BooleanExpressionNode booleanExpressionNode;
     private final EndStatementNode endStatementNode;
+    private final boolean firstDeclaration;
 
     // Double < id > = < d_expr > < end_statement >
     public AssignmentNode(String value, IdNode idNode,
@@ -32,6 +31,7 @@ public class AssignmentNode implements JottTree {
         this.integerExpressionNode = null;
         this.stringExpressionNode = null;
         this.booleanExpressionNode = null;
+        this.firstDeclaration = true;
     }
 
     // Integer < id > = < i_expr > < end_statement >
@@ -44,6 +44,7 @@ public class AssignmentNode implements JottTree {
         this.doubleExpressionNode = null;
         this.stringExpressionNode = null;
         this.booleanExpressionNode = null;
+        this.firstDeclaration = true;
     }
 
     // String < id > = < s_expr > < end_statement >
@@ -56,6 +57,7 @@ public class AssignmentNode implements JottTree {
         this.doubleExpressionNode = null;
         this.integerExpressionNode = null;
         this.booleanExpressionNode = null;
+        this.firstDeclaration = true;
     }
 
     // Boolean < id > = < b_expr > < end_statement >
@@ -68,6 +70,7 @@ public class AssignmentNode implements JottTree {
         this.doubleExpressionNode = null;
         this.integerExpressionNode = null;
         this.stringExpressionNode = null;
+        this.firstDeclaration = true;
     }
 
     // < id > = < d_expr > < end_statement >
@@ -80,6 +83,7 @@ public class AssignmentNode implements JottTree {
         this.integerExpressionNode = null;
         this.stringExpressionNode = null;
         this.booleanExpressionNode = null;
+        this.firstDeclaration = false;
     }
 
     // < id > = < i_expr > < end_statement >
@@ -92,6 +96,7 @@ public class AssignmentNode implements JottTree {
         this.doubleExpressionNode = null;
         this.stringExpressionNode = null;
         this.booleanExpressionNode = null;
+        this.firstDeclaration = false;
     }
 
     // < id > = < s_expr > < end_statement >
@@ -104,6 +109,7 @@ public class AssignmentNode implements JottTree {
         this.doubleExpressionNode = null;
         this.integerExpressionNode = null;
         this.booleanExpressionNode = null;
+        this.firstDeclaration = false;
     }
 
     // < id > = < b_expr > < end_statement >
@@ -116,6 +122,7 @@ public class AssignmentNode implements JottTree {
         this.doubleExpressionNode = null;
         this.integerExpressionNode = null;
         this.stringExpressionNode = null;
+        this.firstDeclaration = false;
     }
 
     // Function called by its parent node to parse the list of tokens
@@ -316,6 +323,43 @@ public class AssignmentNode implements JottTree {
 
     @Override
     public boolean validateTree() {
+        SymbolTable table = new SymbolTable();
+        HashMap<String, Symbol> map = table.getSymbolTable();
+        String type;
+
+        if (this.value != null) {
+            if (firstDeclaration == false) { //already exists but trying to declare type during assignment
+                return false;
+            }
+            type = value;
+        }
+        else if (this.value == null){
+            if (this.firstDeclaration == true){ //didn't already exist and not declaring type during assignment
+                return false;
+            }
+            else {
+                if (map.containsKey(this.idNode.getName())) {
+                    type =  map.get(this.idNode.getName()).getType(this.idNode.getName());
+                }
+                else return false;
+            }
+        }
+
+        else return false;
+
+        if (type == "Integer" && (this.integerExpressionNode != null)){
+            return true;
+        }
+        else if(type == "Double" &&(this.doubleExpressionNode != null)){
+            return true;
+        }
+        else if (type == "String" && (this.stringExpressionNode != null)){
+            return true;
+        }
+        else if (type == "Boolean" && (this.booleanExpressionNode != null))
+        {
+            return true;
+        }
         return false;
     }
 }
