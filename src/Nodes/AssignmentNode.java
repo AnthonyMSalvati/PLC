@@ -327,6 +327,15 @@ public class AssignmentNode implements JottTree {
         HashMap<String, Symbol> map = table.getSymbolTable();
         String type;
 
+        if (idNode.validateTree() == false)
+        {
+            return false;
+        }
+        if (endStatementNode.validateTree() == false)
+        {
+            return false;
+        }
+
         if (this.value != null) {
             if (firstDeclaration == false) { //already exists but trying to declare type during assignment
                 return false;
@@ -348,17 +357,28 @@ public class AssignmentNode implements JottTree {
         else return false;
 
         if (type == "Integer" && (this.integerExpressionNode != null)){
-            return true;
+            if (this.integerExpressionNode.validateTree()){
+                return true;
+            }
+            return false;
         }
         else if(type == "Double" &&(this.doubleExpressionNode != null)){
-            return true;
+            if (this.doubleExpressionNode.validateTree()){
+                return true;
+            }
+            return false;
         }
         else if (type == "String" && (this.stringExpressionNode != null)){
-            return true;
+            if (this.stringExpressionNode.validateTree()){
+                return true;
+            }
+            return false;
         }
-        else if (type == "Boolean" && (this.booleanExpressionNode != null))
-        {
-            return true;
+        else if (type == "Boolean" && (this.booleanExpressionNode != null)) {
+            if (this.booleanExpressionNode.validateTree()) {
+                return true;
+            }
+            return false;
         }
         return false;
     }
