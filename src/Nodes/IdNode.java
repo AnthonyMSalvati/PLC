@@ -36,6 +36,11 @@ public class IdNode implements JottTree {
         return null;
     }
 
+    public String getName()
+    {
+        return this.value;
+    }
+
     @Override
     public String convertToJott() {
         return value;
