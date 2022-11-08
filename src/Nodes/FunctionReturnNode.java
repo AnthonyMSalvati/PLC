@@ -59,6 +59,8 @@ public class FunctionReturnNode implements JottTree {
 
     @Override
     public boolean validateTree() {
-        return false;
+        if ((typeNode != null && voidNode == null) || (typeNode == null && voidNode != null)) {
+            return true;
+        } else return false;
     }
 }
