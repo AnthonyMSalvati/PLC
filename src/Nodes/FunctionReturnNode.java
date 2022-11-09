@@ -1,6 +1,7 @@
 package Nodes;
 
 import main.JottTree;
+import main.SymbolTable;
 import main.Token;
 import main.TokenType;
 
@@ -33,6 +34,10 @@ public class FunctionReturnNode implements JottTree {
         return null;
     }
 
+    public TypeNode getTypeNode(){
+        return this.typeNode;
+    }
+
     @Override
     public String convertToJott() {
         if (typeNode != null){
@@ -58,7 +63,10 @@ public class FunctionReturnNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
-        return false;
+    public boolean validateTree(SymbolTable symbolTable) throws Exception {
+        if (typeNode != null) {
+            return this.typeNode.validateTree(symbolTable);
+        }
+        return true;
     }
 }

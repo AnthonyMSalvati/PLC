@@ -36,7 +36,7 @@ public interface JottTree {
 	 * Errors validating will be reported to System.err
      * @return true if valid Jott code; false otherwise
      */
-    public boolean validateTree();
+    public boolean validateTree(SymbolTable symbolTable) throws Exception;
 
 
 }

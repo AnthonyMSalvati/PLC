@@ -14,7 +14,7 @@ public class InvalidTokenException extends Exception {
     }
 
     public void printError(){
-        System.err.println("Syntax Error");
+        System.err.println("Syntax Error: ");
         System.err.println("Invalid Token \"" + this.token + "\"");
         System.err.println(this.fileName + ":" + this.lineNumber);
     }

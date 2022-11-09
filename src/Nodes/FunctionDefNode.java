@@ -1,9 +1,6 @@
 package Nodes;
 
-import main.InvalidParseException;
-import main.JottTree;
-import main.Token;
-import main.TokenType;
+import main.*;
 
 import java.util.ArrayList;
 
@@ -18,14 +15,16 @@ public class FunctionDefNode implements JottTree {
     private final FunctionDefParamsNode functionDefParamsNode;
     private final FunctionReturnNode functionReturnNode;
     private final BodyNode bodyNode;
+    private final Token lastToken;
 
     // < id >[ < func_def_params > ]: < function_return >{ < body >}
     public FunctionDefNode(IdNode idNode, FunctionDefParamsNode functionDefParamsNode,
-                           FunctionReturnNode functionReturnNode, BodyNode bodyNode) {
+                           FunctionReturnNode functionReturnNode, BodyNode bodyNode, Token token) {
         this.idNode = idNode;
         this.functionDefParamsNode = functionDefParamsNode;
         this.functionReturnNode = functionReturnNode;
         this.bodyNode = bodyNode;
+        this.lastToken = token;
     }
 
     // Function called by its parent node to parse the list of tokens
@@ -55,7 +54,7 @@ public class FunctionDefNode implements JottTree {
                                         if (token.getTokenType() == TokenType.R_BRACE) {
                                             tokens.remove(0);
                                             return new FunctionDefNode(idNode, functionDefParamsNode,
-                                                    functionReturnNode, bodyNode);
+                                                    functionReturnNode, bodyNode, token);
                                         }
                                     }
                                     throw new InvalidParseException("Error: expected \"}\"", token.getFilename(),
@@ -119,7 +118,31 @@ public class FunctionDefNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
-        return false;
+    public boolean validateTree(SymbolTable symbolTable) throws Exception {
+        // Add to function symbol table
+        if (symbolTable.addFunction(idNode.getName(), functionReturnNode.getTypeNode().getType())) {
+            throw new InvalidValidateException("Function is already defined in current scope", this.lastToken.getFilename(), this.lastToken.getLineNum());
+        }
+        // Add new scope
+        if (symbolTable.addScope(idNode.getName())) {
+            throw new InvalidValidateException("Function is already defined in current scope", this.lastToken.getFilename(), this.lastToken.getLineNum());
+        }
+        // Change the scope to the newly created scope
+        symbolTable.changeScope(idNode.getName());
+
+        if (functionDefParamsNode != null) {
+            if (bodyNode != null) {
+                return idNode.validateTree() && functionDefParamsNode.validateTree() &&
+                        functionReturnNode.validateTree(symbolTable) && bodyNode.validateTree();
+            }
+            return idNode.validateTree() && functionDefParamsNode.validateTree() &&
+                    functionReturnNode.validateTree(symbolTable);
+        }
+        if (bodyNode != null) {
+            return idNode.validateTree() && functionReturnNode.validateTree(symbolTable) &&
+                    bodyNode.validateTree();
+        }
+        return idNode.validateTree() && functionReturnNode.validateTree(symbolTable);
+
     }
 }

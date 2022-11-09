@@ -1,6 +1,7 @@
 package Nodes;
 
 import main.JottTree;
+import main.SymbolTable;
 import main.Token;
 
 import java.util.ArrayList;
@@ -52,7 +53,10 @@ public class ProgramNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
+    public boolean validateTree(SymbolTable symbolTable) throws Exception {
+        if (functionListNode != null) {
+            return functionListNode.validateTree(symbolTable);
+        }
         return false;
     }
 }

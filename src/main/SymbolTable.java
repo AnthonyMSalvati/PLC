@@ -25,12 +25,8 @@ public class SymbolTable {
         scopes.remove(functionName);
     }
 
-    public boolean changeScope (String functionName) {
-        if (!scopes.containsKey(functionName)){
-            currentScope = functionName;
-            return true;
-        }
-        return false;
+    public void changeScope (String functionName) {
+        currentScope = functionName;
     }
 
     public boolean addSymbol (String symbolName, String type) {
@@ -42,14 +38,21 @@ public class SymbolTable {
     }
 
     public String getType (String symbolName) {
-        if (!scopes.containsKey(currentScope)){
-            Symbol symbol = scopes.get(currentScope);
-            if (symbol.hasSymbol(symbolName)){
-                return symbol.getType(symbolName);
-            }
-            return null;
+        Symbol symbol = scopes.get(currentScope);
+        if (symbol.hasSymbol(symbolName)){
+            return symbol.getType(symbolName);
+        }
+        symbol = scopes.get("global");
+        if(symbol.hasSymbol(symbolName)){
+            return symbol.getType(symbolName);
         }
         return null;
+
+    }
+
+    public boolean addFunction(String functionName, String type) {
+        Symbol symbol = scopes.get("global");
+        return symbol.addSymbol(functionName, type);
     }
 
     public HashMap<String, Symbol> getSymbolTable()

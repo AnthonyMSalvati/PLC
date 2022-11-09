@@ -1,7 +1,6 @@
 package Nodes;
 
-import main.JottTree;
-import main.Token;
+import main.*;
 
 import java.util.ArrayList;
 
@@ -15,22 +14,26 @@ public class VariableDeclarationNode implements JottTree {
     private final TypeNode typeNode;
     private final IdNode idNode;
     private final EndStatementNode endStatementNode;
+    private final Token lastToken;
 
     // < type > <id > < end_statement >
-    public VariableDeclarationNode(TypeNode typeNode, IdNode idNode, EndStatementNode endStatementNode) {
+    public VariableDeclarationNode(TypeNode typeNode, IdNode idNode, EndStatementNode endStatementNode, Token token) {
         this.typeNode = typeNode;
         this.idNode = idNode;
         this.endStatementNode = endStatementNode;
+        this.lastToken = token;
     }
 
     // Function called by its parent node to parse the list of tokens
     public static VariableDeclarationNode parseVariableDeclarationNode(ArrayList<Token> tokens) throws Exception {
+        Token token;
         TypeNode typeNode = TypeNode.parseTypeNode(tokens);
         if (typeNode != null) {
             IdNode idNode = IdNode.parseIdNode(tokens);
             if (idNode != null) {
+                token = tokens.get(0);
                 EndStatementNode endStatementNode = EndStatementNode.parseEndStatementNode(tokens);
-                return new VariableDeclarationNode(typeNode, idNode, endStatementNode);
+                return new VariableDeclarationNode(typeNode, idNode, endStatementNode, token);
             }
         }
         return null;
@@ -65,7 +68,10 @@ public class VariableDeclarationNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
-        return false;
+    public boolean validateTree(SymbolTable symbolTable) throws Exception {
+        if (symbolTable.addSymbol(idNode.getName(), typeNode.getType())) {
+            throw new InvalidValidateException("Variable is already defined in current scope", this.lastToken.getFilename(), this.lastToken.getLineNum());
+        }
+        return typeNode.validateTree(symbolTable) && idNode.validateTree() && endStatementNode.validateTree();
     }
 }
