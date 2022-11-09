@@ -2,9 +2,7 @@ package Nodes;
 
 import main.JottTree;
 import main.Token;
-import main.TokenType;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class BodyNode implements JottTree {
@@ -74,6 +72,12 @@ public class BodyNode implements JottTree {
 
     @Override
     public boolean validateTree() {
-        return false;
+        if (bodyStmNode != null && bodyNode != null && returnStmNode == null) {
+            return bodyStmNode.validateTree() && bodyNode.validateTree();
+        } else if (bodyStmNode == null && bodyNode == null && returnStmNode != null) {
+            return returnStmNode.validateTree();
+        } else if (bodyStmNode == null && bodyNode == null && returnStmNode == null) {
+            return true;
+        } else return false;
     }
 }

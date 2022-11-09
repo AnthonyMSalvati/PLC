@@ -2,7 +2,6 @@ package Nodes;
 
 import main.JottTree;
 import main.Token;
-import main.TokenType;
 
 import java.util.ArrayList;
 
@@ -62,6 +61,13 @@ public class BodyStatementNode implements JottTree {
 
     @Override
     public boolean validateTree() {
+        if (ifStmNode != null && whileNode == null && stmNode == null) {
+            return ifStmNode.validateTree();
+        } else if (ifStmNode == null && whileNode != null && stmNode == null) {
+            return whileNode.validateTree();
+        } else if (ifStmNode == null && whileNode == null && stmNode != null) {
+            return stmNode.validateTree();
+        }
         return false;
     }
 }
