@@ -2,6 +2,7 @@ package Nodes;
 
 import main.JottTree;
 import main.Token;
+import main.SymbolTable;
 
 import java.util.ArrayList;
 
@@ -71,11 +72,11 @@ public class BodyNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
+    public boolean validateTree(SymbolTable symbolTable) throws Exception  {
         if (bodyStmNode != null && bodyNode != null && returnStmNode == null) {
-            return bodyStmNode.validateTree() && bodyNode.validateTree();
+            return bodyStmNode.validateTree(symbolTable) && bodyNode.validateTree(symbolTable);
         } else if (bodyStmNode == null && bodyNode == null && returnStmNode != null) {
-            return returnStmNode.validateTree();
+            return returnStmNode.validateTree(symbolTable);
         } else if (bodyStmNode == null && bodyNode == null && returnStmNode == null) {
             return true;
         } else return false;
