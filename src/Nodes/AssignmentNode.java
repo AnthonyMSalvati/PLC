@@ -322,7 +322,7 @@ public class AssignmentNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
+    public boolean validateTree(SymbolTable symbolTable) throws Exception {
         SymbolTable table = new SymbolTable();
         HashMap<String, Symbol> map = table.getSymbolTable();
         String type;

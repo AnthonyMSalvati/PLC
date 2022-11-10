@@ -1,6 +1,7 @@
 package Nodes;
 
 import main.JottTree;
+import main.SymbolTable;
 import main.Token;
 import main.TokenType;
 import main.InvalidParseException;
@@ -58,7 +59,7 @@ public class ReturnStatementNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
+    public boolean validateTree(SymbolTable symbolTable) throws Exception {
         if (value != null && expNode != null && endStmNode != null) {
             return expNode.validateTree() && endStmNode.validateTree();
         }
