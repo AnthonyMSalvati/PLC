@@ -1,5 +1,6 @@
 package Nodes;
 
+import main.InvalidValidateException;
 import main.JottTree;
 import main.SymbolTable;
 import main.Token;
@@ -14,17 +15,23 @@ import java.util.ArrayList;
 public class ProgramNode implements JottTree {
 
     private final FunctionListNode functionListNode;
+    private final Token token;
 
     // < function_list >
-    public ProgramNode(FunctionListNode functionListNode) {
+    public ProgramNode(FunctionListNode functionListNode, Token token) {
         this.functionListNode = functionListNode;
+        this.token = token;
     }
 
     // Function that calls its child nodes to parse the list of tokens
     public static ProgramNode parseProgramNode(ArrayList<Token> tokens) throws Exception {
+        Token token = null;
+        if (tokens.size() > 0){
+            token = tokens.get(0);
+        }
         FunctionListNode functionListNode = FunctionListNode.parseFunctionListNode(tokens);
         if (functionListNode != null) {
-            return new ProgramNode(functionListNode);
+            return new ProgramNode(functionListNode, token);
         }
         return null;
     }
@@ -55,7 +62,14 @@ public class ProgramNode implements JottTree {
     @Override
     public boolean validateTree(SymbolTable symbolTable) throws Exception {
         if (functionListNode != null) {
-            return functionListNode.validateTree(symbolTable);
+            if (functionListNode.validateTree(symbolTable)) {
+                if (!symbolTable.getType("main").equals("Void")){
+                    if (token != null) {
+                        throw new InvalidValidateException("Missing Void function main", token.getFilename(), token.getLineNum());
+                    }
+                }
+                return true;
+            }
         }
         return false;
     }

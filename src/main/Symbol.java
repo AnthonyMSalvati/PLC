@@ -1,10 +1,17 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Symbol {
 
-    private final HashMap<String, String> symbolTable = new HashMap<>();
+    private final ArrayList<String> paramList;
+    private final HashMap<String, String> symbolTable;
+
+    public Symbol() {
+        paramList = new ArrayList<>();
+        symbolTable = new HashMap<>();
+    }
 
     public boolean hasSymbol (String symbolName) {
         return symbolTable.containsKey(symbolName);
@@ -16,6 +23,20 @@ public class Symbol {
             return true;
         }
         return false;
+    }
+
+    public boolean addParam(String symbolName, String type) {
+        if (!symbolTable.containsKey(symbolName)) {
+            if (addSymbol(symbolName, type)) {
+                paramList.add(symbolName);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public int getParamLength(){
+        return paramList.size();
     }
 
     public String getType (String symbolName){

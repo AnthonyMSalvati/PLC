@@ -1,9 +1,6 @@
 package Nodes;
 
-import main.InvalidParseException;
-import main.JottTree;
-import main.Token;
-import main.TokenType;
+import main.*;
 
 import java.util.ArrayList;
 
@@ -82,7 +79,11 @@ public class FunctionDefParamsNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
-        return false;
+    public boolean validateTree(SymbolTable symbolTable) throws Exception {
+        symbolTable.addParam(idNode.getName(), typeNode.getType());
+        if (functionDefParamsTailNode != null) {
+            return functionDefParamsTailNode.validateTree(symbolTable);
+        }
+        return true;
     }
 }
