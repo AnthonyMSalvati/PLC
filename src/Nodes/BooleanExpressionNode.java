@@ -2,6 +2,7 @@ package Nodes;
 
 import main.InvalidParseException;
 import main.JottTree;
+import main.SymbolTable;
 import main.Token;
 import java.util.ArrayList;
 
@@ -326,6 +327,48 @@ public class BooleanExpressionNode implements JottTree {
         return "";
     }
 
+    public String getType(SymbolTable symbolTable){
+        if (functionCallNode != null) {
+            //TODO change
+            return "";
+        }
+        if (idNode != null) {
+            return symbolTable.getType(idNode.getName());
+        }
+        if (booleanNode != null) {
+            return "Boolean";
+        }
+        if (integerExpressionNode1 != null) {
+            if (relationOperatorNode != null) {
+                if (integerExpressionNode2 != null) {
+                    return "Boolean";
+                }
+            }
+        }
+        if (doubleExpressionNode1 != null) {
+            if (relationOperatorNode != null) {
+                if (doubleExpressionNode2 != null) {
+                    return "Boolean";
+                }
+            }
+        }
+        if (stringExpressionNode1 != null) {
+            if (relationOperatorNode != null) {
+                if (stringExpressionNode2 != null) {
+                    return "Boolean";
+                }
+            }
+        }
+        if (booleanExpressionNode1 != null) {
+            if (relationOperatorNode != null) {
+                if (booleanExpressionNode2 != null) {
+                    return "Boolean";
+                }
+            }
+        }
+        return null;
+    }
+
     @Override
     public String convertToJava() {
         return null;
@@ -342,7 +385,51 @@ public class BooleanExpressionNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
+    public boolean validateTree(SymbolTable symbolTable) throws Exception {
+        if (functionCallNode != null) {
+            return functionCallNode.validateTree();
+        }
+        if (idNode != null) {
+            return idNode.validateTree();
+        }
+        if (booleanNode != null) {
+            return booleanNode.validateTree();
+        }
+        if (integerExpressionNode1 != null) {
+            if (relationOperatorNode != null) {
+                if (integerExpressionNode2 != null) {
+                    return integerExpressionNode1.validateTree(symbolTable) && relationOperatorNode.validateTree() &&
+                            integerExpressionNode2.validateTree(symbolTable);
+                }
+            }
+        }
+        if (doubleExpressionNode1 != null) {
+            if (relationOperatorNode != null) {
+                if (doubleExpressionNode2 != null) {
+                    return doubleExpressionNode1.validateTree(symbolTable) && relationOperatorNode.validateTree() &&
+                            doubleExpressionNode2.validateTree(symbolTable);
+                }
+            }
+        }
+        if (stringExpressionNode1 != null) {
+            if (relationOperatorNode != null) {
+                if (stringExpressionNode2 != null) {
+                    return stringExpressionNode1.validateTree(symbolTable) && relationOperatorNode.validateTree() &&
+                            stringExpressionNode2.validateTree(symbolTable);
+                }
+            }
+        }
+        if (booleanExpressionNode1 != null) {
+            if (relationOperatorNode != null) {
+                if (booleanExpressionNode2 != null) {
+                    if (booleanExpressionNode1.getType(symbolTable).equals(booleanExpressionNode2.getType(symbolTable))){
+                        return booleanExpressionNode1.validateTree(symbolTable) && relationOperatorNode.validateTree() &&
+                                booleanExpressionNode2.validateTree(symbolTable);
+                    }
+                    return false;
+                }
+            }
+        }
         return false;
     }
 }

@@ -323,49 +323,48 @@ public class AssignmentNode implements JottTree {
 
     @Override
     public boolean validateTree(SymbolTable symbolTable) throws Exception {
-        SymbolTable table = new SymbolTable();
-        HashMap<String, Symbol> map = table.getSymbolTable();
-        String type;
 
-        if (idNode.validateTree() == false)
+        if (!idNode.validateTree())
         {
             return false;
         }
-        if (endStatementNode.validateTree() == false)
+        if (!endStatementNode.validateTree())
         {
             return false;
         }
 
         if (this.value != null) {
-            if (firstDeclaration == false) { //already exists but trying to declare type during assignment
+            if (!firstDeclaration) { //already exists but trying to declare type during assignment
                 return false;
             }
-            type = value;
+            return symbolTable.addSymbol(idNode.getName(), value);
         }
-        else if (this.value == null){
-            if (this.firstDeclaration == true){ //didn't already exist and not declaring type during assignment
+        else {
+            if (this.firstDeclaration) { //didn't already exist and not declaring type during assignment
                 return false;
-            }
-            else {
-                if (map.containsKey(this.idNode.getName())) {
-                    type =  map.get(this.idNode.getName()).getType(this.idNode.getName());
+            } else {
+                if (integerExpressionNode != null) {
+                    if (symbolTable.getType(this.idNode.getName()).equals(integerExpressionNode.getType(symbolTable))) {
+                        return integerExpressionNode.validateTree(symbolTable);
+                    }
                 }
-                else return false;
+                if (doubleExpressionNode != null) {
+                    if (symbolTable.getType(this.idNode.getName()).equals(doubleExpressionNode.getType(symbolTable))) {
+                        return doubleExpressionNode.validateTree(symbolTable);
+                    }
+                }
+                if (stringExpressionNode != null) {
+                    if (symbolTable.getType(this.idNode.getName()).equals("String")) {
+                        return stringExpressionNode.validateTree(symbolTable);
+                    }
+                }
+                if (booleanExpressionNode != null) {
+                    if (symbolTable.getType(this.idNode.getName()).equals(booleanExpressionNode.getType(symbolTable))) {
+                        return booleanExpressionNode.validateTree(symbolTable);
+                    }
+                }
+                //TODO throw error
             }
-        }
-        else return false;
-
-        if (type == "Integer") {
-            return this.integerExpressionNode.validateTree();
-        }
-        else if(type == "Double"){
-            return this.doubleExpressionNode.validateTree();
-        }
-        else if (type == "String"){
-            return this.stringExpressionNode.validateTree();
-        }
-        else if (type == "Boolean") {
-            return this.booleanExpressionNode.validateTree();
         }
         return false;
     }

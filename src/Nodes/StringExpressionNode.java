@@ -1,6 +1,7 @@
 package Nodes;
 
 import main.JottTree;
+import main.SymbolTable;
 import main.Token;
 import java.util.ArrayList;
 
@@ -84,7 +85,14 @@ public class StringExpressionNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
+    public boolean validateTree(SymbolTable symbolTable) throws Exception {
+        if (functionCallNode != null) {
+            return functionCallNode.validateTree();
+        }  else if (idNode != null) {
+            return idNode.validateTree();
+        } else if (stringLiteralNode != null) {
+            return stringLiteralNode.validateTree();
+        }
         return false;
     }
 }

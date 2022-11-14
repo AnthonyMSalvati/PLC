@@ -132,15 +132,15 @@ public class FunctionDefNode implements JottTree {
 
         if (functionDefParamsNode != null) {
             if (bodyNode != null) {
-                return idNode.validateTree() && functionDefParamsNode.validateTree() &&
-                        functionReturnNode.validateTree(symbolTable) && bodyNode.validateTree();
+                return idNode.validateTree() && functionDefParamsNode.validateTree(symbolTable) &&
+                        functionReturnNode.validateTree(symbolTable) && bodyNode.validateTree(symbolTable);
             }
-            return idNode.validateTree() && functionDefParamsNode.validateTree() &&
+            return idNode.validateTree() && functionDefParamsNode.validateTree(symbolTable) &&
                     functionReturnNode.validateTree(symbolTable);
         }
         if (bodyNode != null) {
             return idNode.validateTree() && functionReturnNode.validateTree(symbolTable) &&
-                    bodyNode.validateTree();
+                    bodyNode.validateTree(symbolTable);
         }
         return idNode.validateTree() && functionReturnNode.validateTree(symbolTable);
 

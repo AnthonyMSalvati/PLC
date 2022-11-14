@@ -2,6 +2,7 @@ package Nodes;
 
 import main.InvalidParseException;
 import main.JottTree;
+import main.SymbolTable;
 import main.Token;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -156,6 +157,41 @@ public class DoubleExpressionNode implements JottTree {
         return null;
     }
 
+    public String getType(SymbolTable symbolTable){
+        if (functionCallNode != null) {
+            //TODO change
+            return "";
+        }
+
+        if (idNode != null) {
+            if (operatorNode != null) {
+                if (doubleExpressionNode != null) {
+                    if (symbolTable.getType(idNode.getName()).equals(doubleExpressionNode.getType(symbolTable))){
+                        return symbolTable.getType(idNode.getName());
+                    }
+                    return null;
+                }
+                if(doubleNode1 != null) {
+                    return "Integer";
+                }
+            }
+            return symbolTable.getType(idNode.getName());
+        }
+
+        if (doubleNode1 != null) {
+            if (operatorNode != null) {
+                if (doubleExpressionNode != null) {
+                    return "Integer";
+                }
+                if(doubleNode2 != null) {
+                    return "Integer";
+                }
+            }
+            return "Integer";
+        }
+        return null;
+    }
+
     @Override
     public String convertToJott() {
 
@@ -209,7 +245,44 @@ public class DoubleExpressionNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
+    public boolean validateTree(SymbolTable symbolTable) throws Exception {
+        if (functionCallNode != null) {
+            return functionCallNode.validateTree();
+        }
+
+        if (idNode != null) {
+            if (operatorNode != null) {
+                if (doubleExpressionNode != null) {
+                    if (symbolTable.getType(idNode.getName()).equals(doubleExpressionNode.getType(symbolTable))) {
+                        return idNode.validateTree() && operatorNode.validateTree() &&
+                                doubleExpressionNode.validateTree(symbolTable);
+                    }
+                }
+                if(doubleNode1 != null) {
+                    if (symbolTable.getType(idNode.getName()).equals("Integer")) {
+                        return idNode.validateTree() && operatorNode.validateTree() &&
+                                doubleNode1.validateTree(symbolTable);
+                    }
+                }
+            }
+            return idNode.validateTree();
+        }
+
+        if (doubleNode1 != null) {
+            if (operatorNode != null) {
+                if (doubleExpressionNode != null) {
+                    if (doubleExpressionNode.getType(symbolTable).equals("Integer")) {
+                        return doubleNode1.validateTree(symbolTable) && operatorNode.validateTree() &&
+                                doubleExpressionNode.validateTree(symbolTable);
+                    }
+                }
+                if(doubleNode2 != null) {
+                    return doubleNode1.validateTree(symbolTable) && operatorNode.validateTree() &&
+                            doubleNode2.validateTree(symbolTable);
+                }
+            }
+            return doubleNode1.validateTree(symbolTable);
+        }
         return false;
     }
 }

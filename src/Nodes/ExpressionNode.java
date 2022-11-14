@@ -1,6 +1,7 @@
 package Nodes;
 
 import main.JottTree;
+import main.SymbolTable;
 import main.Token;
 import main.TokenType;
 
@@ -145,6 +146,29 @@ public class ExpressionNode implements JottTree {
         return null;
     }
 
+    public String getType(SymbolTable symbolTable) {
+        if (functionCallNode != null) {
+            //TODO change
+            return "";
+        }
+        if (idNode != null) {
+            return symbolTable.getType(idNode.getName());
+        }
+        if (booleanExpressionNode != null) {
+            return booleanExpressionNode.getType(symbolTable);
+        }
+        if (doubleExpressionNode != null) {
+            return doubleExpressionNode.getType(symbolTable);
+        }
+        if (integerExpressionNode != null) {
+            return integerExpressionNode.getType(symbolTable);
+        }
+        if (stringExpressionNode != null) {
+            return "String";
+        }
+        return null;
+    }
+
     @Override
     public String convertToJott() {
         if (functionCallNode != null) {
@@ -184,7 +208,25 @@ public class ExpressionNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
+    public boolean validateTree(SymbolTable symbolTable) throws Exception {
+        if (functionCallNode != null) {
+            return functionCallNode.validateTree();
+        }
+        if (idNode != null) {
+            return idNode.validateTree();
+        }
+        if (booleanExpressionNode != null) {
+            return booleanExpressionNode.validateTree(symbolTable);
+        }
+        if (doubleExpressionNode != null) {
+            return doubleExpressionNode.validateTree(symbolTable);
+        }
+        if (integerExpressionNode != null) {
+            return integerExpressionNode.validateTree(symbolTable);
+        }
+        if (stringExpressionNode != null) {
+            return stringExpressionNode.validateTree(symbolTable);
+        }
         return false;
     }
 }
