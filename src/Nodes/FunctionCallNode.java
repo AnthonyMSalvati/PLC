@@ -89,7 +89,20 @@ public class FunctionCallNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
-        return false;
+    public boolean validateTree(SymbolTable symbolTable) throws Exception {
+		// make sure function exists
+		// TODO is this right? Is this even meant to be here? I do not know.
+		if (symbolTable.getType(id.getName()) == null) {
+			throw new InvalidValidateException("Function not found", this.id.getName());
+			// TODO check correctness of above line
+		}
+		
+		// unsure how scope handling/changing should be implemented here -Ian
+		
+		
+		if (this.params == null) {
+			return this.id.validateTree(symbolTable) && this.params.validateTree(symbolTable);
+		}
+        return this.id.validateTree(symbolTable);
     }
 }

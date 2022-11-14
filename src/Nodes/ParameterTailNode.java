@@ -77,7 +77,11 @@ public class ParameterTailNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
-        return false;
+    public boolean validateTree(SymbolTable symbolTable) throws Exception {
+		if (this.expr != null) { // if expr is not null then params_t cannot be null
+			return this.expr.validateTreeTree(symbolTable) && this.params_t.validateTree(symbolTable);
+		}
+		// epsilon instance case
+        return true;
     }
 }

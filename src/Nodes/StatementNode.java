@@ -86,7 +86,18 @@ public class StatementNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
+    public boolean validateTree(SymbolTable symbolTable) throws Exception {
+		if (this.asmt != null) {
+			return this.asmt.validateTree(symbolTable);
+		}
+		if (this.var_dec != null) {
+			return this.var_dec.validateTree(symbolTable);
+		}
+		if (this.func_call != null) { // end_stmt being null is linked to func_call
+			return this.func_call.validateTree(symbolTable) && this.end_stmt.validateTree(symbolTable);
+		}
+		// code below this should never be reached, but is there just in case it is
+		throw new InvalidValidateException("Impossible scenario reached in StatementNode");
         return false;
     }
 }
