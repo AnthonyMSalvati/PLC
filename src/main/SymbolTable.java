@@ -58,10 +58,6 @@ public class SymbolTable {
         if (symbol.hasSymbol(symbolName)){
             return symbol.getType(symbolName);
         }
-        symbol = scopes.get("global");
-        if(symbol.hasSymbol(symbolName)){
-            return symbol.getType(symbolName);
-        }
         return null;
 
     }
@@ -69,6 +65,11 @@ public class SymbolTable {
     public boolean addFunction(String functionName, String type) {
         Symbol symbol = scopes.get("global");
         return symbol.addSymbol(functionName, type);
+    }
+
+    public String getFunctionReturnType(String functionName){
+        Symbol symbol = scopes.get("global");
+        return symbol.getType(functionName);
     }
 
     public HashMap<String, Symbol> getSymbolTable()
