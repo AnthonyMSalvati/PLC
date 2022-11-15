@@ -240,8 +240,47 @@ public class DoubleExpressionNode implements JottTree {
     }
 
     @Override
-    public String convertToPython() {
-        return null;
+    public String convertToPython() { //Ian
+	
+	/*
+    private final IdNode idNode;
+    private final DoubleNode doubleNode1;
+    private final DoubleNode doubleNode2;
+    private final OperatorNode operatorNode;
+    private final DoubleExpressionNode doubleExpressionNode;
+    private final FunctionCallNode functionCallNode;
+	*/
+		if (this.operatorNode == null) {
+			if (this.idNode != null) {
+				return this.idNode.convertToPython();
+			} else {
+				return this.functionCallNode.convertToPython();
+			}
+		}
+		if (this.doubleNode2 != null) {
+			return this.doubleNode1.convertToPython()
+				+ this.operatorNode.convertToPython()
+				+ this.doubleNode2.convertToPython();
+		}
+		if (this.idNode == null && this.doubleExpressionNode == null) {
+			return this.doubleNode1.convertToPython();
+		}
+		if (this.idNode == null) {
+			return this.doubleNode1.convertToPython()
+				+ this.operatorNode.convertToPython()
+				+ this.doubleExpressionNode.convertToPython();
+		}
+		if (this.doubleNode1 == null) {
+			return this.idNode.convertToPython()
+				+ this.operatorNode.convertToPython()
+				+ this.doubleExpressionNode.convertToPython();
+		}
+		if (this.doubleExpressionNode == null) {
+			return this.doubleNode1.convertToPython()
+				+ this.operatorNode.convertToPython()
+				+ this.idNode.convertToPython();
+		}
+		return "";
     }
 
     @Override

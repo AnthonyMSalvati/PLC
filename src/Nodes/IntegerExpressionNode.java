@@ -248,6 +248,10 @@ public class IntegerExpressionNode implements JottTree {
 				return this.functionCallNode.convertToPython();
 			}
 		}
+		if (this.integerNode2 != null) {
+			return this.integerNode1.convertToPython()
+				+ this.operatorNode.convertToPython()
+				+ this.integerNode2.convertToPython();
 		if (this.idNode == null && this.integerExpressionNode == null) {
 			return this.integerNode1.convertToPython();
 		}
@@ -266,6 +270,7 @@ public class IntegerExpressionNode implements JottTree {
 				+ this.operatorNode.convertToPython()
 				+ this.idNode.convertToPython();
 		}
+		return "";
     }
 
     @Override
