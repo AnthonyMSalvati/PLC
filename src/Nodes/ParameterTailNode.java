@@ -42,7 +42,6 @@ public class ParameterTailNode implements JottTree {
 			throw new InvalidParseException("Error: expected <expr>", 
 			tokens.get(0).getFilename(), tokens.get(0).getLineNum());
 		}
-		// again, make sure this doesnt have infinite loop issues
 		return null;
 	}
 
@@ -54,10 +53,6 @@ public class ParameterTailNode implements JottTree {
 			}
 			return this.expr.convertToJott();
 		}
-		/* in ParameterNode, this returns null, but here I have it return
-		an empty string. I believe one of those will cause an issue, but
-		the other one should be correct. I hope, at least. The epsilon
-		case is confusing. */
         return "";
     }
 
@@ -72,14 +67,17 @@ public class ParameterTailNode implements JottTree {
     }
 
     @Override
-    public String convertToPython() {
-        return null;
+    public String convertToPython() { //Ian
+		if (this.expr != null) { // if expr exists, params_t must exist
+			return ", " + this.expr.convertToPython() + this.params_t.convertToPython();
+		}
+        return "";
     }
 
     @Override
     public boolean validateTree(SymbolTable symbolTable) throws Exception {
 		if (this.expr != null) { // if expr is not null then params_t cannot be null
-			return this.expr.validateTreeTree(symbolTable) && this.params_t.validateTree(symbolTable);
+			return this.expr.validateTree(symbolTable) && this.params_t.validateTree(symbolTable);
 		}
 		// epsilon instance case
         return true;

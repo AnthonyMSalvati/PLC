@@ -50,8 +50,8 @@ public class BooleanNode implements JottTree {
     }
 
     @Override
-    public String convertToPython() {
-        return null;
+    public String convertToPython() { //Ian
+        return this.value; //python uses "True" and "False" same as Jott
     }
 
     @Override

@@ -48,8 +48,8 @@ public class LowerCharNode implements JottTree {
     }
 
     @Override
-    public String convertToPython() {
-        return null;
+    public String convertToPython() { //Ian
+        return this.character;
     }
 
     @Override

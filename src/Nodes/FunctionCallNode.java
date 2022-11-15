@@ -64,13 +64,16 @@ public class FunctionCallNode implements JottTree {
 
     @Override
     public String convertToJott() {
+		return this.id.convertToJott() + "[" + (this.params == null ? "" : this.params.convertToJott()) + "]";
+		/*
+		old version (I don't think it works correctly if params == null)
 		if (this.id != null) {
 			if (this.params != null) {
 				return this.id.convertToJott() + "[" +
                         this.params.convertToJott() + "]";
 			}
 		}
-        return "";
+        return ""; //*/
     }
 
     @Override
@@ -84,8 +87,8 @@ public class FunctionCallNode implements JottTree {
     }
 
     @Override
-    public String convertToPython() {
-        return null;
+    public String convertToPython() { //Ian
+		return this.id.convertToPython()+"("+(this.params==null?"":this.params.convertToPython())+")";
     }
 
     @Override

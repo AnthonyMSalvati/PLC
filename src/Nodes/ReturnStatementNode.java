@@ -54,8 +54,8 @@ public class ReturnStatementNode implements JottTree {
     }
 
     @Override
-    public String convertToPython() {
-        return null;
+    public String convertToPython() { //Ian
+        return "return " + this.expNode.convertToPython() + this.endStmNode.convertToPython();
     }
 
     @Override

@@ -55,7 +55,6 @@ public class StatementNode implements JottTree {
 		return null;
 	}
 	
-	// I think that using "this." is the right move, but not 100% -Ian
     @Override
     public String convertToJott() {
 		if (this.asmt != null) {
@@ -81,9 +80,19 @@ public class StatementNode implements JottTree {
     }
 
     @Override
-    public String convertToPython() {
-        return null;
-    }
+    public String convertToPython() { //Ian
+		if (this.asmt != null) {
+			return this.asmt.convertToPython();
+		}
+		if (this.var_dec != null) {
+			return this.var_dec.convertToPython();
+		}
+		if (this.func_call != null) {
+			return this.func_call.convertToPython()
+				+ this.end_stmt.convertToPython();
+		}
+		return "\n";
+	}
 
     @Override
     public boolean validateTree(SymbolTable symbolTable) throws Exception {

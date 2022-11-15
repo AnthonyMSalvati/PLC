@@ -63,8 +63,9 @@ public class VariableDeclarationNode implements JottTree {
     }
 
     @Override
-    public String convertToPython() {
-        return null;
+    public String convertToPython() { //Ian
+		// variables are declared at assignment in python
+        return "";
     }
 
     @Override

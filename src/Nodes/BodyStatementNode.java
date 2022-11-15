@@ -56,8 +56,11 @@ public class BodyStatementNode implements JottTree {
     }
 
     @Override
-    public String convertToPython() {
-        return null;
+    public String convertToPython(int nestLevel) {
+		if (this.stmNode != null) {return this.stmNode.convertToPython();}
+		if (this.ifStmNode != null) {return this.ifStmNode.convertToPython(nestLevel);}
+		if (this.whileNode != null) {return this.whileNode.convertToPython(nestLevel);}
+        return "";
     }
 
     @Override

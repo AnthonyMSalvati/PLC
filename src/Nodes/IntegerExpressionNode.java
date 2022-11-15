@@ -240,8 +240,32 @@ public class IntegerExpressionNode implements JottTree {
     }
 
     @Override
-    public String convertToPython() {
-        return null;
+    public String convertToPython() { //Ian
+		if (this.operatorNode == null) {
+			if (this.idNode != null) {
+				return this.idNode.convertToPython();
+			} else {
+				return this.functionCallNode.convertToPython();
+			}
+		}
+		if (this.idNode == null && this.integerExpressionNode == null) {
+			return this.integerNode1.convertToPython();
+		}
+		if (this.idNode == null) {
+			return this.integerNode1.convertToPython()
+				+ this.operatorNode.convertToPython()
+				+ this.integerExpressionNode.convertToPython();
+		}
+		if (this.integerNode1 == null) {
+			return this.idNode.convertToPython()
+				+ this.operatorNode.convertToPython()
+				+ this.integerExpressionNode.convertToPython();
+		}
+		if (this.integerExpressionNode == null) {
+			return this.integerNode1.convertToPython()
+				+ this.operatorNode.convertToPython()
+				+ this.idNode.convertToPython();
+		}
     }
 
     @Override

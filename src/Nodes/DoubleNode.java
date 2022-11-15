@@ -71,7 +71,7 @@ public class DoubleNode implements JottTree {
     @Override
     public String convertToJott() {
         if (sign != null) {
-            return sign.convertToJott() + number;
+            return sign.convertToJott() + String.valueOf(number);
         }
         return String.valueOf(number);
     }
@@ -87,8 +87,11 @@ public class DoubleNode implements JottTree {
     }
 
     @Override
-    public String convertToPython() {
-        return null;
+    public String convertToPython() { //Ian
+        if (this.sign != null) {
+            return this.sign.convertToPython() + String.valueOf(this.number);
+        }
+        return String.valueOf(this.number);
     }
 
     @Override

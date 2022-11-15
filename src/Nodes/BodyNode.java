@@ -67,8 +67,14 @@ public class BodyNode implements JottTree {
     }
 
     @Override
-    public String convertToPython() {
-        return null;
+    public String convertToPython(int nestLevel) { //Ian
+		String nestIndent = "";
+		for (int i=0;i<nestLevel;i++) {
+			nestIndent = nestIndent + "\t";
+		}
+		if (this.returnStmNode != null) {return nestIndent + this.returnStmNode.convertToPython();}
+		return nestIndent + this.bodyStmNode.convertToPython(nestLevel)
+			+ this.bodyNode.convertToPython(nestLevel);
     }
 
     @Override

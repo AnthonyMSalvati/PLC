@@ -45,8 +45,8 @@ public class RelationOperatorNode implements JottTree {
     }
 
     @Override
-    public String convertToPython() {
-        return null;
+    public String convertToPython() { //Ian
+        return this.value;
     }
 
     @Override

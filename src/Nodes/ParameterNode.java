@@ -24,7 +24,6 @@ public class ParameterNode implements JottTree {
 		this.params_t = null;
     }
 	
-	// TODO check if this is the correct handling of epsilon case
 	public static ParameterNode parseParameterNode(ArrayList<Token> tokens) throws Exception {
 		ExpressionNode expr = ExpressionNode.parseExpressionNode(tokens);
 		if (expr != null) {
@@ -34,7 +33,6 @@ public class ParameterNode implements JottTree {
 			}
 			return new ParameterNode(expr, null);
 		}
-		// if there are infinite loops this may be the cause
 		return null;
 	}
 
@@ -46,8 +44,7 @@ public class ParameterNode implements JottTree {
 			}
 			return this.expr.convertToJott();
 		}
-		// notes on similar situation in ParameterTailNode, so see that
-        return ""; // does this cover the epsilon case?
+        return "";
     }
 
     @Override
@@ -61,8 +58,11 @@ public class ParameterNode implements JottTree {
     }
 
     @Override
-    public String convertToPython() {
-        return null;
+    public String convertToPython() { //Ian
+		if (this.expr != null) { // if expr exists, params_t must exist
+			return ", " + this.expr.convertToPython() + this.params_t.convertToPython();
+		}
+        return "";
     }
 
     @Override

@@ -42,8 +42,8 @@ public class EndStatementNode implements JottTree {
     }
 
     @Override
-    public String convertToPython() {
-        return null;
+    public String convertToPython() { //Ian
+        return "\n";
     }
 
     @Override
