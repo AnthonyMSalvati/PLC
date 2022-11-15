@@ -1,9 +1,6 @@
 package Nodes;
 
-import main.JottTree;
-import main.Token;
-import main.TokenType;
-import main.InvalidParseException;
+import main.*;
 
 import java.util.ArrayList;
 
@@ -116,7 +113,15 @@ public class IfStatementNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
+    public boolean validateTree(SymbolTable symbolTable) throws Exception {
+        if (this.booleanExpressionNode.validateTree(symbolTable)){
+            if (this.bodyNode.validateTree(symbolTable)){
+                if (this.elseIfStatementNode.validateTree(symbolTable)){
+                    return this.elseStatementNode.validateTree(symbolTable);
+                }
+            }
+        }
         return false;
     }
+
 }

@@ -1,9 +1,6 @@
 package Nodes;
 
-import main.InvalidParseException;
-import main.JottTree;
-import main.Token;
-import main.TokenType;
+import main.*;
 
 import java.util.ArrayList;
 
@@ -92,12 +89,22 @@ public class ElseIfStatementNode implements JottTree {
 
     @Override
     public String convertToJava() {
-        return null;
+        if (this.bodyNode == null){
+            return "";
+        }
+        else {
+            return "else if (" + this.booleanExpressionNode.convertToJava() + "){" + bodyNode.convertToJava() + "}" + this.elseIfStatementNode.convertToJava();
+        }
     }
 
     @Override
     public String convertToC() {
-        return null;
+        if (this.bodyNode == null){
+            return "";
+        }
+        else {
+            return "else if (" + booleanExpressionNode.convertToC() + "){" + bodyNode.convertToC() + "}" + this.elseIfStatementNode.convertToC();
+        }
     }
 
     @Override
@@ -115,7 +122,22 @@ public class ElseIfStatementNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
+    public boolean validateTree(SymbolTable symbolTable) throws Exception {
+        if (this.elseIfStatementNode == null){
+            return true;
+        }
+        else if (this.elseIfStatementNode.validateTree(symbolTable)){
+            if (this.booleanExpressionNode == null){
+                return false; //if first was null, any nulls after that indicate an error
+            }
+            else if (this.booleanExpressionNode.validateTree(symbolTable)){
+                if (this.bodyNode == null){
+                    return false;
+                }
+                else return this.bodyNode.validateTree(symbolTable);
+            }
+        }
+
         return false;
     }
 }

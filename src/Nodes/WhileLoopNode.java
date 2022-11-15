@@ -1,9 +1,6 @@
 package Nodes;
 
-import main.JottTree;
-import main.Token;
-import main.TokenType;
-import main.InvalidParseException;
+import main.*;
 
 import java.util.ArrayList;
 
@@ -89,12 +86,12 @@ public class WhileLoopNode implements JottTree {
 
     @Override
     public String convertToJava() {
-        return null;
+        return "while (" + this.booleanExpressionNode.convertToJava() + "){" + this.bodyNode.convertToJava() + "}";
     }
 
     @Override
     public String convertToC() {
-        return null;
+        return "while (" + this.booleanExpressionNode.convertToC() + "){" + this.bodyNode.convertToC() + "}";
     }
 
     @Override
@@ -104,7 +101,11 @@ public class WhileLoopNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
+    public boolean validateTree(SymbolTable symbolTable) throws Exception {
+        if (this.booleanExpressionNode.validateTree(symbolTable)){
+            return this.bodyNode.validateTree(symbolTable);
+        }
         return false;
     }
+
 }
