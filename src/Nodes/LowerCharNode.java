@@ -3,6 +3,7 @@ package Nodes;
 import main.JottTree;
 import main.Token;
 import main.TokenType;
+import main.SymbolTable;
 
 import java.util.ArrayList;
 
@@ -52,7 +53,7 @@ public class LowerCharNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
-        return false;
+    public boolean validateTree(SymbolTable symbolTable) throws Exception {
+        return true;
     }
 }

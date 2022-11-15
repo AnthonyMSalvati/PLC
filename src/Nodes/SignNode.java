@@ -2,6 +2,7 @@ package Nodes;
 
 import main.JottTree;
 import main.Token;
+import main.SymbolTable;
 
 import java.util.ArrayList;
 
@@ -54,7 +55,7 @@ public class SignNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
+    public boolean validateTree(SymbolTable symbolTable) throws Exception {
         return true;
     }
 }

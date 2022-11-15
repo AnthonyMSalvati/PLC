@@ -4,6 +4,7 @@ import main.JottTree;
 import main.Token;
 import main.TokenType;
 import java.util.ArrayList;
+import main.SymbolTable;
 
 /**
  * @author  Ben Froment
@@ -51,7 +52,7 @@ public class StringLiteralNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
+    public boolean validateTree(SymbolTable symbolTable) throws Exception {
         return true;
     }
 }

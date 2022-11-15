@@ -4,6 +4,7 @@ import main.JottTree;
 import main.Token;
 import main.TokenType;
 import java.util.ArrayList;
+import main.SymbolTable;
 
 /**
  * @author Ben Froment
@@ -53,7 +54,7 @@ public class OperatorNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
-        return false;
+    public boolean validateTree(SymbolTable symbolTable) throws Exception {
+        return true;
     }
 }

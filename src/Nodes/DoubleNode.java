@@ -5,6 +5,7 @@ import main.JottTree;
 import main.Token;
 import main.TokenType;
 import java.util.ArrayList;
+import main.SymbolTable;
 
 /**
  * @author Ben Froment
@@ -91,8 +92,8 @@ public class DoubleNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
-        if (this.sign.validateTree()){
+    public boolean validateTree(SymbolTable symbolTable) throws Exception {
+        if (this.sign.validateTree(symbolTable)){
             return true;
         }
         return false;

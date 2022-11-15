@@ -4,6 +4,7 @@ import main.JottTree;
 import main.Token;
 import main.TokenType;
 import java.util.ArrayList;
+import main.SymbolTable;
 
 /**
  * @author Ben Froment
@@ -62,7 +63,7 @@ public class IdNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
+    public boolean validateTree(SymbolTable symbolTable) throws Exception {
         String regex = "^[a-z]\\w*";
         if (value.matches(regex))
         {

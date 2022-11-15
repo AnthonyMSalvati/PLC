@@ -3,6 +3,7 @@ package Nodes;
 import main.JottTree;
 import main.Token;
 import main.TokenType;
+import main.SymbolTable;
 
 import java.util.ArrayList;
 
@@ -50,5 +51,5 @@ public class DigitNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {return true;}
+    public boolean validateTree(SymbolTable symbolTable) throws Exception {return true;}
 }
