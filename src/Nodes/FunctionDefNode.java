@@ -113,8 +113,14 @@ public class FunctionDefNode implements JottTree {
     }
 
     @Override
-    public String convertToPython() {
-        return null;
+    public String convertToPython(int nestLevel) { //Ian
+		String nestIndent = "";
+		for (int i=0;i<nestLevel;i++) {
+			nestIndent = nestIndent + "\t";
+		}
+		return nestIndent + "def " + this.idNode.convertToPython() + "("
+			+ (this.functionDefParamsNode!=null?this.functionDefParamsNode.convertToPython():"") + "):"
+			+ (this.bodyNode!=null?"\n"+this.bodyNode.convertToPython(nestLevel+1):" return False") + "\n"
     }
 
     @Override
