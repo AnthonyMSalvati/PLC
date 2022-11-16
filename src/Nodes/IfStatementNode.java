@@ -10,7 +10,6 @@ public class IfStatementNode implements JottTree {
     private final BodyNode bodyNode;
     private final ElseIfStatementNode elseIfStatementNode;
     private final ElseStatementNode elseStatementNode;
-
     public IfStatementNode(BooleanExpressionNode booleanExpressionNode, BodyNode bodyNode,  ElseIfStatementNode elseIfStatementNode, ElseStatementNode elseStatementNode)
     {
         this.booleanExpressionNode = booleanExpressionNode;
@@ -60,7 +59,6 @@ public class IfStatementNode implements JottTree {
                         {
                             tokens.remove(0);
                             BodyNode bodyNode = BodyNode.parseBodyNode(tokens);
-
                             if (bodyNode == null)
                             {
                                 throw new InvalidParseException("Error: unhandled in BodyNode", 
@@ -77,7 +75,6 @@ public class IfStatementNode implements JottTree {
                                     tokens.remove(0);
                                     ElseIfStatementNode elseIfStatementNode = ElseIfStatementNode.parseElseIfStatementNode(tokens);
                                     ElseStatementNode elseStatementNode = ElseStatementNode.parseElseStatementNode(tokens);
-
                                     return new IfStatementNode(booleanExpressionNode, bodyNode, elseIfStatementNode, elseStatementNode);
                                 }
                             }
@@ -86,6 +83,10 @@ public class IfStatementNode implements JottTree {
                 }
             }
         }
+    }
+
+    public String getType(SymbolTable symbolTable){
+        return this.bodyNode.getType(symbolTable);
     }
 
     @Override
@@ -117,7 +118,22 @@ public class IfStatementNode implements JottTree {
         if (this.booleanExpressionNode.validateTree(symbolTable)){
             if (this.bodyNode.validateTree(symbolTable)){
                 if (this.elseIfStatementNode.validateTree(symbolTable)){
-                    return this.elseStatementNode.validateTree(symbolTable);
+                    if (this.elseStatementNode.validateTree(symbolTable)){
+                        if (this.elseStatementNode.getType(symbolTable) != null){
+                            if (this.elseIfStatementNode.getType(symbolTable) == null){
+                                return false; //else returns but else if does not
+                            }
+                            else if (this.elseStatementNode.getType(symbolTable) != this.elseIfStatementNode.getType(symbolTable)){
+                                return false; //else and else if return different types
+                            }
+                            else if (this.elseStatementNode.getType(symbolTable) == this.elseIfStatementNode.getType(symbolTable)){
+                                if (this.elseStatementNode.getType(symbolTable) != this.bodyNode.getType(symbolTable)) {
+                                    return false; //else ifs and else match, body of main if does not
+                                }
+                                else return true;
+                            }
+                        }
+                    }
                 }
             }
         }

@@ -53,7 +53,6 @@ public class ElseIfStatementNode implements JottTree {
                         } else {
                             tokens.remove(0);
                             BodyNode bodyNode = BodyNode.parseBodyNode(tokens);
-
                             if (bodyNode != null) {
                                 token = tokens.get(0);
                                 if (!(token.getTokenType() == TokenType.R_BRACE)) {
@@ -62,7 +61,6 @@ public class ElseIfStatementNode implements JottTree {
                                 } else {
                                     tokens.remove(0);
                                     ElseIfStatementNode elseIfStatementNode = ElseIfStatementNode.parseElseIfStatementNode(tokens);
-
                                     return new ElseIfStatementNode(booleanExpressionNode, bodyNode, elseIfStatementNode);
                                 }
                             }
@@ -72,6 +70,11 @@ public class ElseIfStatementNode implements JottTree {
             }
         }
         return null;
+    }
+
+    public String getType(SymbolTable symbolTable)
+    {
+        return this.bodyNode.getType(symbolTable);
     }
 
     @Override
@@ -135,7 +138,12 @@ public class ElseIfStatementNode implements JottTree {
                 if (this.bodyNode == null){
                     return false;
                 }
-                else return this.bodyNode.validateTree(symbolTable);
+                else if(this.bodyNode.validateTree(symbolTable)){
+                    if (this.elseIfStatementNode.getType(symbolTable) != this.bodyNode.getType(symbolTable)){
+                        return false;
+                    }
+                    else return true;
+                }
             }
         }
 
