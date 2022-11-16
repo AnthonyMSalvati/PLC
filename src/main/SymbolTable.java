@@ -50,10 +50,6 @@ public class SymbolTable {
         return false;
     }
 
-    public void removeScope (String functionName) {
-        scopes.remove(functionName);
-    }
-
     public void changeScope (String functionName) {
         currentScope = functionName;
     }

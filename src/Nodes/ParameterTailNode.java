@@ -28,11 +28,9 @@ public class ParameterTailNode implements JottTree {
 	public static ParameterTailNode parseParameterTailNode(ArrayList<Token> tokens) throws Exception {
 		Token token;
 		if (tokens.get(0).getTokenType() == TokenType.COMMA) {
-			token = tokens.get(0);
 			tokens.remove(0); // following StringLiteralNode for example
 			ExpressionNode expr = ExpressionNode.parseExpressionNode(tokens);
 			if (expr != null) {
-				token = tokens.get(0);
 				ParameterTailNode params_t = ParameterTailNode.parseParameterTailNode(tokens);
 				if (params_t != null) {
 					token = tokens.get(0);

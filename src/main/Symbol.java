@@ -25,14 +25,12 @@ public class Symbol {
         return false;
     }
 
-    public boolean addParam(String symbolName, String type) {
+    public void addParam(String symbolName, String type) {
         if (!symbolTable.containsKey(symbolName)) {
             if (addSymbol(symbolName, type)) {
                 paramList.add(type);
             }
-            return true;
         }
-        return false;
     }
 
     public int getParamLength(){

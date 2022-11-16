@@ -3,7 +3,6 @@ package Nodes;
 import main.JottTree;
 import main.SymbolTable;
 import main.Token;
-import main.TokenType;
 
 import java.util.ArrayList;
 import java.util.Collections;
