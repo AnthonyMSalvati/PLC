@@ -416,13 +416,13 @@ public class BooleanExpressionNode implements JottTree {
     @Override
     public boolean validateTree(SymbolTable symbolTable) throws Exception {
         if (functionCallNode != null) {
-            return functionCallNode.validateTree();
+            return functionCallNode.validateTree(symbolTable);
         }
         if (idNode != null) {
-            return idNode.validateTree();
+            return idNode.validateTree(symbolTable);
         }
         if (booleanNode != null) {
-            return booleanNode.validateTree();
+            return booleanNode.validateTree(symbolTable);
         }
         if (integerExpressionNode1 != null) {
             if (relationOperatorNode != null) {

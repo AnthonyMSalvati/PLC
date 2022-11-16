@@ -11,6 +11,18 @@ public class SymbolTable {
         this.currentScope = "global";
         this.scopes = new HashMap<>();
         this.scopes.put("global", new Symbol());
+        addFunction("print", "Void");
+        addFunction("input", "String");
+        this.currentScope = "input";
+        addParam("string", "String");
+        addParam("length", "Integer");
+        addFunction("concat", "String");
+        this.currentScope = "concat";
+        addParam("s1", "String");
+        addParam("s2", "String");
+        addFunction("length", "Integer");
+        this.currentScope = "length";
+        addParam("string", "String");
     }
 
     public boolean addScope (String functionName) {
@@ -51,6 +63,14 @@ public class SymbolTable {
             return symbol.getParamLength();
         }
         return -1;
+    }
+
+    public String getParamType(String functionName, int index) {
+        if (!scopes.containsKey(functionName)){
+            Symbol symbol = scopes.get(functionName);
+            return symbol.getParamType(index);
+        }
+        return null;
     }
 
     public String getType (String symbolName) {

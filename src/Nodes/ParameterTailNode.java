@@ -1,9 +1,6 @@
 package Nodes;
 
-import main.JottTree;
-import main.Token;
-import main.TokenType;
-import main.InvalidParseException;
+import main.*;
 
 import java.util.ArrayList;
 
@@ -14,27 +11,32 @@ public class ParameterTailNode implements JottTree {
 
 	private final ExpressionNode expr;
 	private final ParameterTailNode params_t;
+	private final Token lastToken;
+
+	private int paramIndex = 0;
+	private String functionName = "";
 
 	// ,<expr><params_t>
-	public ParameterTailNode(ExpressionNode expr, ParameterTailNode params_t) {
+	public ParameterTailNode(ExpressionNode expr, ParameterTailNode params_t, Token token) {
 		this.expr = expr;
 		this.params_t = params_t;
+		this.lastToken = token;
 	}
 
-	// epsilon case
-    public ParameterTailNode() {
-		this.expr = null;
-		this.params_t = null;
-    }
+
 	
 	public static ParameterTailNode parseParameterTailNode(ArrayList<Token> tokens) throws Exception {
+		Token token;
 		if (tokens.get(0).getTokenType() == TokenType.COMMA) {
+			token = tokens.get(0);
 			tokens.remove(0); // following StringLiteralNode for example
 			ExpressionNode expr = ExpressionNode.parseExpressionNode(tokens);
 			if (expr != null) {
+				token = tokens.get(0);
 				ParameterTailNode params_t = ParameterTailNode.parseParameterTailNode(tokens);
 				if (params_t != null) {
-					return new ParameterTailNode(expr, params_t);
+					token = tokens.get(0);
+					return new ParameterTailNode(expr, params_t, token);
 				}
 				throw new InvalidParseException("Error: expected <params_t>", 
 				tokens.get(0).getFilename(), tokens.get(0).getLineNum());
@@ -43,6 +45,24 @@ public class ParameterTailNode implements JottTree {
 			tokens.get(0).getFilename(), tokens.get(0).getLineNum());
 		}
 		return null;
+	}
+
+	public int getParamLength (int length) {
+		if (expr != null) {
+			if (this.params_t != null) {
+				return params_t.getParamLength(length + 1);
+			}
+			return length + 1;
+		}
+		return length;
+	}
+
+	public void setParamIndex (int paramIndex) {
+		this.paramIndex = paramIndex;
+	}
+
+	public void setFunctionName (String functionName) {
+		this.functionName = functionName;
 	}
 
     @Override
@@ -68,19 +88,28 @@ public class ParameterTailNode implements JottTree {
 
     @Override
     public String convertToPython(int nestLevel) { //Ian
-		if (this.expr != null) { // if expr exists, params_t must exist
-			return ", " + this.expr.convertToPython(nestLevel)
-				+ this.params_t.convertToPython(nestLevel);
+		if (this.expr != null) {
+			if (this.params_t != null) {
+				return ", " + this.expr.convertToPython(nestLevel) + this.params_t.convertToPython(nestLevel);
+			}
+			return ", " + this.expr.convertToPython(nestLevel);
 		}
         return "";
     }
 
     @Override
     public boolean validateTree(SymbolTable symbolTable) throws Exception {
-		if (this.expr != null) { // if expr is not null then params_t cannot be null
-			return this.expr.validateTree(symbolTable) && this.params_t.validateTree(symbolTable);
+		if (this.expr != null) {
+			if (expr.getType(symbolTable).equals(symbolTable.getParamType(functionName, paramIndex))) {
+				if (this.params_t != null) {
+					params_t.setParamIndex(paramIndex + 1);
+					params_t.setFunctionName(functionName);
+					return this.expr.validateTree(symbolTable) && this.params_t.validateTree(symbolTable);
+				}
+				return this.expr.validateTree(symbolTable);
+			}
+			throw new InvalidValidateException("Parameter type does not match", this.lastToken.getFilename(), this.lastToken.getLineNum());
 		}
-		// epsilon instance case
-        return true;
-    }
+		return true;
+	}
 }

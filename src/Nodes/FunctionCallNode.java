@@ -1,9 +1,6 @@
 package Nodes;
 
-import main.InvalidParseException;
-import main.JottTree;
-import main.Token;
-import main.TokenType;
+import main.*;
 
 import java.util.ArrayList;
 
@@ -14,15 +11,18 @@ public class FunctionCallNode implements JottTree {
 
 	private final IdNode id;
 	private final ParameterNode params;
+    private final Token lastToken;
 	
-	public FunctionCallNode(IdNode id) {
+	public FunctionCallNode(IdNode id, Token token) {
 		this.id = id;
 		this.params = null;
+        this.lastToken = token;
 	}
 
-    public FunctionCallNode(IdNode id, ParameterNode params) {
+    public FunctionCallNode(IdNode id, ParameterNode params, Token token) {
 		this.id = id;
 		this.params = params;
+        this.lastToken = token;
     }
 
     public static FunctionCallNode parseFunctionCallNode(ArrayList<Token> tokens) throws Exception {
@@ -40,7 +40,7 @@ public class FunctionCallNode implements JottTree {
                             token = tokens.get(0);
                             if (token.getTokenType() == TokenType.R_BRACKET) {
                                 tokens.remove(0);
-                                return new FunctionCallNode(id, params);
+                                return new FunctionCallNode(id, params, token);
                             }
                             throw new InvalidParseException("Error: expected \"]\"", token.getFilename(),
                                     token.getLineNum());
@@ -48,7 +48,7 @@ public class FunctionCallNode implements JottTree {
                         token = tokens.get(0);
                         if (token.getTokenType() == TokenType.R_BRACKET) {
                             tokens.remove(0);
-                            return new FunctionCallNode(id);
+                            return new FunctionCallNode(id, token);
                         }
                         throw new InvalidParseException("Error: expected \"]\"", token.getFilename(),
                                 token.getLineNum());
@@ -60,6 +60,10 @@ public class FunctionCallNode implements JottTree {
             }
         }
         return null;
+    }
+
+    public String getType(SymbolTable symbolTable) {
+        return symbolTable.getFunctionReturnType(id.getName());
     }
 
     @Override
@@ -95,18 +99,21 @@ public class FunctionCallNode implements JottTree {
     @Override
     public boolean validateTree(SymbolTable symbolTable) throws Exception {
 		// make sure function exists
-		// TODO is this right? Is this even meant to be here? I do not know.
-		if (symbolTable.getType(id.getName()) == null) {
-			throw new InvalidValidateException("Function not found", this.id.getName());
-			// TODO check correctness of above line
+		if (symbolTable.getFunctionReturnType(id.getName()) == null) {
+			throw new InvalidValidateException("Function has not yet been defined", this.lastToken.getFilename(), this.lastToken.getLineNum());
 		}
-		
-		// unsure how scope handling/changing should be implemented here -Ian
-		
-		
-		if (this.params == null) {
-			return this.id.validateTree(symbolTable) && this.params.validateTree(symbolTable);
-		}
+
+        // Check parameter length matches
+        if (symbolTable.getParamLength(id.getName()) > 0) {
+            if (this.params != null) {
+                params.setFunctionName(id.getName());
+                if (symbolTable.getParamLength(id.getName()) == this.params.getParamLength()) {
+                    return this.id.validateTree(symbolTable) && this.params.validateTree(symbolTable);
+                }
+            }
+            throw new InvalidValidateException("Number of parameters does not match function", this.lastToken.getFilename(), this.lastToken.getLineNum());
+        }
+
         return this.id.validateTree(symbolTable);
     }
 }
