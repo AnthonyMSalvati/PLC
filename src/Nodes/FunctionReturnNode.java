@@ -58,8 +58,9 @@ public class FunctionReturnNode implements JottTree {
     }
 
     @Override
-    public String convertToPython(int nestLevel) {
-        return null;
+    public String convertToPython(int nestLevel) { //Ian
+		//return types are implicit in python, so this has no usage
+        return "";
     }
 
     @Override

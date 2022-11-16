@@ -57,8 +57,9 @@ public class FunctionListNode implements JottTree {
     }
 
     @Override
-    public String convertToPython(int nestLevel) {
-        return null;
+    public String convertToPython(int nestLevel) { //Ian
+        return this.functionDefNode.convertToPython(nestLevel)
+			+ (this.functionListNode != null ? this.functionListNode.convertToPython(nestLevel):"");
     }
 
     @Override

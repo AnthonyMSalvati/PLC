@@ -81,8 +81,9 @@ public class FunctionDefParamsTailNode implements JottTree {
     }
 
     @Override
-    public String convertToPython(int nestLevel) {
-        return null;
+    public String convertToPython(int nestLevel) { //Ian
+		return this.idNode.convertToPython(nestLevel)
+			+ (this.functionDefParamsTailNode != null ? ", " + this.functionDefParamsTailNode.convertToPython(nestLevel) : "");
     }
 
     @Override
