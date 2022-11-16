@@ -12,6 +12,8 @@ public class BodyNode implements JottTree {
     private final BodyNode bodyNode;
     private final ReturnStatementNode returnStmNode;
 
+
+
     public BodyNode(BodyStatementNode bodyStmNode, BodyNode bodyNode, ReturnStatementNode returnStmNode) {
         this.bodyStmNode = bodyStmNode;
         this.bodyNode = bodyNode;
@@ -39,6 +41,10 @@ public class BodyNode implements JottTree {
             return null;
         }
 
+    }
+
+    public String getType(SymbolTable symbolTable){
+        return this.returnStmNode.getType(symbolTable);
     }
 
 

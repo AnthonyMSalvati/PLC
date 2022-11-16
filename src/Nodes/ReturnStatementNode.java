@@ -38,6 +38,9 @@ public class ReturnStatementNode implements JottTree {
         return null;
     }    
 
+    public String getType(SymbolTable symbolTable){
+        return this.expNode.getType(symbolTable);
+    }
     @Override
     public String convertToJott() {
         return value + " " + expNode.convertToJott() + endStmNode.convertToJott();

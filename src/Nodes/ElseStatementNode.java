@@ -10,6 +10,7 @@ public class ElseStatementNode implements JottTree {
     public ElseStatementNode(BodyNode bodyNode)
     {
         this.bodyNode = bodyNode;
+
     }
 
     public ElseStatementNode()
@@ -21,6 +22,7 @@ public class ElseStatementNode implements JottTree {
     {
         Token token;
         token = tokens.get(0);
+        String returnType = "";
         if (!(token.getToken().equals("else")))
         {
             return new ElseStatementNode();
@@ -56,6 +58,10 @@ public class ElseStatementNode implements JottTree {
             }
         }
         return null;
+    }
+
+    public String getType(SymbolTable symbolTable){
+        return this.bodyNode.getType(symbolTable);
     }
     @Override
     public String convertToJott()
