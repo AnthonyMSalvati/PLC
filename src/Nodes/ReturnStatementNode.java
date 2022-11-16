@@ -45,12 +45,14 @@ public class ReturnStatementNode implements JottTree {
 
     @Override
     public String convertToJava() {
-        return null;
+        return "return " + this.expNode.convertToJava()
+			+ this.endStmNode.convertToJava();
     }
 
     @Override
     public String convertToC() {
-        return null;
+        return "return " + this.expNode.convertToC()
+			+ this.endStmNode.convertToC();
     }
 
     @Override
@@ -62,7 +64,7 @@ public class ReturnStatementNode implements JottTree {
     @Override
     public boolean validateTree(SymbolTable symbolTable) throws Exception {
         if (value != null && expNode != null && endStmNode != null) {
-            return expNode.validateTree() && endStmNode.validateTree();
+            return expNode.validateTree(symbolTable) && endStmNode.validateTree(symbolTable);
         }
         return false;
     }

@@ -39,12 +39,12 @@ public class TypeNode implements JottTree {
 
     @Override
     public String convertToJava() {
-        return null;
+        return type;
     }
 
     @Override
     public String convertToC() {
-        return null;
+        return type;
     }
 
     @Override

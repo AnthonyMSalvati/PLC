@@ -47,12 +47,24 @@ public class BodyStatementNode implements JottTree {
 
     @Override
     public String convertToJava() {
-        return null;
+        if (ifStmNode != null) {
+            return ifStmNode.convertToJava();
+        } else if (whileNode != null) {
+            return whileNode.convertToJava();
+        } else {
+            return stmNode.convertToJava();
+        }
     }
 
     @Override
     public String convertToC() {
-        return null;
+        if (ifStmNode != null) {
+            return ifStmNode.convertToC();
+        } else if (whileNode != null) {
+            return whileNode.convertToC();
+        } else {
+            return stmNode.convertToC();
+        }
     }
 
     @Override
@@ -72,11 +84,11 @@ public class BodyStatementNode implements JottTree {
     @Override
     public boolean validateTree(SymbolTable symbolTable) throws Exception {
         if (ifStmNode != null && whileNode == null && stmNode == null) {
-            return ifStmNode.validateTree();
+            return ifStmNode.validateTree(symbolTable);
         } else if (ifStmNode == null && whileNode != null && stmNode == null) {
-            return whileNode.validateTree();
+            return whileNode.validateTree(symbolTable);
         } else if (ifStmNode == null && whileNode == null && stmNode != null) {
-            return stmNode.validateTree();
+            return stmNode.validateTree(symbolTable);
         }
         return false;
     }

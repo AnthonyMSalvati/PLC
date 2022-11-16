@@ -49,12 +49,20 @@ public class FunctionReturnNode implements JottTree {
 
     @Override
     public String convertToJava() {
-        return null;
+        if (typeNode != null){
+            return typeNode.convertToJava();
+        } else {
+            return voidNode;
+        }
     }
 
     @Override
     public String convertToC() {
-        return null;
+        if (typeNode != null){
+            return typeNode.convertToC();
+        } else {
+            return voidNode;
+        }
     }
 
     @Override

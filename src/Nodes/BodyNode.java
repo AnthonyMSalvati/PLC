@@ -58,12 +58,30 @@ public class BodyNode implements JottTree {
 
     @Override
     public String convertToJava() {
-        return null;
+        if (bodyStmNode != null) {
+            if (bodyNode != null) {
+                return bodyStmNode.convertToJava() + bodyNode.convertToJava();
+            }
+            return bodyStmNode.convertToJava();
+        }
+        if (returnStmNode != null) {
+            return returnStmNode.convertToJava();
+        }
+        return "";
     }
 
     @Override
     public String convertToC() {
-        return null;
+        if (bodyStmNode != null) {
+            if (bodyNode != null) {
+                return bodyStmNode.convertToC() + bodyNode.convertToC();
+            }
+            return bodyStmNode.convertToC();
+        }
+        if (returnStmNode != null) {
+            return returnStmNode.convertToC();
+        }
+        return "";
     }
 
     @Override
