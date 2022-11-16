@@ -120,7 +120,7 @@ public class FunctionDefNode implements JottTree {
 		}
 		return nestIndent + "def " + this.idNode.convertToPython(nestLevel) + "("
 			+ (this.functionDefParamsNode!=null?this.functionDefParamsNode.convertToPython(nestLevel):"") + "):"
-			+ (this.bodyNode!=null?"\n"+this.bodyNode.convertToPython(nestLevel+1):" return False") + "\n"
+			+ (this.bodyNode!=null?"\n"+this.bodyNode.convertToPython(nestLevel+1):" return False") + "\n";
     }
 
     @Override
@@ -138,17 +138,17 @@ public class FunctionDefNode implements JottTree {
 
         if (functionDefParamsNode != null) {
             if (bodyNode != null) {
-                return idNode.validateTree() && functionDefParamsNode.validateTree(symbolTable) &&
+                return idNode.validateTree(symbolTable) && functionDefParamsNode.validateTree(symbolTable) &&
                         functionReturnNode.validateTree(symbolTable) && bodyNode.validateTree(symbolTable);
             }
-            return idNode.validateTree() && functionDefParamsNode.validateTree(symbolTable) &&
+            return idNode.validateTree(symbolTable) && functionDefParamsNode.validateTree(symbolTable) &&
                     functionReturnNode.validateTree(symbolTable);
         }
         if (bodyNode != null) {
-            return idNode.validateTree() && functionReturnNode.validateTree(symbolTable) &&
+            return idNode.validateTree(symbolTable) && functionReturnNode.validateTree(symbolTable) &&
                     bodyNode.validateTree(symbolTable);
         }
-        return idNode.validateTree() && functionReturnNode.validateTree(symbolTable);
+        return idNode.validateTree(symbolTable) && functionReturnNode.validateTree(symbolTable);
 
     }
 }

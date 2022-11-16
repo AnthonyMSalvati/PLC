@@ -39,6 +39,10 @@ public class Symbol {
         return paramList.size();
     }
 
+    public String getParamType(int index){
+        return paramList.get(index);
+    }
+
     public String getType (String symbolName){
         if (symbolTable.containsKey(symbolName)){
             return symbolName;
