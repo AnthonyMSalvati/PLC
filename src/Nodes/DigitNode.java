@@ -37,12 +37,12 @@ public class DigitNode implements JottTree {
 
     @Override
     public String convertToJava() {
-        return null;
+        return String.valueOf(this.number);
     }
 
     @Override
     public String convertToC() {
-        return null;
+        return String.valueOf(this.number);
     }
 
     @Override

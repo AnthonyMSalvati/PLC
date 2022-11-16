@@ -39,12 +39,12 @@ public class LowerCharNode implements JottTree {
 
     @Override
     public String convertToJava() {
-        return null;
+        return this.character;
     }
 
     @Override
     public String convertToC() {
-        return null;
+        return this.character;
     }
 
     @Override

@@ -60,12 +60,20 @@ public class IntegerNode implements JottTree {
 
     @Override
     public String convertToJava() {
-        return null;
+        if (sign != null) {
+            return this.sign.convertToJava()
+				+ this.number.convertToJava();
+        }
+        return this.number.convertToJava();
     }
 
     @Override
     public String convertToC() {
-        return null;
+        if (sign != null) {
+            return this.sign.convertToC()
+				+ this.number.convertToC();
+        }
+        return this.number.convertToC();
     }
 
     @Override

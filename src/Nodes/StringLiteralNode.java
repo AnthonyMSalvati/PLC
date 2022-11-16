@@ -38,12 +38,12 @@ public class StringLiteralNode implements JottTree {
 
     @Override
     public String convertToJava() {
-        return null;
+        return "\"" + this.value + "\"";
     }
 
     @Override
     public String convertToC() {
-        return null;
+        return "\"" + this.value + "\"";
     }
 
     @Override

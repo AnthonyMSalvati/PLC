@@ -78,12 +78,20 @@ public class DoubleNode implements JottTree {
 
     @Override
     public String convertToJava() {
-        return null;
+        if (this.sign != null) {
+            return this.sign.convertToJava()
+				+ String.valueOf(this.number);
+        }
+        return String.valueOf(this.number);
     }
 
     @Override
     public String convertToC() {
-        return null;
+        if (this.sign != null) {
+            return this.sign.convertToC()
+				+ String.valueOf(this.number);
+        }
+        return String.valueOf(this.number);
     }
 
     @Override

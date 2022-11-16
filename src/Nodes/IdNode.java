@@ -49,12 +49,12 @@ public class IdNode implements JottTree {
 
     @Override
     public String convertToJava() {
-        return null;
+        return this.value;
     }
 
     @Override
     public String convertToC() {
-        return null;
+        return this.value;
     }
 
     @Override
