@@ -3,7 +3,6 @@ package main;
 public class JottNode implements JottTree{
 
     private String value;
-    private String type;
 
     @Override
     public String convertToJott() {
@@ -26,7 +25,7 @@ public class JottNode implements JottTree{
     }
 
     @Override
-    public boolean validateTree() {
+    public boolean validateTree(SymbolTable symbolTable) throws Exception {
         return false;
     }
 }
