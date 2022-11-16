@@ -80,10 +80,16 @@ public class StringExpressionNode implements JottTree {
     }
 
     @Override
-    public String convertToPython() { //Ian
-		if (this.stringLiteralNode != null) {return this.stringLiteralNode.convertToPython();}
-		if (this.idNode != null) {return this.idNode.convertToPython();}
-		if (this.functionCallNode != null) {return this.functionCallNode.convertToPython();}
+    public String convertToPython(int nestLevel) { //Ian
+		if (this.stringLiteralNode != null) {
+			return this.stringLiteralNode.convertToPython(nestLevel);
+		}
+		if (this.idNode != null) {
+			return this.idNode.convertToPython(nestLevel);
+		}
+		if (this.functionCallNode != null) {
+			return this.functionCallNode.convertToPython(nestLevel);
+		}
         return "";
     }
 

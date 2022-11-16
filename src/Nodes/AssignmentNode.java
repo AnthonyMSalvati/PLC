@@ -317,19 +317,27 @@ public class AssignmentNode implements JottTree {
     }
 
     @Override
-    public String convertToPython() { //Ian
+    public String convertToPython(int nestLevel) { //Ian
 		// python is all implicit variable declarations
-		if (this.doubleExpressionNode != null) {return idNode.convertToPython() + "=" +
-			this.doubleExpressionNode.convertToPython() + this.endStatementNode.convertToPython();
+		if (this.doubleExpressionNode != null) {
+			return this.idNode.convertToPython(nestLevel) + "="
+				+ this.doubleExpressionNode.convertToPython(nestLevel)
+				+ this.endStatementNode.convertToPython(nestLevel);
 		}
-		if (this.integerExpressionNode != null) {return idNode.convertToPython() + "=" +
-			this.integerExpressionNode.convertToPython() + this.endStatementNode.convertToPython();
+		if (this.integerExpressionNode != null) {
+			return this.idNode.convertToPython(nestLevel) + "="
+				+ this.integerExpressionNode.convertToPython(nestLevel)
+				+ this.endStatementNode.convertToPython(nestLevel);
 		}
-		if (this.stringExpressionNode != null) {return idNode.convertToPython() + "=" +
-			this.stringExpressionNode.convertToPython() + this.endStatementNode.convertToPython();
+		if (this.stringExpressionNode != null) {
+			return this.idNode.convertToPython(nestLevel) + "="
+				+ this.stringExpressionNode.convertToPython(nestLevel)
+				+ this.endStatementNode.convertToPython(nestLevel);
 		}
-		if (this.booleanExpressionNode != null) {return idNode.convertToPython() + "=" +
-			this.booleanExpressionNode.convertToPython() + this.endStatementNode.convertToPython();
+		if (this.booleanExpressionNode != null) {
+			return this.idNode.convertToPython(nestLevel) + "="
+				+ this.booleanExpressionNode.convertToPython(nestLevel)
+				+ this.endStatementNode.convertToPython(nestLevel);
 		}
 		return "";
     }

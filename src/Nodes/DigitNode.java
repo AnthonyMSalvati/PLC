@@ -46,7 +46,7 @@ public class DigitNode implements JottTree {
     }
 
     @Override
-    public String convertToPython() { //Ian
+    public String convertToPython(int nestLevel) { //Ian
         return String.valueOf(this.number);
     }
 

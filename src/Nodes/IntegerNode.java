@@ -69,11 +69,12 @@ public class IntegerNode implements JottTree {
     }
 
     @Override
-    public String convertToPython() { //Ian
+    public String convertToPython(int nestLevel) { //Ian
         if (sign != null) {
-            return this.sign.convertToPython() + this.number.convertToPython();
+            return this.sign.convertToPython(nestLevel)
+				+ this.number.convertToPython(nestLevel);
         }
-        return this.number.convertToPython();
+        return this.number.convertToPython(nestLevel);
     }
 
     @Override

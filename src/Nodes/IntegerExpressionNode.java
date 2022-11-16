@@ -240,35 +240,35 @@ public class IntegerExpressionNode implements JottTree {
     }
 
     @Override
-    public String convertToPython() { //Ian
+    public String convertToPython(int nestLevel) { //Ian
 		if (this.operatorNode == null) {
 			if (this.idNode != null) {
-				return this.idNode.convertToPython();
+				return this.idNode.convertToPython(nestLevel);
 			} else {
-				return this.functionCallNode.convertToPython();
+				return this.functionCallNode.convertToPython(nestLevel);
 			}
 		}
 		if (this.integerNode2 != null) {
-			return this.integerNode1.convertToPython()
-				+ this.operatorNode.convertToPython()
-				+ this.integerNode2.convertToPython();
+			return this.integerNode1.convertToPython(nestLevel)
+				+ this.operatorNode.convertToPython(nestLevel)
+				+ this.integerNode2.convertToPython(nestLevel);
 		if (this.idNode == null && this.integerExpressionNode == null) {
-			return this.integerNode1.convertToPython();
+			return this.integerNode1.convertToPython(nestLevel);
 		}
 		if (this.idNode == null) {
-			return this.integerNode1.convertToPython()
-				+ this.operatorNode.convertToPython()
-				+ this.integerExpressionNode.convertToPython();
+			return this.integerNode1.convertToPython(nestLevel)
+				+ this.operatorNode.convertToPython(nestLevel)
+				+ this.integerExpressionNode.convertToPython(nestLevel);
 		}
 		if (this.integerNode1 == null) {
-			return this.idNode.convertToPython()
-				+ this.operatorNode.convertToPython()
-				+ this.integerExpressionNode.convertToPython();
+			return this.idNode.convertToPython(nestLevel)
+				+ this.operatorNode.convertToPython(nestLevel)
+				+ this.integerExpressionNode.convertToPython(nestLevel);
 		}
 		if (this.integerExpressionNode == null) {
-			return this.integerNode1.convertToPython()
-				+ this.operatorNode.convertToPython()
-				+ this.idNode.convertToPython();
+			return this.integerNode1.convertToPython(nestLevel)
+				+ this.operatorNode.convertToPython(nestLevel)
+				+ this.idNode.convertToPython(nestLevel);
 		}
 		return "";
     }

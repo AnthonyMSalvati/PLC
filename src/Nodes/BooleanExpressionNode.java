@@ -380,35 +380,35 @@ public class BooleanExpressionNode implements JottTree {
     }
 
     @Override
-    public String convertToPython() { //Ian
+    public String convertToPython(int nestLevel) { //Ian
         if (this.idNode != null) {
-			return this.idNode.convertToPython();
+			return this.idNode.convertToPython(nestLevel);
 		}
         if (this.functionCallNode != null) {
-			return this.functionCallNode.convertToPython();
+			return this.functionCallNode.convertToPython(nestLevel);
 		}
         if (this.booleanNode != null) {
-			return this.booleanNode.convertToPython();
+			return this.booleanNode.convertToPython(nestLevel);
 		}
         if (this.integerExpressionNode1 != null) {
-			return this.integerExpressionNode1.convertToPython()
-				+ this.relationOperatorNode.convertToPython()
-				+ this.integerExpressionNode2.convertToPython();
+			return this.integerExpressionNode1.convertToPython(nestLevel)
+				+ this.relationOperatorNode.convertToPython(nestLevel)
+				+ this.integerExpressionNode2.convertToPython(nestLevel);
 		}
         if (this.doubleExpressionNode1 != null) {
-			return this.doubleExpressionNode1.convertToPython()
-				+ this.relationOperatorNode.convertToPython()
-				+ this.doubleExpressionNode2.convertToPython();
+			return this.doubleExpressionNode1.convertToPython(nestLevel)
+				+ this.relationOperatorNode.convertToPython(nestLevel)
+				+ this.doubleExpressionNode2.convertToPython(nestLevel);
 		}
         if (this.stringExpressionNode1 != null) {
-			return this.stringExpressionNode1.convertToPython()
-				+ this.relationOperatorNode.convertToPython()
-				+ this.stringExpressionNode2.convertToPython();
+			return this.stringExpressionNode1.convertToPython(nestLevel)
+				+ this.relationOperatorNode.convertToPython(nestLevel)
+				+ this.stringExpressionNode2.convertToPython(nestLevel);
 		}
         if (this.booleanExpressionNode1 != null) {
-			return this.booleanExpressionNode1.convertToPython()
-				+ this.relationOperatorNode.convertToPython()
-				+ this.booleanExpressionNode2.convertToPython();
+			return this.booleanExpressionNode1.convertToPython(nestLevel)
+				+ this.relationOperatorNode.convertToPython(nestLevel)
+				+ this.booleanExpressionNode2.convertToPython(nestLevel);
 		}
         return "";
     }

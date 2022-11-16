@@ -116,7 +116,8 @@ public class ElseIfStatementNode implements JottTree {
 		for (int i=0;i<nestLevel;i++) {
 			nestIndent = nestIndent + "\t";
 		}
-		return nestIndent + "elif (" + this.booleanExpressionNode.convertToPython() + "):\n"
+		return nestIndent + "elif ("
+			+ this.booleanExpressionNode.convertToPython(nestLevel) + "):\n"
 			+ this.bodyNode.convertToPython(nestLevel + 1) + "\n"
 			+ (this.elseIfStatementNode != null ? this.elseIfStatementNode.convertToPython(nestLevel):"");
     }

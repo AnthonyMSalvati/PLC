@@ -55,9 +55,10 @@ public class ProgramNode implements JottTree {
     }
 
     @Override
-    public String convertToPython() { //Ian
+    public String convertToPython(int nestLevel) { //Ian
         if (functionListNode != null) {
-			return functionListNode.convertToPython(0);
+			// nestLevel should be zero
+			return functionListNode.convertToPython(nestLevel);
 		}
 		return "";
     }

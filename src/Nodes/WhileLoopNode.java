@@ -96,8 +96,8 @@ public class WhileLoopNode implements JottTree {
 
     @Override
     public String convertToPython(int nestLevel) { //Ian
-		return "while (" + this.booleanExpressionNode.convertToPython() + "):\n"
-			+ this.bodyNode.convertToPython(nestLevel + 1) + "\n";
+		return "while (" + this.booleanExpressionNode.convertToPython(nestLevel)
+			+ "):\n" + this.bodyNode.convertToPython(nestLevel + 1) + "\n";
     }
 
     @Override

@@ -203,13 +203,25 @@ public class ExpressionNode implements JottTree {
     }
 
     @Override
-    public String convertToPython() { //Ian
-		if (this.idNode != null) {return this.idNode.convertToPython();}
-		if (this.functionCallNode != null) {return this.functionCallNode.convertToPython();}
-		if (this.integerExpressionNode != null) {return this.integerExpressionNode.convertToPython();}
-		if (this.doubleExpressionNode != null) {return this.doubleExpressionNode.convertToPython();}
-		if (this.stringExpressionNode != null) {return this.stringExpressionNode.convertToPython();}
-		if (this.booleanExpressionNode != null) {return this.booleanExpressionNode.convertToPython();}
+    public String convertToPython(int nestLevel) { //Ian
+		if (this.idNode != null) {
+			return this.idNode.convertToPython(nestLevel);
+		}
+		if (this.functionCallNode != null) {
+			return this.functionCallNode.convertToPython(nestLevel);
+		}
+		if (this.integerExpressionNode != null) {
+			return this.integerExpressionNode.convertToPython(nestLevel);
+		}
+		if (this.doubleExpressionNode != null) {
+			return this.doubleExpressionNode.convertToPython(nestLevel);
+		}
+		if (this.stringExpressionNode != null) {
+			return this.stringExpressionNode.convertToPython(nestLevel);
+		}
+		if (this.booleanExpressionNode != null) {
+			return this.booleanExpressionNode.convertToPython(nestLevel);
+		}
         return "";
     }
 

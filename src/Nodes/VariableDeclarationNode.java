@@ -63,9 +63,10 @@ public class VariableDeclarationNode implements JottTree {
     }
 
     @Override
-    public String convertToPython() { //Ian
-		// variables are declared at assignment in python
-        return "";
+    public String convertToPython(int nestLevel) { //Ian
+		// variables are declared at assignment in python, but here is an equivalent
+        return this.idNode.convertToPython(nestLevel)
+			+ " = None" + this.endStatementNode.convertToPython(nestLevel);
     }
 
     @Override

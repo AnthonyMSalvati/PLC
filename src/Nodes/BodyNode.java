@@ -72,7 +72,9 @@ public class BodyNode implements JottTree {
 		for (int i=0;i<nestLevel;i++) {
 			nestIndent = nestIndent + "\t";
 		}
-		if (this.returnStmNode != null) {return nestIndent + this.returnStmNode.convertToPython();}
+		if (this.returnStmNode != null) {
+			return nestIndent + this.returnStmNode.convertToPython(nestLevel);
+			}
 		return nestIndent + this.bodyStmNode.convertToPython(nestLevel)
 			+ this.bodyNode.convertToPython(nestLevel);
     }

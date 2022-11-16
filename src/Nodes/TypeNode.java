@@ -48,7 +48,7 @@ public class TypeNode implements JottTree {
     }
 
     @Override
-    public String convertToPython() { //Ian
+    public String convertToPython(int nestLevel) { //Ian
 		// as far as I can tell, TypeNode has no purpose in python, I think
         return "";
     }

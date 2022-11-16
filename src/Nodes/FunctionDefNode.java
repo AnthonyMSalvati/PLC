@@ -118,8 +118,8 @@ public class FunctionDefNode implements JottTree {
 		for (int i=0;i<nestLevel;i++) {
 			nestIndent = nestIndent + "\t";
 		}
-		return nestIndent + "def " + this.idNode.convertToPython() + "("
-			+ (this.functionDefParamsNode!=null?this.functionDefParamsNode.convertToPython():"") + "):"
+		return nestIndent + "def " + this.idNode.convertToPython(nestLevel) + "("
+			+ (this.functionDefParamsNode!=null?this.functionDefParamsNode.convertToPython(nestLevel):"") + "):"
 			+ (this.bodyNode!=null?"\n"+this.bodyNode.convertToPython(nestLevel+1):" return False") + "\n"
     }
 

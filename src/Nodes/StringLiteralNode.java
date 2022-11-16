@@ -47,9 +47,8 @@ public class StringLiteralNode implements JottTree {
     }
 
     @Override
-    public String convertToPython() { //Ian
+    public String convertToPython(int nestLevel) { //Ian
 		return "\"" + this.value + "\""; //assumed strings need quotes
-        //return this.value;
     }
 
     @Override
