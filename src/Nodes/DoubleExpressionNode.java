@@ -157,10 +157,9 @@ public class DoubleExpressionNode implements JottTree {
         return null;
     }
 
-    public String getType(SymbolTable symbolTable){
+    public String getType(SymbolTable symbolTable) throws Exception {
         if (functionCallNode != null) {
-            //TODO change
-            return "";
+            return functionCallNode.getType(symbolTable);
         }
 
         if (idNode != null) {
@@ -172,7 +171,7 @@ public class DoubleExpressionNode implements JottTree {
                     return null;
                 }
                 if(doubleNode1 != null) {
-                    return "Integer";
+                    return "Double";
                 }
             }
             return symbolTable.getType(idNode.getName());
@@ -181,13 +180,13 @@ public class DoubleExpressionNode implements JottTree {
         if (doubleNode1 != null) {
             if (operatorNode != null) {
                 if (doubleExpressionNode != null) {
-                    return "Integer";
+                    return "Double";
                 }
                 if(doubleNode2 != null) {
-                    return "Integer";
+                    return "Double";
                 }
             }
-            return "Integer";
+            return "Double";
         }
         return null;
     }
@@ -277,37 +276,37 @@ public class DoubleExpressionNode implements JottTree {
     @Override
     public boolean validateTree(SymbolTable symbolTable) throws Exception {
         if (functionCallNode != null) {
-            return functionCallNode.validateTree();
+            return functionCallNode.validateTree(symbolTable);
         }
 
         if (idNode != null) {
             if (operatorNode != null) {
                 if (doubleExpressionNode != null) {
                     if (symbolTable.getType(idNode.getName()).equals(doubleExpressionNode.getType(symbolTable))) {
-                        return idNode.validateTree() && operatorNode.validateTree() &&
+                        return idNode.validateTree(symbolTable) && operatorNode.validateTree(symbolTable) &&
                                 doubleExpressionNode.validateTree(symbolTable);
                     }
                 }
                 if(doubleNode1 != null) {
-                    if (symbolTable.getType(idNode.getName()).equals("Integer")) {
-                        return idNode.validateTree() && operatorNode.validateTree() &&
+                    if (symbolTable.getType(idNode.getName()).equals("Double")) {
+                        return idNode.validateTree(symbolTable) && operatorNode.validateTree(symbolTable) &&
                                 doubleNode1.validateTree(symbolTable);
                     }
                 }
             }
-            return idNode.validateTree();
+            return idNode.validateTree(symbolTable);
         }
 
         if (doubleNode1 != null) {
             if (operatorNode != null) {
                 if (doubleExpressionNode != null) {
-                    if (doubleExpressionNode.getType(symbolTable).equals("Integer")) {
-                        return doubleNode1.validateTree(symbolTable) && operatorNode.validateTree() &&
+                    if (doubleExpressionNode.getType(symbolTable).equals("Double")) {
+                        return doubleNode1.validateTree(symbolTable) && operatorNode.validateTree(symbolTable) &&
                                 doubleExpressionNode.validateTree(symbolTable);
                     }
                 }
                 if(doubleNode2 != null) {
-                    return doubleNode1.validateTree(symbolTable) && operatorNode.validateTree() &&
+                    return doubleNode1.validateTree(symbolTable) && operatorNode.validateTree(symbolTable) &&
                             doubleNode2.validateTree(symbolTable);
                 }
             }

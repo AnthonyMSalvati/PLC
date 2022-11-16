@@ -21,9 +21,11 @@ public class AssignmentNode implements JottTree {
     private final EndStatementNode endStatementNode;
     private final boolean firstDeclaration;
 
+    private final Token lastToken;
+
     // Double < id > = < d_expr > < end_statement >
     public AssignmentNode(String value, IdNode idNode,
-                          DoubleExpressionNode doubleExpressionNode, EndStatementNode endStatementNode) {
+                          DoubleExpressionNode doubleExpressionNode, EndStatementNode endStatementNode, Token token) {
         this.value = value;
         this.idNode = idNode;
         this.doubleExpressionNode = doubleExpressionNode;
@@ -32,11 +34,13 @@ public class AssignmentNode implements JottTree {
         this.stringExpressionNode = null;
         this.booleanExpressionNode = null;
         this.firstDeclaration = true;
+
+        this.lastToken = token;
     }
 
     // Integer < id > = < i_expr > < end_statement >
     public AssignmentNode(String value, IdNode idNode, IntegerExpressionNode integerExpressionNode,
-                           EndStatementNode endStatementNode) {
+                           EndStatementNode endStatementNode, Token token) {
         this.value = value;
         this.idNode = idNode;
         this.integerExpressionNode = integerExpressionNode;
@@ -45,11 +49,13 @@ public class AssignmentNode implements JottTree {
         this.stringExpressionNode = null;
         this.booleanExpressionNode = null;
         this.firstDeclaration = true;
+
+        this.lastToken = token;
     }
 
     // String < id > = < s_expr > < end_statement >
     public AssignmentNode(String value, IdNode idNode, StringExpressionNode stringExpressionNode,
-                          EndStatementNode endStatementNode) {
+                          EndStatementNode endStatementNode, Token token) {
         this.value = value;
         this.idNode = idNode;
         this.stringExpressionNode = stringExpressionNode;
@@ -58,11 +64,13 @@ public class AssignmentNode implements JottTree {
         this.integerExpressionNode = null;
         this.booleanExpressionNode = null;
         this.firstDeclaration = true;
+
+        this.lastToken = token;
     }
 
     // Boolean < id > = < b_expr > < end_statement >
     public AssignmentNode(String value, IdNode idNode, BooleanExpressionNode booleanExpressionNode,
-                          EndStatementNode endStatementNode) {
+                          EndStatementNode endStatementNode, Token token) {
         this.value = value;
         this.idNode = idNode;
         this.booleanExpressionNode = booleanExpressionNode;
@@ -71,11 +79,13 @@ public class AssignmentNode implements JottTree {
         this.integerExpressionNode = null;
         this.stringExpressionNode = null;
         this.firstDeclaration = true;
+
+        this.lastToken = token;
     }
 
     // < id > = < d_expr > < end_statement >
     public AssignmentNode(IdNode idNode, DoubleExpressionNode doubleExpressionNode,
-                          EndStatementNode endStatementNode) {
+                          EndStatementNode endStatementNode, Token token) {
         this.idNode = idNode;
         this.doubleExpressionNode = doubleExpressionNode;
         this.endStatementNode = endStatementNode;
@@ -84,11 +94,13 @@ public class AssignmentNode implements JottTree {
         this.stringExpressionNode = null;
         this.booleanExpressionNode = null;
         this.firstDeclaration = false;
+
+        this.lastToken = token;
     }
 
     // < id > = < i_expr > < end_statement >
     public AssignmentNode(IdNode idNode, IntegerExpressionNode integerExpressionNode,
-                          EndStatementNode endStatementNode) {
+                          EndStatementNode endStatementNode, Token token) {
         this.idNode = idNode;
         this.integerExpressionNode = integerExpressionNode;
         this.endStatementNode = endStatementNode;
@@ -97,11 +109,13 @@ public class AssignmentNode implements JottTree {
         this.stringExpressionNode = null;
         this.booleanExpressionNode = null;
         this.firstDeclaration = false;
+
+        this.lastToken = token;
     }
 
     // < id > = < s_expr > < end_statement >
     public AssignmentNode(IdNode idNode, StringExpressionNode stringExpressionNode,
-                          EndStatementNode endStatementNode) {
+                          EndStatementNode endStatementNode, Token token) {
         this.idNode = idNode;
         this.stringExpressionNode = stringExpressionNode;
         this.endStatementNode = endStatementNode;
@@ -110,11 +124,13 @@ public class AssignmentNode implements JottTree {
         this.integerExpressionNode = null;
         this.booleanExpressionNode = null;
         this.firstDeclaration = false;
+
+        this.lastToken = token;
     }
 
     // < id > = < b_expr > < end_statement >
     public AssignmentNode(IdNode idNode, BooleanExpressionNode booleanExpressionNode,
-                          EndStatementNode endStatementNode) {
+                          EndStatementNode endStatementNode, Token token) {
         this.idNode = idNode;
         this.booleanExpressionNode = booleanExpressionNode;
         this.endStatementNode = endStatementNode;
@@ -123,6 +139,8 @@ public class AssignmentNode implements JottTree {
         this.integerExpressionNode = null;
         this.stringExpressionNode = null;
         this.firstDeclaration = false;
+
+        this.lastToken = token;
     }
 
     // Function called by its parent node to parse the list of tokens
@@ -149,7 +167,7 @@ public class AssignmentNode implements JottTree {
                             if (doubleExpressionNode != null) {
                                 EndStatementNode endStatementNode = EndStatementNode.parseEndStatementNode(tokens);
                                 return new AssignmentNode("Double", idNode,
-                                        doubleExpressionNode, endStatementNode);
+                                        doubleExpressionNode, endStatementNode, token);
                             }
                             throw new InvalidParseException("Error: expected <d_expr>", token.getFilename(),
                                     token.getLineNum());
@@ -171,7 +189,7 @@ public class AssignmentNode implements JottTree {
                             if (integerExpressionNode != null) {
                                 EndStatementNode endStatementNode = EndStatementNode.parseEndStatementNode(tokens);
                                 return new AssignmentNode("Integer", idNode,
-                                        integerExpressionNode, endStatementNode);
+                                        integerExpressionNode, endStatementNode, token);
                             }
                             throw new InvalidParseException("Error: expected <i_expr>", token.getFilename(),
                                     token.getLineNum());
@@ -193,7 +211,7 @@ public class AssignmentNode implements JottTree {
                             if (stringExpressionNode != null) {
                                 EndStatementNode endStatementNode = EndStatementNode.parseEndStatementNode(tokens);
                                 return new AssignmentNode("String", idNode,
-                                        stringExpressionNode, endStatementNode);
+                                        stringExpressionNode, endStatementNode, token);
                             }
                             throw new InvalidParseException("Error: expected <s_expr>", token.getFilename(),
                                     token.getLineNum());
@@ -215,7 +233,7 @@ public class AssignmentNode implements JottTree {
                             if (booleanExpressionNode != null) {
                                 EndStatementNode endStatementNode = EndStatementNode.parseEndStatementNode(tokens);
                                 return new AssignmentNode("Boolean", idNode,
-                                        booleanExpressionNode, endStatementNode);
+                                        booleanExpressionNode, endStatementNode, token);
                             }
                             throw new InvalidParseException("Error: expected <b_expr>", token.getFilename(),
                                     token.getLineNum());
@@ -233,29 +251,63 @@ public class AssignmentNode implements JottTree {
                                 token.getLineNum());
                     }
                     tokens.remove(0);
+                    switch (ExpressionNode.getExpressionType(tokens)) {
+                        case "Integer":
+                            IntegerExpressionNode integerExpressionNode =
+                                    IntegerExpressionNode.parseIntegerExpressionNode(tokens);
+                            if (integerExpressionNode != null) {
+                                EndStatementNode endStatementNode = EndStatementNode.parseEndStatementNode(tokens);
+                                return new AssignmentNode(idNode, integerExpressionNode, endStatementNode, token);
+                            }
+                            break;
+                        case "Double":
+                            DoubleExpressionNode doubleExpressionNode =
+                                    DoubleExpressionNode.parseDoubleExpressionNode(tokens);
+                            if (doubleExpressionNode != null) {
+                                EndStatementNode endStatementNode = EndStatementNode.parseEndStatementNode(tokens);
+                                return new AssignmentNode(idNode, doubleExpressionNode, endStatementNode, token);
+                            }
+                            break;
+                        case "String":
+                            StringExpressionNode stringExpressionNode =
+                                    StringExpressionNode.parseStringExpressionNode(tokens);
+                            if (stringExpressionNode != null) {
+                                EndStatementNode endStatementNode = EndStatementNode.parseEndStatementNode(tokens);
+                                return new AssignmentNode(idNode, stringExpressionNode, endStatementNode, token);
+                            }
+                            break;
+                        case "Boolean":
+                            BooleanExpressionNode booleanExpressionNode =
+                                    BooleanExpressionNode.parseBooleanExpressionNode(tokens);
+                            if (booleanExpressionNode != null) {
+                                EndStatementNode endStatementNode = EndStatementNode.parseEndStatementNode(tokens);
+                                return new AssignmentNode(idNode, booleanExpressionNode, endStatementNode, token);
+                            }
+                            break;
+                    }
                     DoubleExpressionNode doubleExpressionNode =
                             DoubleExpressionNode.parseDoubleExpressionNode(tokens);
                     if (doubleExpressionNode != null) {
                         EndStatementNode endStatementNode = EndStatementNode.parseEndStatementNode(tokens);
-                        return new AssignmentNode(idNode, doubleExpressionNode, endStatementNode);
+                        return new AssignmentNode(idNode, doubleExpressionNode, endStatementNode, token);
                     }
                     IntegerExpressionNode integerExpressionNode =
                             IntegerExpressionNode.parseIntegerExpressionNode(tokens);
                     if (integerExpressionNode != null) {
                         EndStatementNode endStatementNode = EndStatementNode.parseEndStatementNode(tokens);
-                        return new AssignmentNode(idNode, integerExpressionNode, endStatementNode);
+                        return new AssignmentNode(idNode, integerExpressionNode, endStatementNode, token);
                     }
                     StringExpressionNode stringExpressionNode =
                             StringExpressionNode.parseStringExpressionNode(tokens);
                     if (stringExpressionNode != null) {
                         EndStatementNode endStatementNode = EndStatementNode.parseEndStatementNode(tokens);
-                        return new AssignmentNode(idNode, stringExpressionNode, endStatementNode);
+                        return new AssignmentNode(idNode, stringExpressionNode, endStatementNode, token);
                     }
                     BooleanExpressionNode booleanExpressionNode =
                             BooleanExpressionNode.parseBooleanExpressionNode(tokens);
                     if (booleanExpressionNode != null) {
                         EndStatementNode endStatementNode = EndStatementNode.parseEndStatementNode(tokens);
-                        return new AssignmentNode(idNode, booleanExpressionNode, endStatementNode);
+                        return new AssignmentNode(idNode, booleanExpressionNode, endStatementNode, token);
                     }
                 }
             }
@@ -345,11 +397,11 @@ public class AssignmentNode implements JottTree {
     @Override
     public boolean validateTree(SymbolTable symbolTable) throws Exception {
 
-        if (!idNode.validateTree())
+        if (!idNode.validateTree(symbolTable))
         {
             return false;
         }
-        if (!endStatementNode.validateTree())
+        if (!endStatementNode.validateTree(symbolTable))
         {
             return false;
         }
@@ -358,7 +410,28 @@ public class AssignmentNode implements JottTree {
             if (!firstDeclaration) { //already exists but trying to declare type during assignment
                 return false;
             }
-            return symbolTable.addSymbol(idNode.getName(), value);
+            symbolTable.addSymbol(idNode.getName(), value);
+
+            if (integerExpressionNode != null) {
+                if (symbolTable.getType(this.idNode.getName()).equals(integerExpressionNode.getType(symbolTable))) {
+                    return integerExpressionNode.validateTree(symbolTable);
+                }
+            }
+            if (doubleExpressionNode != null) {
+                if (symbolTable.getType(this.idNode.getName()).equals(doubleExpressionNode.getType(symbolTable))) {
+                    return doubleExpressionNode.validateTree(symbolTable);
+                }
+            }
+            if (stringExpressionNode != null) {
+                if (symbolTable.getType(this.idNode.getName()).equals("String")) {
+                    return stringExpressionNode.validateTree(symbolTable);
+                }
+            }
+            if (booleanExpressionNode != null) {
+                if (symbolTable.getType(this.idNode.getName()).equals(booleanExpressionNode.getType(symbolTable))) {
+                    return booleanExpressionNode.validateTree(symbolTable);
+                }
+            }
         }
         else {
             if (this.firstDeclaration) { //didn't already exist and not declaring type during assignment
@@ -384,9 +457,8 @@ public class AssignmentNode implements JottTree {
                         return booleanExpressionNode.validateTree(symbolTable);
                     }
                 }
-                //TODO throw error
             }
         }
-        return false;
+        throw new InvalidValidateException("Mismatched types", this.lastToken.getFilename(), this.lastToken.getLineNum());
     }
 }

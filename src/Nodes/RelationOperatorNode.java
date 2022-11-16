@@ -1,6 +1,7 @@
 package Nodes;
 
 import main.JottTree;
+import main.SymbolTable;
 import main.Token;
 import main.TokenType;
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public class RelationOperatorNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
-        return false;
+    public boolean validateTree(SymbolTable symbolTable) throws Exception {
+        return true;
     }
 }

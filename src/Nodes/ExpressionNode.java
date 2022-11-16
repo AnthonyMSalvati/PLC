@@ -146,10 +146,50 @@ public class ExpressionNode implements JottTree {
         return null;
     }
 
-    public String getType(SymbolTable symbolTable) {
+    public static String getExpressionType(ArrayList<Token> tokens) throws Exception {
+        if (tokens.size() > 1) {
+            OperatorNode operatorNode = OperatorNode.parseOperatorNode(
+                    new ArrayList<>(Collections.singletonList(tokens.get(1))));
+            if (operatorNode != null) {
+                if (tokens.size() > 2) {
+                    try {
+                        Integer.parseInt(tokens.get(2).getToken());
+                        IntegerExpressionNode integerExpressionNode = IntegerExpressionNode.parseIntegerExpressionNode(
+                                new ArrayList<>(tokens));
+                        if (integerExpressionNode != null) {
+                            return "Integer";
+                        }
+                    } catch (NumberFormatException ignored) {
+
+                    }
+                    DoubleExpressionNode doubleExpressionNode = DoubleExpressionNode.parseDoubleExpressionNode(
+                            new ArrayList<>(tokens));
+                    if (doubleExpressionNode != null) {
+                        return "Double";
+                    }
+                    StringExpressionNode stringExpressionNode = StringExpressionNode.parseStringExpressionNode(
+                            new ArrayList<>(tokens));
+                    if (stringExpressionNode != null) {
+                        return "String";
+                    }
+                }
+            }
+            RelationOperatorNode relationOperatorNode = RelationOperatorNode.parseRelationOperatorNode(
+                    new ArrayList<>(Collections.singletonList(tokens.get(1))));
+            if (relationOperatorNode != null) {
+                BooleanExpressionNode booleanExpressionNode = BooleanExpressionNode.parseBooleanExpressionNode(
+                        new ArrayList<>(tokens));
+                if (booleanExpressionNode != null) {
+                    return "Boolean";
+                }
+            }
+        }
+        return "";
+    }
+
+    public String getType(SymbolTable symbolTable) throws Exception{
         if (functionCallNode != null) {
-            //TODO change
-            return "";
+            functionCallNode.getType(symbolTable);
         }
         if (idNode != null) {
             return symbolTable.getType(idNode.getName());
@@ -228,10 +268,10 @@ public class ExpressionNode implements JottTree {
     @Override
     public boolean validateTree(SymbolTable symbolTable) throws Exception {
         if (functionCallNode != null) {
-            return functionCallNode.validateTree();
+            return functionCallNode.validateTree(symbolTable);
         }
         if (idNode != null) {
-            return idNode.validateTree();
+            return idNode.validateTree(symbolTable);
         }
         if (booleanExpressionNode != null) {
             return booleanExpressionNode.validateTree(symbolTable);

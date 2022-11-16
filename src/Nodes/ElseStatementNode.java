@@ -60,8 +60,11 @@ public class ElseStatementNode implements JottTree {
         return null;
     }
 
-    public String getType(SymbolTable symbolTable){
-        return this.bodyNode.getType(symbolTable);
+    public boolean hasReturn() {
+        if (bodyNode == null) {
+            return false;
+        }
+        return this.bodyNode.hasReturn();
     }
     @Override
     public String convertToJott()

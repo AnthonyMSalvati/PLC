@@ -28,7 +28,7 @@ public class Symbol {
     public boolean addParam(String symbolName, String type) {
         if (!symbolTable.containsKey(symbolName)) {
             if (addSymbol(symbolName, type)) {
-                paramList.add(symbolName);
+                paramList.add(type);
             }
             return true;
         }
@@ -44,10 +44,6 @@ public class Symbol {
     }
 
     public String getType (String symbolName){
-        if (symbolTable.containsKey(symbolName)){
-            return symbolName;
-        } else {
-            return null;
-        }
+        return symbolTable.getOrDefault(symbolName, null);
     }
 }

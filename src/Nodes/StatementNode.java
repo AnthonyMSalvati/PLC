@@ -1,6 +1,7 @@
 package Nodes;
 
 import main.JottTree;
+import main.SymbolTable;
 import main.Token;
 import java.util.ArrayList;
 
@@ -106,7 +107,7 @@ public class StatementNode implements JottTree {
 			return this.func_call.validateTree(symbolTable) && this.end_stmt.validateTree(symbolTable);
 		}
 		// code below this should never be reached, but is there just in case it is
-		throw new InvalidValidateException("Impossible scenario reached in StatementNode");
+		//throw new InvalidValidateException("Impossible scenario reached in StatementNode");
         return false;
     }
 }

@@ -57,6 +57,21 @@ public class StringExpressionNode implements JottTree {
         return null;
     }
 
+    public String getType(SymbolTable symbolTable) throws Exception{
+        if (functionCallNode != null) {
+            return functionCallNode.getType(symbolTable);
+        }
+
+        if (idNode != null) {
+            return symbolTable.getType(idNode.getName());
+        }
+
+        if (stringLiteralNode != null) {
+            return "String";
+        }
+        return null;
+    }
+
     @Override
     public String convertToJott() {
         if (functionCallNode != null) {
@@ -96,11 +111,11 @@ public class StringExpressionNode implements JottTree {
     @Override
     public boolean validateTree(SymbolTable symbolTable) throws Exception {
         if (functionCallNode != null) {
-            return functionCallNode.validateTree();
+            return functionCallNode.validateTree(symbolTable);
         }  else if (idNode != null) {
-            return idNode.validateTree();
+            return idNode.validateTree(symbolTable);
         } else if (stringLiteralNode != null) {
-            return stringLiteralNode.validateTree();
+            return stringLiteralNode.validateTree(symbolTable);
         }
         return false;
     }

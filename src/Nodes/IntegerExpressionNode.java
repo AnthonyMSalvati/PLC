@@ -157,10 +157,9 @@ public class IntegerExpressionNode implements JottTree {
         return null;
     }
 
-    public String getType(SymbolTable symbolTable){
+    public String getType(SymbolTable symbolTable) throws Exception{
         if (functionCallNode != null) {
-            //TODO change
-            return "";
+            return functionCallNode.getType(symbolTable);
         }
 
         if (idNode != null) {
@@ -249,9 +248,10 @@ public class IntegerExpressionNode implements JottTree {
 			}
 		}
 		if (this.integerNode2 != null) {
-			return this.integerNode1.convertToPython(nestLevel)
-				+ this.operatorNode.convertToPython(nestLevel)
-				+ this.integerNode2.convertToPython(nestLevel);
+            return this.integerNode1.convertToPython(nestLevel)
+                    + this.operatorNode.convertToPython(nestLevel)
+                    + this.integerNode2.convertToPython(nestLevel);
+        }
 		if (this.idNode == null && this.integerExpressionNode == null) {
 			return this.integerNode1.convertToPython(nestLevel);
 		}
@@ -276,37 +276,37 @@ public class IntegerExpressionNode implements JottTree {
     @Override
     public boolean validateTree(SymbolTable symbolTable) throws Exception {
         if (functionCallNode != null) {
-            return functionCallNode.validateTree();
+            return functionCallNode.validateTree(symbolTable);
         }
 
         if (idNode != null) {
             if (operatorNode != null) {
                 if (integerExpressionNode != null) {
                     if (symbolTable.getType(idNode.getName()).equals(integerExpressionNode.getType(symbolTable))) {
-                        return idNode.validateTree() && operatorNode.validateTree() &&
+                        return idNode.validateTree(symbolTable) && operatorNode.validateTree(symbolTable) &&
                                 integerExpressionNode.validateTree(symbolTable);
                     }
                 }
                 if(integerNode1 != null) {
                     if (symbolTable.getType(idNode.getName()).equals("Integer")) {
-                        return idNode.validateTree() && operatorNode.validateTree() &&
+                        return idNode.validateTree(symbolTable) && operatorNode.validateTree(symbolTable) &&
                                 integerNode1.validateTree(symbolTable);
                     }
                 }
             }
-            return idNode.validateTree();
+            return idNode.validateTree(symbolTable);
         }
 
         if (integerNode1 != null) {
             if (operatorNode != null) {
                 if (integerExpressionNode != null) {
                     if (integerExpressionNode.getType(symbolTable).equals("Integer")) {
-                        return integerNode1.validateTree(symbolTable) && operatorNode.validateTree() &&
+                        return integerNode1.validateTree(symbolTable) && operatorNode.validateTree(symbolTable) &&
                                 integerExpressionNode.validateTree(symbolTable);
                     }
                 }
                 if(integerNode2 != null) {
-                    return integerNode1.validateTree(symbolTable) && operatorNode.validateTree() &&
+                    return integerNode1.validateTree(symbolTable) && operatorNode.validateTree(symbolTable) &&
                             integerNode2.validateTree(symbolTable);
                 }
             }

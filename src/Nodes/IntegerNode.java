@@ -1,9 +1,6 @@
 package Nodes;
 
-import main.JottTree;
-import main.Token;
-import main.TokenType;
-import main.InvalidParseException;
+import main.*;
 import main.SymbolTable;
 
 import java.util.ArrayList;
@@ -87,9 +84,9 @@ public class IntegerNode implements JottTree {
 
     @Override
     public boolean validateTree(SymbolTable symbolTable) throws Exception {
-        if (sign.validateTree(symbolTable)) {
-            return true;
+        if (sign != null) {
+            return sign.validateTree(symbolTable);
         }
-        return false;
+        return true;
     }
 }

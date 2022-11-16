@@ -85,8 +85,23 @@ public class IfStatementNode implements JottTree {
         }
     }
 
-    public String getType(SymbolTable symbolTable){
-        return this.bodyNode.getType(symbolTable);
+    public String getType(SymbolTable symbolTable) throws Exception {
+        if (bodyNode != null) {
+            return this.bodyNode.getType(symbolTable);
+        }
+        return null;
+    }
+
+    public boolean hasReturns() {
+        if (bodyNode != null) {
+            if (bodyNode.hasReturn()){
+                if (this.elseIfStatementNode.hasReturn()) {
+                    // else if has return and returns if else has return stmt
+                    return this.elseStatementNode.hasReturn();
+                }
+            }
+        }
+        return false;
     }
 
     @Override
@@ -116,24 +131,9 @@ public class IfStatementNode implements JottTree {
     @Override
     public boolean validateTree(SymbolTable symbolTable) throws Exception {
         if (this.booleanExpressionNode.validateTree(symbolTable)){
-            if (this.bodyNode.validateTree(symbolTable)){
-                if (this.elseIfStatementNode.validateTree(symbolTable)){
-                    if (this.elseStatementNode.validateTree(symbolTable)){
-                        if (this.elseStatementNode.getType(symbolTable) != null){
-                            if (this.elseIfStatementNode.getType(symbolTable) == null){
-                                return false; //else returns but else if does not
-                            }
-                            else if (this.elseStatementNode.getType(symbolTable) != this.elseIfStatementNode.getType(symbolTable)){
-                                return false; //else and else if return different types
-                            }
-                            else if (this.elseStatementNode.getType(symbolTable) == this.elseIfStatementNode.getType(symbolTable)){
-                                if (this.elseStatementNode.getType(symbolTable) != this.bodyNode.getType(symbolTable)) {
-                                    return false; //else ifs and else match, body of main if does not
-                                }
-                                else return true;
-                            }
-                        }
-                    }
+            if (this.bodyNode.validateTree(symbolTable)) {
+                if (this.elseIfStatementNode.validateTree(symbolTable)) {
+                    return this.elseStatementNode.validateTree(symbolTable);
                 }
             }
         }

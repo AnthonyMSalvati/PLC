@@ -1,9 +1,7 @@
 package Nodes;
 
-import main.InvalidParseException;
-import main.JottTree;
-import main.SymbolTable;
-import main.Token;
+import main.*;
+
 import java.util.ArrayList;
 
 /**
@@ -26,8 +24,10 @@ public class BooleanExpressionNode implements JottTree {
     private final BooleanExpressionNode booleanExpressionNode2;
     private final RelationOperatorNode relationOperatorNode;
 
+    private final Token lastToken;
+
     // < id >
-    public BooleanExpressionNode(IdNode idNode) {
+    public BooleanExpressionNode(IdNode idNode, Token token) {
         this.idNode = idNode;
         this.functionCallNode = null;
         this.booleanNode = null;
@@ -40,10 +40,12 @@ public class BooleanExpressionNode implements JottTree {
         this.booleanExpressionNode1 = null;
         this.booleanExpressionNode2 = null;
         this.relationOperatorNode = null;
+
+        this.lastToken = token;
     }
 
     // < func_call >
-    public BooleanExpressionNode(FunctionCallNode functionCallNode) {
+    public BooleanExpressionNode(FunctionCallNode functionCallNode, Token token) {
         this.idNode = null;
         this.functionCallNode = functionCallNode;
         this.booleanNode = null;
@@ -56,10 +58,12 @@ public class BooleanExpressionNode implements JottTree {
         this.booleanExpressionNode1 = null;
         this.booleanExpressionNode2 = null;
         this.relationOperatorNode = null;
+
+        this.lastToken = token;
     }
 
     // < bool >
-    public BooleanExpressionNode(BooleanNode booleanNode) {
+    public BooleanExpressionNode(BooleanNode booleanNode, Token token) {
         this.idNode = null;
         this.functionCallNode = null;
         this.booleanNode = booleanNode;
@@ -72,11 +76,13 @@ public class BooleanExpressionNode implements JottTree {
         this.booleanExpressionNode1 = null;
         this.booleanExpressionNode2 = null;
         this.relationOperatorNode = null;
+
+        this.lastToken = token;
     }
 
     // < i_expr > < rel_op > < i_expr >
     public BooleanExpressionNode(IntegerExpressionNode integerExpressionNode1, IntegerExpressionNode integerExpressionNode2,
-                                 RelationOperatorNode relationOperatorNode) {
+                                 RelationOperatorNode relationOperatorNode, Token token) {
         this.idNode = null;
         this.functionCallNode = null;
         this.booleanNode = null;
@@ -89,11 +95,13 @@ public class BooleanExpressionNode implements JottTree {
         this.stringExpressionNode2 = null;
         this.booleanExpressionNode1 = null;
         this.booleanExpressionNode2 = null;
+
+        this.lastToken = token;
     }
 
     // < d_expr > < rel_op > < d_expr >
     public BooleanExpressionNode(DoubleExpressionNode doubleExpressionNode1, DoubleExpressionNode doubleExpressionNode2,
-                                 RelationOperatorNode relationOperatorNode) {
+                                 RelationOperatorNode relationOperatorNode, Token token) {
         this.idNode = null;
         this.functionCallNode = null;
         this.booleanNode = null;
@@ -106,11 +114,13 @@ public class BooleanExpressionNode implements JottTree {
         this.stringExpressionNode2 = null;
         this.booleanExpressionNode1 = null;
         this.booleanExpressionNode2 = null;
+
+        this.lastToken = token;
     }
 
     // < s_expr > < rel_op > < s_expr >
     public BooleanExpressionNode(StringExpressionNode stringExpressionNode1, StringExpressionNode stringExpressionNode2,
-                                 RelationOperatorNode relationOperatorNode) {
+                                 RelationOperatorNode relationOperatorNode, Token token) {
         this.idNode = null;
         this.functionCallNode = null;
         this.booleanNode = null;
@@ -123,11 +133,13 @@ public class BooleanExpressionNode implements JottTree {
         this.relationOperatorNode = relationOperatorNode;
         this.booleanExpressionNode1 = null;
         this.booleanExpressionNode2 = null;
+
+        this.lastToken = token;
     }
 
     // < b_expr > < rel_op > < b_expr >
     public BooleanExpressionNode(BooleanExpressionNode booleanExpressionNode1, BooleanExpressionNode booleanExpressionNode2,
-                                 RelationOperatorNode relationOperatorNode) {
+                                 RelationOperatorNode relationOperatorNode, Token token) {
         this.idNode = null;
         this.functionCallNode = null;
         this.booleanNode = null;
@@ -140,14 +152,15 @@ public class BooleanExpressionNode implements JottTree {
         this.booleanExpressionNode1 = booleanExpressionNode1;
         this.booleanExpressionNode2 = booleanExpressionNode2;
         this.relationOperatorNode = relationOperatorNode;
+
+        this.lastToken = token;
     }
 
     // Function called by its parent node to parse the list of tokens
     public static BooleanExpressionNode parseBooleanExpressionNode (ArrayList<Token> tokens) throws Exception {
-
         BooleanNode booleanNode = BooleanNode.parseBooleanNode(tokens);
         if (booleanNode != null) {
-            return new BooleanExpressionNode(booleanNode);
+            return new BooleanExpressionNode(booleanNode, tokens.get(0));
         }
         if (tokens.size() > 1) {
             if (tokens.size() > 2) {
@@ -159,7 +172,7 @@ public class BooleanExpressionNode implements JottTree {
                         if (relationOperatorNode != null) {
                             IntegerExpressionNode integerExpressionNode2 = IntegerExpressionNode.parseIntegerExpressionNode(tokens);
                             if (integerExpressionNode2 != null) {
-                                return new BooleanExpressionNode(integerExpressionNode1, integerExpressionNode2, relationOperatorNode);
+                                return new BooleanExpressionNode(integerExpressionNode1, integerExpressionNode2, relationOperatorNode, tokens.get(0));
                             }
                             throw new InvalidParseException("Error: expected <i_expr>", tokens.get(0).getFilename(),
                                     tokens.get(0).getLineNum());
@@ -174,7 +187,7 @@ public class BooleanExpressionNode implements JottTree {
                         if (relationOperatorNode != null) {
                             DoubleExpressionNode doubleExpressionNode2 = DoubleExpressionNode.parseDoubleExpressionNode(tokens);
                             if (doubleExpressionNode2 != null) {
-                                return new BooleanExpressionNode(doubleExpressionNode1, doubleExpressionNode2, relationOperatorNode);
+                                return new BooleanExpressionNode(doubleExpressionNode1, doubleExpressionNode2, relationOperatorNode, tokens.get(0));
                             }
                             throw new InvalidParseException("Error: expected <d_expr>", tokens.get(0).getFilename(),
                                     tokens.get(0).getLineNum());
@@ -189,7 +202,7 @@ public class BooleanExpressionNode implements JottTree {
                     if (relationOperatorNode != null) {
                         StringExpressionNode stringExpressionNode2 = StringExpressionNode.parseStringExpressionNode(tokens);
                         if (stringExpressionNode2 != null) {
-                            return new BooleanExpressionNode(stringExpressionNode1, stringExpressionNode2, relationOperatorNode);
+                            return new BooleanExpressionNode(stringExpressionNode1, stringExpressionNode2, relationOperatorNode, tokens.get(0));
                         }
                         throw new InvalidParseException("Error: expected <s_expr>", tokens.get(0).getFilename(),
                                 tokens.get(0).getLineNum());
@@ -203,7 +216,7 @@ public class BooleanExpressionNode implements JottTree {
                     if (relationOperatorNode != null) {
                         BooleanExpressionNode booleanExpressionNode2 = BooleanExpressionNode.parseBooleanExpressionNode(tokens);
                         if (booleanExpressionNode2 != null) {
-                            return new BooleanExpressionNode(booleanExpressionNode1, booleanExpressionNode2, relationOperatorNode);
+                            return new BooleanExpressionNode(booleanExpressionNode1, booleanExpressionNode2, relationOperatorNode, tokens.get(0));
                         }
                         throw new InvalidParseException("Error: expected <b_expr>", tokens.get(0).getFilename(),
                                 tokens.get(0).getLineNum());
@@ -219,7 +232,7 @@ public class BooleanExpressionNode implements JottTree {
             if (relationOperatorNode != null) {
                 IntegerExpressionNode integerExpressionNode2 = IntegerExpressionNode.parseIntegerExpressionNode(tokens);
                 if (integerExpressionNode2 != null) {
-                    return new BooleanExpressionNode(integerExpressionNode1, integerExpressionNode2, relationOperatorNode);
+                    return new BooleanExpressionNode(integerExpressionNode1, integerExpressionNode2, relationOperatorNode, tokens.get(0));
                 }
                 throw new InvalidParseException("Error: expected <i_expr>", tokens.get(0).getFilename(),
                         tokens.get(0).getLineNum());
@@ -233,7 +246,7 @@ public class BooleanExpressionNode implements JottTree {
             if (relationOperatorNode != null) {
                 DoubleExpressionNode doubleExpressionNode2 = DoubleExpressionNode.parseDoubleExpressionNode(tokens);
                 if (doubleExpressionNode2 != null) {
-                    return new BooleanExpressionNode(doubleExpressionNode1, doubleExpressionNode2, relationOperatorNode);
+                    return new BooleanExpressionNode(doubleExpressionNode1, doubleExpressionNode2, relationOperatorNode, tokens.get(0));
                 }
                 throw new InvalidParseException("Error: expected <d_expr>", tokens.get(0).getFilename(),
                         tokens.get(0).getLineNum());
@@ -247,7 +260,7 @@ public class BooleanExpressionNode implements JottTree {
             if (relationOperatorNode != null) {
                 StringExpressionNode stringExpressionNode2 = StringExpressionNode.parseStringExpressionNode(tokens);
                 if (stringExpressionNode2 != null) {
-                    return new BooleanExpressionNode(stringExpressionNode1, stringExpressionNode2, relationOperatorNode);
+                    return new BooleanExpressionNode(stringExpressionNode1, stringExpressionNode2, relationOperatorNode, tokens.get(0));
                 }
                 throw new InvalidParseException("Error: expected <s_expr>", tokens.get(0).getFilename(),
                         tokens.get(0).getLineNum());
@@ -261,7 +274,7 @@ public class BooleanExpressionNode implements JottTree {
             if (relationOperatorNode != null) {
                 BooleanExpressionNode booleanExpressionNode2 = BooleanExpressionNode.parseBooleanExpressionNode(tokens);
                 if (booleanExpressionNode2 != null) {
-                    return new BooleanExpressionNode(booleanExpressionNode1, booleanExpressionNode2, relationOperatorNode);
+                    return new BooleanExpressionNode(booleanExpressionNode1, booleanExpressionNode2, relationOperatorNode, tokens.get(0));
                 }
                 throw new InvalidParseException("Error: expected <b_expr>", tokens.get(0).getFilename(),
                         tokens.get(0).getLineNum());
@@ -271,11 +284,11 @@ public class BooleanExpressionNode implements JottTree {
         }
         FunctionCallNode functionCallNode = FunctionCallNode.parseFunctionCallNode(tokens);
         if (functionCallNode != null) {
-            return new BooleanExpressionNode(functionCallNode);
+            return new BooleanExpressionNode(functionCallNode, tokens.get(0));
         }
         IdNode idNode = IdNode.parseIdNode(tokens);
         if (idNode != null) {
-            return new BooleanExpressionNode(idNode);
+            return new BooleanExpressionNode(idNode, tokens.get(0));
         }
 
         return null;
@@ -427,24 +440,30 @@ public class BooleanExpressionNode implements JottTree {
         if (integerExpressionNode1 != null) {
             if (relationOperatorNode != null) {
                 if (integerExpressionNode2 != null) {
-                    return integerExpressionNode1.validateTree(symbolTable) && relationOperatorNode.validateTree() &&
-                            integerExpressionNode2.validateTree(symbolTable);
+                    if (this.integerExpressionNode1.getType(symbolTable).equals(integerExpressionNode2.getType(symbolTable))) {
+                        return integerExpressionNode1.validateTree(symbolTable) && relationOperatorNode.validateTree(symbolTable) &&
+                                integerExpressionNode2.validateTree(symbolTable);
+                    }
                 }
             }
         }
         if (doubleExpressionNode1 != null) {
             if (relationOperatorNode != null) {
                 if (doubleExpressionNode2 != null) {
-                    return doubleExpressionNode1.validateTree(symbolTable) && relationOperatorNode.validateTree() &&
-                            doubleExpressionNode2.validateTree(symbolTable);
+                    if (this.doubleExpressionNode1.getType(symbolTable).equals(doubleExpressionNode2.getType(symbolTable))) {
+                        return doubleExpressionNode1.validateTree(symbolTable) && relationOperatorNode.validateTree(symbolTable) &&
+                                doubleExpressionNode2.validateTree(symbolTable);
+                    }
                 }
             }
         }
         if (stringExpressionNode1 != null) {
             if (relationOperatorNode != null) {
                 if (stringExpressionNode2 != null) {
-                    return stringExpressionNode1.validateTree(symbolTable) && relationOperatorNode.validateTree() &&
-                            stringExpressionNode2.validateTree(symbolTable);
+                    if (this.stringExpressionNode1.getType(symbolTable).equals(stringExpressionNode2.getType(symbolTable))) {
+                        return stringExpressionNode1.validateTree(symbolTable) && relationOperatorNode.validateTree(symbolTable) &&
+                                stringExpressionNode2.validateTree(symbolTable);
+                    }
                 }
             }
         }
@@ -452,13 +471,13 @@ public class BooleanExpressionNode implements JottTree {
             if (relationOperatorNode != null) {
                 if (booleanExpressionNode2 != null) {
                     if (booleanExpressionNode1.getType(symbolTable).equals(booleanExpressionNode2.getType(symbolTable))){
-                        return booleanExpressionNode1.validateTree(symbolTable) && relationOperatorNode.validateTree() &&
+                        return booleanExpressionNode1.validateTree(symbolTable) && relationOperatorNode.validateTree(symbolTable) &&
                                 booleanExpressionNode2.validateTree(symbolTable);
                     }
                     return false;
                 }
             }
         }
-        return false;
+        throw new InvalidValidateException("Cannot compare values of different types", this.lastToken.getFilename(), this.lastToken.getLineNum());
     }
 }

@@ -1,10 +1,6 @@
 package Nodes;
 
-import main.JottTree;
-import main.SymbolTable;
-import main.Token;
-import main.TokenType;
-import main.InvalidParseException;
+import main.*;
 
 import java.util.ArrayList;
 
@@ -14,10 +10,14 @@ public class ReturnStatementNode implements JottTree {
     private final ExpressionNode expNode;
     private final EndStatementNode endStmNode;
 
-    public ReturnStatementNode(String value, ExpressionNode expNode, EndStatementNode endStmNode) {
+    private final Token lastToken;
+
+    public ReturnStatementNode(String value, ExpressionNode expNode, EndStatementNode endStmNode, Token token) {
         this.value = value;
         this.expNode = expNode;
         this.endStmNode = endStmNode;
+
+        this.lastToken = token;
     }
 
     public static ReturnStatementNode parseReturnStatementNode(ArrayList<Token> tokens) throws Exception {
@@ -27,8 +27,9 @@ public class ReturnStatementNode implements JottTree {
                 tokens.remove(0);
                 ExpressionNode expNode = ExpressionNode.parseExpressionNode(tokens);
                 if (expNode != null) {
+                    Token token = tokens.get(0);
                     EndStatementNode endStmNode = EndStatementNode.parseEndStatementNode(tokens);
-                    return new ReturnStatementNode(value, expNode, endStmNode);
+                    return new ReturnStatementNode(value, expNode, endStmNode, token);
                 } else {
                     throw new InvalidParseException("Error: expected <expr>", 
                     tokens.get(0).getFilename(), tokens.get(0).getLineNum());
@@ -38,7 +39,7 @@ public class ReturnStatementNode implements JottTree {
         return null;
     }    
 
-    public String getType(SymbolTable symbolTable){
+    public String getType(SymbolTable symbolTable) throws Exception {
         return this.expNode.getType(symbolTable);
     }
     @Override
@@ -67,7 +68,11 @@ public class ReturnStatementNode implements JottTree {
     @Override
     public boolean validateTree(SymbolTable symbolTable) throws Exception {
         if (value != null && expNode != null && endStmNode != null) {
-            return expNode.validateTree(symbolTable) && endStmNode.validateTree(symbolTable);
+            if (expNode.getType(symbolTable).equals(symbolTable.getCurrentFunctionReturnType())){
+                return expNode.validateTree(symbolTable) && endStmNode.validateTree(symbolTable);
+            }
+            throw new InvalidValidateException("Wrong type of return in function call",
+                    this.lastToken.getFilename(), this.lastToken.getLineNum());
         }
         return false;
     }

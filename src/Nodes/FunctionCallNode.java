@@ -62,7 +62,10 @@ public class FunctionCallNode implements JottTree {
         return null;
     }
 
-    public String getType(SymbolTable symbolTable) {
+    public String getType(SymbolTable symbolTable) throws Exception {
+        if (symbolTable.getFunctionReturnType(id.getName()) == null) {
+            throw new InvalidValidateException("Function has not yet been defined", this.lastToken.getFilename(), this.lastToken.getLineNum());
+        }
         return symbolTable.getFunctionReturnType(id.getName());
     }
 

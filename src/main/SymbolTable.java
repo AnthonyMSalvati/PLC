@@ -11,15 +11,19 @@ public class SymbolTable {
         this.currentScope = "global";
         this.scopes = new HashMap<>();
         this.scopes.put("global", new Symbol());
+        addScope("print");
         addFunction("print", "Void");
+        addScope("input");
         addFunction("input", "String");
         this.currentScope = "input";
         addParam("string", "String");
         addParam("length", "Integer");
+        addScope("concat");
         addFunction("concat", "String");
         this.currentScope = "concat";
         addParam("s1", "String");
         addParam("s2", "String");
+        addScope("length");
         addFunction("length", "Integer");
         this.currentScope = "length";
         addParam("string", "String");
@@ -42,7 +46,7 @@ public class SymbolTable {
     }
 
     public boolean addSymbol (String symbolName, String type) {
-        if (!scopes.containsKey(currentScope)){
+        if (scopes.containsKey(currentScope)){
             Symbol symbol = scopes.get(currentScope);
             return symbol.addSymbol(symbolName, type);
         }
@@ -50,7 +54,7 @@ public class SymbolTable {
     }
 
     public boolean addParam(String paramName, String type){
-        if (!scopes.containsKey(currentScope)){
+        if (scopes.containsKey(currentScope)){
             Symbol symbol = scopes.get(currentScope);
             return symbol.addParam(paramName, type);
         }
@@ -58,7 +62,7 @@ public class SymbolTable {
     }
 
     public int getParamLength(String functionName){
-        if (!scopes.containsKey(functionName)){
+        if (scopes.containsKey(functionName)){
             Symbol symbol = scopes.get(functionName);
             return symbol.getParamLength();
         }
@@ -66,7 +70,7 @@ public class SymbolTable {
     }
 
     public String getParamType(String functionName, int index) {
-        if (!scopes.containsKey(functionName)){
+        if (scopes.containsKey(functionName)){
             Symbol symbol = scopes.get(functionName);
             return symbol.getParamType(index);
         }
@@ -82,6 +86,11 @@ public class SymbolTable {
 
     }
 
+    public boolean hasFunction(String functionName) {
+        Symbol symbol = scopes.get("global");
+        return symbol.hasSymbol(functionName);
+    }
+
     public boolean addFunction(String functionName, String type) {
         Symbol symbol = scopes.get("global");
         return symbol.addSymbol(functionName, type);
@@ -90,6 +99,11 @@ public class SymbolTable {
     public String getFunctionReturnType(String functionName){
         Symbol symbol = scopes.get("global");
         return symbol.getType(functionName);
+    }
+
+    public String getCurrentFunctionReturnType(){
+        Symbol symbol = scopes.get("global");
+        return symbol.getType(currentScope);
     }
 
     public HashMap<String, Symbol> getSymbolTable()

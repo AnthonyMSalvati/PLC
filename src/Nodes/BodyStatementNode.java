@@ -32,7 +32,14 @@ public class BodyStatementNode implements JottTree {
             return new BodyStatementNode(null, null, stmNode);
         }
         return null;
-    }    
+    }
+
+    public boolean hasReturn(){
+        if (ifStmNode == null) {
+            return false;
+        }
+        return ifStmNode.hasReturns();
+    }
 
     @Override
     public String convertToJott() {

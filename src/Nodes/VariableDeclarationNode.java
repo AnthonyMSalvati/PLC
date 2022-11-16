@@ -74,6 +74,6 @@ public class VariableDeclarationNode implements JottTree {
         if (symbolTable.addSymbol(idNode.getName(), typeNode.getType())) {
             throw new InvalidValidateException("Variable is already defined in current scope", this.lastToken.getFilename(), this.lastToken.getLineNum());
         }
-        return typeNode.validateTree(symbolTable) && idNode.validateTree() && endStatementNode.validateTree();
+        return typeNode.validateTree(symbolTable) && idNode.validateTree(symbolTable) && endStatementNode.validateTree(symbolTable);
     }
 }

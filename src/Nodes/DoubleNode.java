@@ -105,9 +105,9 @@ public class DoubleNode implements JottTree {
 
     @Override
     public boolean validateTree(SymbolTable symbolTable) throws Exception {
-        if (this.sign.validateTree(symbolTable)){
-            return true;
+        if (sign != null) {
+            return sign.validateTree(symbolTable);
         }
-        return false;
+        return true;
     }
 }

@@ -34,8 +34,11 @@ public class FunctionReturnNode implements JottTree {
         return null;
     }
 
-    public TypeNode getTypeNode(){
-        return this.typeNode;
+    public String getType() {
+        if (typeNode != null) {
+            return typeNode.getType();
+        }
+        return voidNode;
     }
 
     @Override

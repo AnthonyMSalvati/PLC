@@ -72,9 +72,16 @@ public class ElseIfStatementNode implements JottTree {
         return null;
     }
 
-    public String getType(SymbolTable symbolTable)
-    {
-        return this.bodyNode.getType(symbolTable);
+    public boolean hasReturn(){
+        if (bodyNode == null && booleanExpressionNode == null &&
+                elseIfStatementNode == null) {
+            return true;
+        }
+
+        if (bodyNode != null) {
+            return this.bodyNode.hasReturn();
+        }
+        return false;
     }
 
     @Override
@@ -138,12 +145,7 @@ public class ElseIfStatementNode implements JottTree {
                 if (this.bodyNode == null){
                     return false;
                 }
-                else if(this.bodyNode.validateTree(symbolTable)){
-                    if (this.elseIfStatementNode.getType(symbolTable) != this.bodyNode.getType(symbolTable)){
-                        return false;
-                    }
-                    else return true;
-                }
+                else return this.bodyNode.validateTree(symbolTable);
             }
         }
 

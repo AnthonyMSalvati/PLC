@@ -1,5 +1,6 @@
 package Nodes;
 
+import main.InvalidValidateException;
 import main.JottTree;
 import main.Token;
 import main.SymbolTable;
@@ -12,12 +13,16 @@ public class BodyNode implements JottTree {
     private final BodyNode bodyNode;
     private final ReturnStatementNode returnStmNode;
 
+    private final Token lastToken;
 
 
-    public BodyNode(BodyStatementNode bodyStmNode, BodyNode bodyNode, ReturnStatementNode returnStmNode) {
+
+    public BodyNode(BodyStatementNode bodyStmNode, BodyNode bodyNode, ReturnStatementNode returnStmNode, Token token) {
         this.bodyStmNode = bodyStmNode;
         this.bodyNode = bodyNode;
         this.returnStmNode = returnStmNode;
+
+        this.lastToken = token;
     }
 
     public static BodyNode parseBodyNode(ArrayList<Token> tokens) throws Exception {
@@ -29,24 +34,42 @@ public class BodyNode implements JottTree {
             if (bodyStm != null) {
                 BodyNode bodyNode = BodyNode.parseBodyNode(tokens);
                 if (bodyNode != null) {
-                    return new BodyNode(bodyStm, bodyNode, null);
+                    return new BodyNode(bodyStm, bodyNode, null, tokens.get(0));
                 }
-                return new BodyNode(bodyStm, null, null);
+                return new BodyNode(bodyStm, null, null, tokens.get(0));
             }
         }
         ReturnStatementNode returnStmNode = ReturnStatementNode.parseReturnStatementNode(tokens);
         if (returnStmNode != null) {
-            return new BodyNode(null, null, returnStmNode);
+            return new BodyNode(null, null, returnStmNode, tokens.get(0));
         } else {
             return null;
         }
 
     }
 
-    public String getType(SymbolTable symbolTable){
-        return this.returnStmNode.getType(symbolTable);
+    public String getType(SymbolTable symbolTable) throws Exception {
+        if (returnStmNode != null) {
+            return this.returnStmNode.getType(symbolTable);
+        }
+        if (bodyNode != null) {
+            return bodyNode.getType(symbolTable);
+        }
+        return null;
     }
 
+    public boolean hasReturn () {
+        if (returnStmNode != null) {
+            return true;
+        }
+        if (bodyNode != null) {
+            return bodyNode.hasReturn();
+        }
+        if (bodyStmNode != null) {
+            return bodyStmNode.hasReturn();
+        }
+        return false;
+    }
 
     @Override
     public String convertToJott() {
@@ -105,12 +128,18 @@ public class BodyNode implements JottTree {
 
     @Override
     public boolean validateTree(SymbolTable symbolTable) throws Exception  {
-        if (bodyStmNode != null && bodyNode != null && returnStmNode == null) {
-            return bodyStmNode.validateTree(symbolTable) && bodyNode.validateTree(symbolTable);
-        } else if (bodyStmNode == null && bodyNode == null && returnStmNode != null) {
-            return returnStmNode.validateTree(symbolTable);
-        } else if (bodyStmNode == null && bodyNode == null && returnStmNode == null) {
+        if (hasReturn() || symbolTable.getCurrentFunctionReturnType().equals("Void")) {
+            if (bodyStmNode != null) {
+                if (bodyNode != null) {
+                    return bodyStmNode.validateTree(symbolTable) && bodyNode.validateTree(symbolTable);
+                }
+                return bodyStmNode.validateTree(symbolTable);
+            }
+            if (returnStmNode != null) {
+                return returnStmNode.validateTree(symbolTable);
+            }
             return true;
-        } else return false;
+        }
+        throw new InvalidValidateException("Missing return statement", lastToken.getFilename(), lastToken.getLineNum());
     }
 }

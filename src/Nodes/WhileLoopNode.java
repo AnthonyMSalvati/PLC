@@ -79,7 +79,7 @@ public class WhileLoopNode implements JottTree {
         }
     }
 
-    public String getType(SymbolTable symbolTable){
+    public String getType(SymbolTable symbolTable) throws Exception {
         return this.bodyNode.getType(symbolTable);
     }
     @Override

@@ -67,9 +67,14 @@ public class ProgramNode implements JottTree {
     public boolean validateTree(SymbolTable symbolTable) throws Exception {
         if (functionListNode != null) {
             if (functionListNode.validateTree(symbolTable)) {
-                if (!symbolTable.getType("main").equals("Void")){
+                if (!symbolTable.hasFunction("main")) {
                     if (token != null) {
                         throw new InvalidValidateException("Missing Void function main", token.getFilename(), token.getLineNum());
+                    }
+                }
+                if (!symbolTable.getFunctionReturnType("main").equals("Void")){
+                    if (token != null) {
+                        throw new InvalidValidateException("main function is not type Void", token.getFilename(), token.getLineNum());
                     }
                 }
                 return true;

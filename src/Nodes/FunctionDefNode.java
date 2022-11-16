@@ -48,18 +48,18 @@ public class FunctionDefNode implements JottTree {
                             if (token.getTokenType() == TokenType.L_BRACE) {
                                 tokens.remove(0);
                                 BodyNode bodyNode = BodyNode.parseBodyNode(tokens);
-                                if (bodyNode != null) {
-                                    if (tokens.size() != 0) {
-                                        token = tokens.get(0);
-                                        if (token.getTokenType() == TokenType.R_BRACE) {
-                                            tokens.remove(0);
-                                            return new FunctionDefNode(idNode, functionDefParamsNode,
-                                                    functionReturnNode, bodyNode, token);
-                                        }
+                                if (tokens.size() != 0) {
+                                    token = tokens.get(0);
+                                    if (token.getTokenType() == TokenType.R_BRACE) {
+                                        tokens.remove(0);
+                                        return new FunctionDefNode(idNode, functionDefParamsNode,
+                                                functionReturnNode, bodyNode, token);
                                     }
                                     throw new InvalidParseException("Error: expected \"}\"", token.getFilename(),
                                             token.getLineNum());
                                 }
+                                return new FunctionDefNode(idNode, functionDefParamsNode,
+                                        functionReturnNode, bodyNode, token);
                             }
                             throw new InvalidParseException("Error: expected \"{\"", token.getFilename(),
                                     token.getLineNum());
@@ -125,14 +125,17 @@ public class FunctionDefNode implements JottTree {
 
     @Override
     public boolean validateTree(SymbolTable symbolTable) throws Exception {
-        // Add to function symbol table
-        if (symbolTable.addFunction(idNode.getName(), functionReturnNode.getTypeNode().getType())) {
-            throw new InvalidValidateException("Function is already defined in current scope", this.lastToken.getFilename(), this.lastToken.getLineNum());
-        }
+
         // Add new scope
-        if (symbolTable.addScope(idNode.getName())) {
+        if (!symbolTable.addScope(idNode.getName())) {
             throw new InvalidValidateException("Function is already defined in current scope", this.lastToken.getFilename(), this.lastToken.getLineNum());
         }
+
+        // Add to function symbol table
+        if (!symbolTable.addFunction(idNode.getName(), functionReturnNode.getType())) {
+            throw new InvalidValidateException("Function is already defined in current scope", this.lastToken.getFilename(), this.lastToken.getLineNum());
+        }
+
         // Change the scope to the newly created scope
         symbolTable.changeScope(idNode.getName());
 
