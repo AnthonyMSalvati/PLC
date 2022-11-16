@@ -1,9 +1,8 @@
 package main;
 
-import Nodes.ProgramNode;
-
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.util.ArrayList;
-
 
 public class Jott
 {
@@ -19,6 +18,14 @@ public class Jott
             try {
                 boolean success = tree.validateTree(new SymbolTable());
                 System.out.println(success);
+                BufferedWriter writer = new BufferedWriter(new FileWriter(args[1]));
+                switch (args[2]) {
+                    case "Jott" -> writer.write(tree.convertToJott());
+                    case "C" -> writer.write(tree.convertToC());
+                    case "Java" -> writer.write(tree.convertToJava());
+                    case "Python" -> writer.write(tree.convertToPython(0));
+                }
+                writer.close();
             } catch (InvalidValidateException ive) {
                 ive.printError();
             } catch (Exception e) {

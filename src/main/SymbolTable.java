@@ -1,11 +1,24 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SymbolTable {
 
     private String currentScope;
     private final HashMap<String, Symbol> scopes;
+
+    private final ArrayList<String> keywords = new ArrayList<>(){{
+        add("while");
+        add("if");
+        add("elif");
+        add("else");
+        add("Double");
+        add("Integer");
+        add("String");
+        add("Boolean");
+        add("Void");
+    }};
 
     public SymbolTable(){
         this.currentScope = "global";
@@ -53,12 +66,11 @@ public class SymbolTable {
         return false;
     }
 
-    public boolean addParam(String paramName, String type){
+    public void addParam(String paramName, String type){
         if (scopes.containsKey(currentScope)){
             Symbol symbol = scopes.get(currentScope);
-            return symbol.addParam(paramName, type);
+            symbol.addParam(paramName, type);
         }
-        return false;
     }
 
     public int getParamLength(String functionName){
@@ -106,8 +118,16 @@ public class SymbolTable {
         return symbol.getType(currentScope);
     }
 
-    public HashMap<String, Symbol> getSymbolTable()
-    {
-        return this.scopes;
+    public boolean hasKeywords () {
+        boolean hasKeyword = false;
+        for (String scope : scopes.keySet()) {
+            Symbol symbol = scopes.get(scope);
+            for (String keyword : keywords) {
+                if (symbol.hasSymbol(keyword)) {
+                    hasKeyword = true;
+                }
+            }
+        }
+        return hasKeyword;
     }
 }

@@ -71,11 +71,20 @@ public class ProgramNode implements JottTree {
                     if (token != null) {
                         throw new InvalidValidateException("Missing Void function main", token.getFilename(), token.getLineNum());
                     }
+                    return false;
                 }
                 if (!symbolTable.getFunctionReturnType("main").equals("Void")){
                     if (token != null) {
                         throw new InvalidValidateException("main function is not type Void", token.getFilename(), token.getLineNum());
                     }
+                    return false;
+                }
+                if (symbolTable.hasKeywords()){
+                    if (token != null) {
+                        throw new InvalidValidateException("Cannot use keyword as variable name or function name",
+                                token.getFilename(), token.getLineNum());
+                    }
+                    return false;
                 }
                 return true;
             }

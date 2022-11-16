@@ -114,7 +114,8 @@ public class FunctionCallNode implements JottTree {
                     return this.id.validateTree(symbolTable) && this.params.validateTree(symbolTable);
                 }
             }
-            throw new InvalidValidateException("Number of parameters does not match function", this.lastToken.getFilename(), this.lastToken.getLineNum());
+            throw new InvalidValidateException("Number of parameters does not match function definition",
+                    this.lastToken.getFilename(), this.lastToken.getLineNum());
         }
 
         return this.id.validateTree(symbolTable);
