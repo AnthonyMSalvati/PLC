@@ -33,12 +33,12 @@ public class EndStatementNode implements JottTree {
 
     @Override
     public String convertToJava() {
-        return null;
+        return ";";
     }
 
     @Override
     public String convertToC() {
-        return null;
+        return ";";
     }
 
     @Override
