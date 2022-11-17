@@ -65,20 +65,35 @@ public class ParameterNode implements JottTree {
     }
 
     @Override
-    public String convertToJava() {
-        return null;
+    public String convertToJava() { //Ian
+		if (this.expr != null) {
+			if (this.params_t != null) {
+				return ", " + this.expr.convertToJava()
+					+ this.params_t.convertToJava();
+			}
+			return ", " + this.expr.convertToJava();
+		}
+		return "";
     }
 
     @Override
-    public String convertToC() {
-        return null;
+    public String convertToC() { //Ian
+		if (this.expr != null) {
+			if (this.params_t != null) {
+				return ", " + this.expr.convertToC()
+					+ this.params_t.convertToC();
+			}
+			return ", " + this.expr.convertToC();
+		}
+		return "";
     }
 
     @Override
     public String convertToPython(int nestLevel) { //Ian
 		if (this.expr != null) {
 			if (this.params_t != null) {
-				return ", " + this.expr.convertToPython(nestLevel) + this.params_t.convertToPython(nestLevel);
+				return ", " + this.expr.convertToPython(nestLevel)
+					+ this.params_t.convertToPython(nestLevel);
 			}
 			return ", " + this.expr.convertToPython(nestLevel);
 		}

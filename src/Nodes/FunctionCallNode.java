@@ -84,19 +84,21 @@ public class FunctionCallNode implements JottTree {
     }
 
     @Override
-    public String convertToJava() {
-        return null;
+    public String convertToJava() { //Ian
+		return this.id.convertToJava() + "("
+			+ (this.params!=null?this.params.convertToJava():"") + ")";
     }
 
     @Override
-    public String convertToC() {
-        return null;
+    public String convertToC() { //Ian
+		return this.id.convertToC() + "("
+			+ (this.params!=null?this.params.convertToC():"") + ")";
     }
 
     @Override
     public String convertToPython(int nestLevel) { //Ian
 		return this.id.convertToPython(nestLevel) + "("
-			+ (this.params==null?"":this.params.convertToPython(nestLevel)) + ")";
+			+ (this.params!=null?this.params.convertToPython(nestLevel):"") + ")";
     }
 
     @Override
