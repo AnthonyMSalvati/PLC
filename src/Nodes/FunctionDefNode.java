@@ -104,12 +104,59 @@ public class FunctionDefNode implements JottTree {
 
     @Override
     public String convertToJava() {
-        return null;
+        String functionHeader = "public static ";
+
+        if (idNode != null) {
+            if (idNode.getName().equals("main")){
+                if (bodyNode != null) {
+                    return "public static void main (String[] args){" + bodyNode.convertToJava() + "}";
+                }
+                return "public static void main (String[] args){}";
+            }
+
+            if (functionDefParamsNode != null) {
+                if (functionReturnNode != null) {
+                    if (bodyNode != null) {
+                        return functionHeader + functionReturnNode.convertToJava() + " " + idNode.convertToJava() + "(" +
+                                functionDefParamsNode.convertToJava() + "){" + bodyNode.convertToJava() + "}";
+                    }
+                    return functionHeader + functionReturnNode.convertToJava() + " " + idNode.convertToJava() + "(" +
+                            functionDefParamsNode.convertToJava() + "){}";
+                }
+            }
+            if (functionReturnNode != null) {
+                if (bodyNode != null) {
+                    return functionHeader + functionReturnNode.convertToJava() + " " + idNode.convertToJava() + "(){" +
+                            bodyNode.convertToJava() + "}";
+                }
+                return functionHeader + functionReturnNode.convertToJava() + " " + idNode.convertToJava() + "(){}";
+            }
+        }
+        return "";
     }
 
     @Override
     public String convertToC() {
-        return null;
+        if (idNode != null) {
+            if (functionDefParamsNode != null) {
+                if (functionReturnNode != null) {
+                    if (bodyNode != null) {
+                        return functionReturnNode.convertToC() + idNode.convertToC() + "(" + functionDefParamsNode.convertToC() +
+                                "){" + bodyNode.convertToC() + "}";
+                    }
+                    return functionReturnNode.convertToC() + idNode.convertToC() + "(" +
+                            functionDefParamsNode.convertToC() + "){}";
+                }
+            }
+            if (functionReturnNode != null) {
+                if (bodyNode != null) {
+                    return functionReturnNode.convertToC() + idNode.convertToC() + "(){" +
+                            bodyNode.convertToC() + "}";
+                }
+                return functionReturnNode.convertToC() + idNode.convertToC() + "(){}";
+            }
+        }
+        return "";
     }
 
     @Override

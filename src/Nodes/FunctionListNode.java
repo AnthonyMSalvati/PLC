@@ -48,12 +48,24 @@ public class FunctionListNode implements JottTree {
 
     @Override
     public String convertToJava() {
-        return null;
+        if (functionDefNode != null) {
+            if (functionListNode != null) {
+                return functionDefNode.convertToJava() + functionListNode.convertToJava();
+            }
+            return functionDefNode.convertToJava();
+        }
+        return "";
     }
 
     @Override
     public String convertToC() {
-        return null;
+        if (functionDefNode != null) {
+            if (functionListNode != null) {
+                return functionDefNode.convertToC() + functionListNode.convertToC();
+            }
+            return functionDefNode.convertToC();
+        }
+        return "";
     }
 
     @Override

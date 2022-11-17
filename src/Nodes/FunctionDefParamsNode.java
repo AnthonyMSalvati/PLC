@@ -65,12 +65,30 @@ public class FunctionDefParamsNode implements JottTree {
 
     @Override
     public String convertToJava() {
-        return null;
+        if (idNode != null) {
+            if (typeNode != null) {
+                if (functionDefParamsTailNode != null) {
+                    return typeNode.convertToJava() + " " + idNode.convertToJava() +
+                            functionDefParamsTailNode.convertToJava();
+                }
+                return typeNode.convertToJava() + " " + idNode.convertToJava();
+            }
+        }
+        return "";
     }
 
     @Override
     public String convertToC() {
-        return null;
+        if (idNode != null) {
+            if (typeNode != null) {
+                if (functionDefParamsTailNode != null) {
+                    return typeNode.convertToC() + " " + idNode.convertToC() +
+                            functionDefParamsTailNode.convertToC();
+                }
+                return typeNode.convertToC() + " " + idNode.convertToC();
+            }
+        }
+        return "";
     }
 
     @Override

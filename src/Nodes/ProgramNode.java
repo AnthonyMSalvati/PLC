@@ -46,19 +46,34 @@ public class ProgramNode implements JottTree {
 
     @Override
     public String convertToJava() {
-        return null;
+
+        String fileName = token.getFilename();
+        String className = fileName.split("\\.")[0];
+        String header = "public class " + className + " {";
+        if (functionListNode != null) {
+            return header + functionListNode.convertToJava() + " }";
+        }
+        return "";
     }
 
     @Override
     public String convertToC() {
-        return null;
+        String header = """
+                #include <stdio.h>\s
+                #include <string.h>\s
+                #include <stdlib.h>\s
+                """;
+        if (functionListNode != null) {
+            return header + functionListNode.convertToJava();
+        }
+        return "";
     }
 
     @Override
     public String convertToPython(int nestLevel) { //Ian
         if (functionListNode != null) {
 			// nestLevel should be zero
-			return functionListNode.convertToPython(0);
+			return functionListNode.convertToPython(0) + "\nmain()";
 		}
 		return "";
     }
