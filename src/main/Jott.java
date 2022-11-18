@@ -13,12 +13,12 @@ public class Jott
         if (args.length != 3 || !(args[2].equals("Jott") || args[2].equals("Java") ||
                 args[2].equals("C") || args[2].equals("Python"))) {
             // print help message
-            System.out.println("""
-                    Usage: java Jott <input_file> <output_file> <language>\s
-                    - input_file - the .jott file to convert to new language
-                    - output_file - the file to write the converted code into
-                    - language - the language to convert to (Jott | Java | C | Python)
-                    """);
+            System.out.println(""
+                    +"\nUsage: java Jott <input_file> <output_file> <language>"
+                    +"\n- input_file - the .jott file to convert to new language"
+                    +"\n- output_file - the file to write the converted code into"
+                    +"\n- language - the language to convert to (Jott | Java | C | Python)"
+                    +"\n");
             return;
         }
 
