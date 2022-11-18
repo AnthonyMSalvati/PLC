@@ -92,9 +92,10 @@ public class ElseStatementNode implements JottTree {
 		for (int i=0;i<nestLevel;i++) {
 			nestIndent = nestIndent + "\t";
 		}
-		// python does not allow empty statements, so "True" is put there just in case
-        return nestIndent + "else:\n"
-			+ (this.bodyNode != null ? this.bodyNode.convertToPython(nestLevel+1)+"\n":"\tTrue\n");
+		if (this.bodyNode != null) {
+			return nestIndent + "else:\n" + this.bodyNode.convertToPython(nestLevel+1);
+		}
+		return "";
     }
 
     @Override

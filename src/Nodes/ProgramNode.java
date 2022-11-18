@@ -58,11 +58,11 @@ public class ProgramNode implements JottTree {
 
     @Override
     public String convertToC() {
-        String header = """
-                #include <stdio.h>\s
-                #include <string.h>\s
-                #include <stdlib.h>\s
-                """;
+        String header = "\n"
+                + "#include <stdio.h>\n"
+                + "#include <string.h>\n"
+                + "#include <stdlib.h>\n"
+                ;
         if (functionListNode != null) {
             return header + functionListNode.convertToJava();
         }
@@ -73,7 +73,7 @@ public class ProgramNode implements JottTree {
     public String convertToPython(int nestLevel) { //Ian
         if (functionListNode != null) {
 			// nestLevel should be zero
-			return functionListNode.convertToPython(0) + "\nmain()";
+			return functionListNode.convertToPython(0) + "main()";
 		}
 		return "";
     }
