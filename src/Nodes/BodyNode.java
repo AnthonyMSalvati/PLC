@@ -121,9 +121,12 @@ public class BodyNode implements JottTree {
 		}
 		if (this.returnStmNode != null) {
 			return nestIndent + this.returnStmNode.convertToPython(nestLevel);
-			}
-		return nestIndent + this.bodyStmNode.convertToPython(nestLevel)
-			+ this.bodyNode.convertToPython(nestLevel);
+		}
+		if (this.bodyNode != null) {
+			return nestIndent + this.bodyStmNode.convertToPython(nestLevel)
+				+ this.bodyNode.convertToPython(nestLevel);
+		}
+		return nestIndent + this.bodyStmNode.convertToPython(nestLevel);
     }
 
     @Override

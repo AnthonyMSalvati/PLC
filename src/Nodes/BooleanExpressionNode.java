@@ -340,10 +340,9 @@ public class BooleanExpressionNode implements JottTree {
         return "";
     }
 
-    public String getType(SymbolTable symbolTable){
+    public String getType(SymbolTable symbolTable) throws Exception {
         if (functionCallNode != null) {
-            //TODO change
-            return "";
+            return functionCallNode.getType(symbolTable);
         }
         if (idNode != null) {
             return symbolTable.getType(idNode.getName());

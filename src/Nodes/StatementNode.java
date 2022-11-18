@@ -71,13 +71,31 @@ public class StatementNode implements JottTree {
     }
 
     @Override
-    public String convertToJava() {
-        return null;
+    public String convertToJava() { //Ian
+		if (this.asmt != null) {
+			return this.asmt.convertToJava();
+		}
+		if (this.var_dec != null) {
+			return this.var_dec.convertToJava();
+		}
+		if (this.func_call != null && this.end_stmt != null) {
+			return this.func_call.convertToJava() + this.end_stmt.convertToJava();
+		}
+        return "";
     }
 
     @Override
-    public String convertToC() {
-        return null;
+    public String convertToC() { //Ian
+		if (this.asmt != null) {
+			return this.asmt.convertToC();
+		}
+		if (this.var_dec != null) {
+			return this.var_dec.convertToC();
+		}
+		if (this.func_call != null && this.end_stmt != null) {
+			return this.func_call.convertToC() + this.end_stmt.convertToC();
+		}
+        return "";
     }
 
     @Override

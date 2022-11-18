@@ -112,20 +112,22 @@ public class IfStatementNode implements JottTree {
 
     @Override
     public String convertToJava() {
-        return null;
+        return "if (" + this.booleanExpressionNode.convertToJava() + "){ " + this.bodyNode.convertToJava() + "} "
+                + this.elseIfStatementNode.convertToJava() + this.elseStatementNode.convertToJava();
     }
 
     @Override
     public String convertToC() {
-        return null;
+        return "if (" + this.booleanExpressionNode.convertToC() + "){ " + this.bodyNode.convertToC() + "} "
+                + this.elseIfStatementNode.convertToC() + this.elseStatementNode.convertToC();
     }
 
     @Override
     public String convertToPython(int nestLevel) { //Ian
 		return "if (" + this.booleanExpressionNode.convertToPython(nestLevel) + "):\n"
-			+ this.bodyNode.convertToPython(nestLevel + 1) + "\n"
-			+ (this.elseIfStatementNode!=null?this.elseIfStatementNode.convertToPython(nestLevel)+"\n":"")
-			+ (this.elseStatementNode!=null?this.elseStatementNode.convertToPython(nestLevel)+"\n":"");
+			+ this.bodyNode.convertToPython(nestLevel + 1)// + "\n"
+			+ (this.elseIfStatementNode!=null?this.elseIfStatementNode.convertToPython(nestLevel)+"":"")
+			+ (this.elseStatementNode!=null?this.elseStatementNode.convertToPython(nestLevel)+"":"");
     }
 
     @Override

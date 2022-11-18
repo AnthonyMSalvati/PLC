@@ -359,12 +359,88 @@ public class AssignmentNode implements JottTree {
 
     @Override
     public String convertToJava() {
-        return null;
+        if (this.value != null){
+            if (this.idNode != null){
+                if (this.doubleExpressionNode != null) {
+                    return this.value + " " + this.idNode.convertToJava() + "=" +
+                            this.doubleExpressionNode.convertToJava() + this.endStatementNode.convertToJava();
+                }
+                if (integerExpressionNode != null) {
+                    return this.value + " " + this.idNode.convertToJava() + "=" +
+                            this.integerExpressionNode.convertToJava() + this.endStatementNode.convertToJava();
+                }
+                if (this.stringExpressionNode != null) {
+                    return this.value + " " + this.idNode.convertToJava() + "=" +
+                            this.stringExpressionNode.convertToJava() + this.endStatementNode.convertToJava();
+                }
+                if (this.booleanExpressionNode != null) {
+                    return this.value + " " + this.idNode.convertToJava() + "=" +
+                            this.booleanExpressionNode.convertToJava() + this.endStatementNode.convertToJava();
+                }
+            }
+        }
+        if (this.idNode != null) {
+            if (this.doubleExpressionNode != null) {
+                return this.idNode.convertToJava() + "=" +
+                        this.doubleExpressionNode.convertToJava() + this.endStatementNode.convertToJava();
+            }
+            if (this.integerExpressionNode != null) {
+                return idNode.convertToJava() + "=" +
+                        this.integerExpressionNode.convertToJava() + this.endStatementNode.convertToJava();
+            }
+            if (this.stringExpressionNode != null) {
+                return this.idNode.convertToJava() + "=" +
+                        this.stringExpressionNode.convertToJava() + this.endStatementNode.convertToJava();
+            }
+            if (this.booleanExpressionNode != null) {
+                return this.idNode.convertToJava() + "=" +
+                        this.booleanExpressionNode.convertToJava() + this.endStatementNode.convertToJava();
+            }
+        }
+        return "";
     }
 
     @Override
     public String convertToC() {
-        return null;
+        if (this.value != null){
+            if (this.idNode != null){
+                if (this.doubleExpressionNode != null) {
+                    return this.value + " " + this.idNode.convertToC() + "=" +
+                            this.doubleExpressionNode.convertToC() + this.endStatementNode.convertToC();
+                }
+                if (integerExpressionNode != null) {
+                    return this.value + " " + this.idNode.convertToC() + "=" +
+                            this.integerExpressionNode.convertToC() + this.endStatementNode.convertToC();
+                }
+                if (this.stringExpressionNode != null) {
+                    return this.value + " " + this.idNode.convertToC() + "=" +
+                            this.stringExpressionNode.convertToC() + this.endStatementNode.convertToC();
+                }
+                if (this.booleanExpressionNode != null) {
+                    return this.value + " " + this.idNode.convertToC() + "=" +
+                            this.booleanExpressionNode.convertToC() + this.endStatementNode.convertToC();
+                }
+            }
+        }
+        if (this.idNode != null) {
+            if (this.doubleExpressionNode != null) {
+                return this.idNode.convertToC() + "=" +
+                        this.doubleExpressionNode.convertToC() + this.endStatementNode.convertToC();
+            }
+            if (this.integerExpressionNode != null) {
+                return idNode.convertToC() + "=" +
+                        this.integerExpressionNode.convertToC() + this.endStatementNode.convertToC();
+            }
+            if (this.stringExpressionNode != null) {
+                return this.idNode.convertToC() + "=" +
+                        this.stringExpressionNode.convertToC() + this.endStatementNode.convertToC();
+            }
+            if (this.booleanExpressionNode != null) {
+                return this.idNode.convertToC() + "=" +
+                        this.booleanExpressionNode.convertToC() + this.endStatementNode.convertToC();
+            }
+        }
+        return "";
     }
 
     @Override

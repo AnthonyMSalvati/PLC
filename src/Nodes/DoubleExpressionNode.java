@@ -18,7 +18,8 @@ public class DoubleExpressionNode implements JottTree {
     private final DoubleNode doubleNode1;
     private final DoubleNode doubleNode2;
     private final OperatorNode operatorNode;
-    private final DoubleExpressionNode doubleExpressionNode;
+    private final DoubleExpressionNode doubleExpressionNode1;
+    private final DoubleExpressionNode doubleExpressionNode2;
     private final FunctionCallNode functionCallNode;
 
     // < id >
@@ -26,7 +27,8 @@ public class DoubleExpressionNode implements JottTree {
         this.doubleNode1 = null;
         this.doubleNode2 = null;
         this.operatorNode = null;
-        this.doubleExpressionNode = null;
+        this.doubleExpressionNode1 = null;
+        this.doubleExpressionNode2 = null;
         this.functionCallNode = null;
 
         this.idNode = idNode;
@@ -38,7 +40,8 @@ public class DoubleExpressionNode implements JottTree {
         this.doubleNode1 = null;
         this.doubleNode2 = null;
         this.operatorNode = null;
-        this.doubleExpressionNode = null;
+        this.doubleExpressionNode1 = null;
+        this.doubleExpressionNode2 = null;
 
         this.functionCallNode = functionCallNode;
     }
@@ -49,7 +52,8 @@ public class DoubleExpressionNode implements JottTree {
         this.functionCallNode = null;
         this.doubleNode2 = null;
         this.operatorNode = null;
-        this.doubleExpressionNode = null;
+        this.doubleExpressionNode1 = null;
+        this.doubleExpressionNode2 = null;
 
         this.doubleNode1 = doubleNode1;
     }
@@ -58,7 +62,8 @@ public class DoubleExpressionNode implements JottTree {
     public DoubleExpressionNode(DoubleNode doubleNode1, DoubleNode doubleNode2, OperatorNode operatorNode) {
         this.idNode = null;
         this.functionCallNode = null;
-        this.doubleExpressionNode = null;
+        this.doubleExpressionNode1 = null;
+        this.doubleExpressionNode2 = null;
 
         this.doubleNode1 = doubleNode1;
         this.doubleNode2 = doubleNode2;
@@ -66,38 +71,41 @@ public class DoubleExpressionNode implements JottTree {
     }
 
     // < dbl > < op> < d_expr >
-    public DoubleExpressionNode(DoubleNode doubleNode1, DoubleExpressionNode doubleExpressionNode,
+    public DoubleExpressionNode(DoubleNode doubleNode1, DoubleExpressionNode doubleExpressionNode2,
                                 OperatorNode operatorNode) {
         this.idNode = null;
         this.functionCallNode = null;
         this.doubleNode2 = null;
+        this.doubleExpressionNode1 = null;
 
         this.doubleNode1 = doubleNode1;
-        this.doubleExpressionNode = doubleExpressionNode;
+        this.doubleExpressionNode2 = doubleExpressionNode2;
         this.operatorNode = operatorNode;
     }
 
-    // < id > < op > < d_expr >
-    public DoubleExpressionNode(IdNode idNode, DoubleExpressionNode doubleExpressionNode,
+    // < d_expr > < op > < dbl >
+    public DoubleExpressionNode(DoubleExpressionNode doubleExpressionNode, DoubleNode doubleNode,
                                 OperatorNode operatorNode) {
+        this.idNode = null;
+        this.functionCallNode = null;
+        this.doubleNode2 = null;
+        this.doubleExpressionNode2 = null;
+
+        this.doubleExpressionNode1 = doubleExpressionNode;
+        this.doubleNode1 = doubleNode;
+        this.operatorNode = operatorNode;
+    }
+
+    // < d_expr > < op > < d_expr >
+    public DoubleExpressionNode(DoubleExpressionNode doubleExpressionNode1, DoubleExpressionNode doubleExpressionNode2,
+                                OperatorNode operatorNode) {
+        this.idNode = null;
         this.functionCallNode = null;
         this.doubleNode1 = null;
         this.doubleNode2 = null;
 
-        this.idNode = idNode;
-        this.doubleExpressionNode = doubleExpressionNode;
-        this.operatorNode = operatorNode;
-    }
-
-    // < id > < op > < dbl >
-    public DoubleExpressionNode(IdNode idNode, DoubleNode doubleNode,
-                                OperatorNode operatorNode) {
-        this.functionCallNode = null;
-        this.doubleNode2 = null;
-        this.doubleExpressionNode = null;
-
-        this.idNode = idNode;
-        this.doubleNode1 = doubleNode;
+        this.doubleExpressionNode1 = doubleExpressionNode1;
+        this.doubleExpressionNode2 = doubleExpressionNode2;
         this.operatorNode = operatorNode;
     }
 
@@ -107,29 +115,7 @@ public class DoubleExpressionNode implements JottTree {
         if (functionCallNode != null) {
             return new DoubleExpressionNode(functionCallNode);
         }
-        IdNode idNode = IdNode.parseIdNode(tokens);
-        if (idNode != null) {
-            OperatorNode operatorNode = OperatorNode.parseOperatorNode(tokens);
-            if (operatorNode != null) {
-                OperatorNode operatorNode2 = OperatorNode.parseOperatorNode(new ArrayList<>(Collections.singletonList(tokens.get(1))));
-                if (operatorNode2 != null) {
-                    DoubleExpressionNode doubleExpressionNode = parseDoubleExpressionNode(tokens);
-                    if (doubleExpressionNode != null) {
-                        return new DoubleExpressionNode(idNode, doubleExpressionNode, operatorNode);
-                    }
-                }
 
-                DoubleNode doubleNode =  DoubleNode.parseDoubleNode(tokens);
-                if (doubleNode != null) {
-                    return new DoubleExpressionNode(idNode, doubleNode, operatorNode);
-                } else {
-                    throw new InvalidParseException("Error: <dbl> <op> not followed by <dbl>", tokens.get(0).getFilename(),
-                            tokens.get(0).getLineNum());
-                }
-            } else {
-                return new DoubleExpressionNode(idNode);
-            }
-        }
         DoubleNode doubleNode1 = DoubleNode.parseDoubleNode(tokens);
         if (doubleNode1 != null) {
             OperatorNode operatorNode = OperatorNode.parseOperatorNode(tokens);
@@ -140,6 +126,11 @@ public class DoubleExpressionNode implements JottTree {
                     if (doubleExpressionNode != null) {
                         return new DoubleExpressionNode(doubleNode1, doubleExpressionNode, operatorNode);
                     }
+                }
+
+                IdNode idNode = IdNode.parseIdNode(tokens);
+                if (idNode != null) {
+                    return new DoubleExpressionNode(doubleNode1, new DoubleExpressionNode(idNode), operatorNode);
                 }
 
                 DoubleNode doubleNode2 =  DoubleNode.parseDoubleNode(tokens);
@@ -153,6 +144,30 @@ public class DoubleExpressionNode implements JottTree {
                 return new DoubleExpressionNode(doubleNode1);
             }
         }
+        IdNode idNode = IdNode.parseIdNode(tokens);
+        if (idNode != null) {
+            if (tokens.size() > 1) {
+                OperatorNode operatorNode = OperatorNode.parseOperatorNode(tokens);
+                if (operatorNode != null) {
+                    DoubleExpressionNode doubleExpressionNode1 = new DoubleExpressionNode(idNode);
+                    OperatorNode operatorNode2 = OperatorNode.parseOperatorNode(new ArrayList<>(Collections.singletonList(tokens.get(1))));
+                    if (operatorNode2 != null) {
+                        DoubleExpressionNode doubleExpressionNode2 = parseDoubleExpressionNode(tokens);
+                        if (doubleExpressionNode2 != null) {
+                            return new DoubleExpressionNode(doubleExpressionNode1, doubleExpressionNode2, operatorNode);
+                        }
+                    }
+                    DoubleNode doubleNode = DoubleNode.parseDoubleNode(tokens);
+                    if (doubleNode != null) {
+                        return new DoubleExpressionNode(doubleExpressionNode1, doubleNode, operatorNode);
+                    } else {
+                        throw new InvalidParseException("Error: <i_expr> <op> not followed by <int>",
+                                tokens.get(0).getFilename(), tokens.get(0).getLineNum());
+                    }
+                }
+            }
+            return new DoubleExpressionNode(idNode);
+        }
 
         return null;
     }
@@ -163,10 +178,14 @@ public class DoubleExpressionNode implements JottTree {
         }
 
         if (idNode != null) {
+            return symbolTable.getType(idNode.getName());
+        }
+
+        if (doubleExpressionNode1 != null) {
             if (operatorNode != null) {
-                if (doubleExpressionNode != null) {
-                    if (symbolTable.getType(idNode.getName()).equals(doubleExpressionNode.getType(symbolTable))){
-                        return symbolTable.getType(idNode.getName());
+                if (doubleExpressionNode2 != null) {
+                    if (doubleExpressionNode1.getType(symbolTable).equals(doubleExpressionNode2.getType(symbolTable))){
+                        return "Double";
                     }
                     return null;
                 }
@@ -174,13 +193,14 @@ public class DoubleExpressionNode implements JottTree {
                     return "Double";
                 }
             }
-            return symbolTable.getType(idNode.getName());
+            return "Double";
         }
 
         if (doubleNode1 != null) {
             if (operatorNode != null) {
-                if (doubleExpressionNode != null) {
-                    return "Double";
+                if (doubleExpressionNode2 != null) {
+                    if (doubleExpressionNode2.getType(symbolTable).equals("Double"))
+                        return "Double";
                 }
                 if(doubleNode2 != null) {
                     return "Double";
@@ -199,26 +219,30 @@ public class DoubleExpressionNode implements JottTree {
         }
 
         if (idNode != null) {
+            return idNode.convertToJott();
+        }
+
+        if (doubleExpressionNode1 != null) {
             if (operatorNode != null) {
-                if (doubleExpressionNode != null) {
-                    return idNode.convertToJott() + operatorNode.convertToJott() +
-                            doubleExpressionNode.convertToJott();
+                if (doubleExpressionNode2 != null) {
+                    return doubleExpressionNode1.convertToJott() + operatorNode.convertToJott() +
+                            doubleExpressionNode2.convertToJott();
                 }
-                if (doubleNode1 != null) {
-                    return idNode.convertToJott() + operatorNode.convertToJott() +
+                if(doubleNode1 != null) {
+                    return doubleExpressionNode1.convertToJott() + operatorNode.convertToJott() +
                             doubleNode1.convertToJott();
                 }
             }
-            return idNode.convertToJott();
+            return doubleExpressionNode1.convertToJott();
         }
 
         if (doubleNode1 != null) {
             if (operatorNode != null) {
-                if (doubleExpressionNode != null) {
+                if (doubleExpressionNode2 != null) {
                     return doubleNode1.convertToJott() + operatorNode.convertToJott() +
-                            doubleExpressionNode.convertToJott();
+                            doubleExpressionNode2.convertToJott();
                 }
-                if (doubleNode2 != null) {
+                if(doubleNode2 != null) {
                     return doubleNode1.convertToJott() + operatorNode.convertToJott() +
                             doubleNode2.convertToJott();
                 }
@@ -230,47 +254,122 @@ public class DoubleExpressionNode implements JottTree {
 
     @Override
     public String convertToJava() {
-        return null;
+        if (functionCallNode != null) {
+            return functionCallNode.convertToJava();
+        }
+
+        if (idNode != null) {
+            return idNode.convertToJava();
+        }
+
+        if (doubleExpressionNode1 != null) {
+            if (operatorNode != null) {
+                if (doubleExpressionNode2 != null) {
+                    return doubleExpressionNode1.convertToJava() + operatorNode.convertToJava() +
+                            doubleExpressionNode2.convertToJava();
+                }
+                if(doubleNode1 != null) {
+                    return doubleExpressionNode1.convertToJava() + operatorNode.convertToJava() +
+                            doubleNode1.convertToJava();
+                }
+            }
+            return doubleExpressionNode1.convertToJava();
+        }
+
+        if (doubleNode1 != null) {
+            if (operatorNode != null) {
+                if (doubleExpressionNode2 != null) {
+                    return doubleNode1.convertToJava() + operatorNode.convertToJava() +
+                            doubleExpressionNode2.convertToJava();
+                }
+                if(doubleNode2 != null) {
+                    return doubleNode1.convertToJava() + operatorNode.convertToJava() +
+                            doubleNode2.convertToJava();
+                }
+            }
+            return doubleNode1.convertToJava();
+        }
+        return "";
     }
 
     @Override
     public String convertToC() {
-        return null;
+        if (functionCallNode != null) {
+            return functionCallNode.convertToC();
+        }
+
+        if (idNode != null) {
+            return idNode.convertToC();
+        }
+
+        if (doubleExpressionNode1 != null) {
+            if (operatorNode != null) {
+                if (doubleExpressionNode2 != null) {
+                    return doubleExpressionNode1.convertToC() + operatorNode.convertToC() +
+                            doubleExpressionNode2.convertToC();
+                }
+                if(doubleNode1 != null) {
+                    return doubleExpressionNode1.convertToC() + operatorNode.convertToC() +
+                            doubleNode1.convertToC();
+                }
+            }
+            return doubleExpressionNode1.convertToC();
+        }
+
+        if (doubleNode1 != null) {
+            if (operatorNode != null) {
+                if (doubleExpressionNode2 != null) {
+                    return doubleNode1.convertToC() + operatorNode.convertToC() +
+                            doubleExpressionNode2.convertToC();
+                }
+                if(doubleNode2 != null) {
+                    return doubleNode1.convertToC() + operatorNode.convertToC() +
+                            doubleNode2.convertToC();
+                }
+            }
+            return doubleNode1.convertToC();
+        }
+        return "";
     }
 
     @Override
     public String convertToPython(int nestLevel) { //Ian
-		if (this.operatorNode == null) {
-			if (this.idNode != null) {
-				return this.idNode.convertToPython(nestLevel);
-			} else {
-				return this.functionCallNode.convertToPython(nestLevel);
-			}
-		}
-		if (this.doubleNode2 != null) {
-			return this.doubleNode1.convertToPython(nestLevel)
-				+ this.operatorNode.convertToPython(nestLevel)
-				+ this.doubleNode2.convertToPython(nestLevel);
-		}
-		if (this.idNode == null && this.doubleExpressionNode == null) {
-			return this.doubleNode1.convertToPython(nestLevel);
-		}
-		if (this.idNode == null) {
-			return this.doubleNode1.convertToPython(nestLevel)
-				+ this.operatorNode.convertToPython(nestLevel)
-				+ this.doubleExpressionNode.convertToPython(nestLevel);
-		}
-		if (this.doubleNode1 == null) {
-			return this.idNode.convertToPython(nestLevel)
-				+ this.operatorNode.convertToPython(nestLevel)
-				+ this.doubleExpressionNode.convertToPython(nestLevel);
-		}
-		if (this.doubleExpressionNode == null) {
-			return this.doubleNode1.convertToPython(nestLevel)
-				+ this.operatorNode.convertToPython(nestLevel)
-				+ this.idNode.convertToPython(nestLevel);
-		}
-		return "";
+        if (functionCallNode != null) {
+            return functionCallNode.convertToPython(nestLevel);
+        }
+
+        if (idNode != null) {
+            return idNode.convertToPython(nestLevel);
+        }
+
+        if (doubleExpressionNode1 != null) {
+            if (operatorNode != null) {
+                if (doubleExpressionNode2 != null) {
+                    return doubleExpressionNode1.convertToPython(nestLevel) + operatorNode.convertToPython(nestLevel) +
+                            doubleExpressionNode2.convertToPython(nestLevel);
+                }
+                if(doubleNode1 != null) {
+                    return doubleExpressionNode1.convertToPython(nestLevel) + operatorNode.convertToPython(nestLevel) +
+                            doubleNode1.convertToPython(nestLevel);
+                }
+            }
+            return doubleExpressionNode1.convertToPython(nestLevel);
+        }
+
+        if (doubleNode1 != null) {
+            if (operatorNode != null) {
+                if (doubleExpressionNode2 != null) {
+                    return doubleNode1.convertToPython(nestLevel) + operatorNode.convertToPython(nestLevel) +
+                            doubleExpressionNode2.convertToPython(nestLevel);
+                }
+                if(doubleNode2 != null) {
+                    return doubleNode1.convertToPython(nestLevel) + operatorNode.convertToPython(nestLevel) +
+                            doubleNode2.convertToPython(nestLevel);
+                }
+            }
+            return doubleNode1.convertToPython(nestLevel);
+        }
+        return "";
     }
 
     @Override
@@ -280,32 +379,36 @@ public class DoubleExpressionNode implements JottTree {
         }
 
         if (idNode != null) {
+            return idNode.validateTree(symbolTable);
+        }
+
+        if (doubleExpressionNode1 != null) {
             if (operatorNode != null) {
-                if (doubleExpressionNode != null) {
-                    if (symbolTable.getType(idNode.getName()).equals(doubleExpressionNode.getType(symbolTable))) {
-                        return idNode.validateTree(symbolTable) && operatorNode.validateTree(symbolTable) &&
-                                doubleExpressionNode.validateTree(symbolTable);
+                if (doubleExpressionNode2 != null) {
+                    if (doubleExpressionNode1.getType(symbolTable).equals(doubleExpressionNode2.getType(symbolTable))) {
+                        return doubleExpressionNode1.validateTree(symbolTable) && operatorNode.validateTree(symbolTable) &&
+                                doubleExpressionNode2.validateTree(symbolTable);
                     }
                 }
-                if(doubleNode1 != null) {
-                    if (symbolTable.getType(idNode.getName()).equals("Double")) {
-                        return idNode.validateTree(symbolTable) && operatorNode.validateTree(symbolTable) &&
+                if (doubleNode1 != null) {
+                    if (doubleExpressionNode1.getType(symbolTable).equals("Double")) {
+                        return doubleExpressionNode1.validateTree(symbolTable) && operatorNode.validateTree(symbolTable) &&
                                 doubleNode1.validateTree(symbolTable);
                     }
                 }
             }
-            return idNode.validateTree(symbolTable);
+            return doubleExpressionNode1.validateTree(symbolTable);
         }
 
         if (doubleNode1 != null) {
             if (operatorNode != null) {
-                if (doubleExpressionNode != null) {
-                    if (doubleExpressionNode.getType(symbolTable).equals("Double")) {
+                if (doubleExpressionNode2 != null) {
+                    if (doubleExpressionNode2.getType(symbolTable).equals("Double")) {
                         return doubleNode1.validateTree(symbolTable) && operatorNode.validateTree(symbolTable) &&
-                                doubleExpressionNode.validateTree(symbolTable);
+                                doubleExpressionNode2.validateTree(symbolTable);
                     }
                 }
-                if(doubleNode2 != null) {
+                if (doubleNode2 != null) {
                     return doubleNode1.validateTree(symbolTable) && operatorNode.validateTree(symbolTable) &&
                             doubleNode2.validateTree(symbolTable);
                 }

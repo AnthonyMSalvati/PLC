@@ -10,6 +10,18 @@ public class Jott
     {
         ArrayList<Token> tokenList;
 
+        if (args.length != 3 || !(args[2].equals("Jott") || args[2].equals("Java") ||
+                args[2].equals("C") || args[2].equals("Python"))) {
+            // print help message
+            System.out.println("""
+                    Usage: java Jott <input_file> <output_file> <language>\s
+                    - input_file - the .jott file to convert to new language
+                    - output_file - the file to write the converted code into
+                    - language - the language to convert to (Jott | Java | C | Python)
+                    """);
+            return;
+        }
+
         tokenList = JottTokenizer.tokenize(args[0]);
 
         assert tokenList != null;
@@ -20,10 +32,18 @@ public class Jott
                 System.out.println(success);
                 BufferedWriter writer = new BufferedWriter(new FileWriter(args[1]));
                 switch (args[2]) {
-                    case "Jott" -> writer.write(tree.convertToJott());
-                    case "C" -> writer.write(tree.convertToC());
-                    case "Java" -> writer.write(tree.convertToJava());
-                    case "Python" -> writer.write(tree.convertToPython(0));
+                    case "Jott":
+                        writer.write(tree.convertToJott());
+                        break;
+                    case "C":
+                        writer.write(tree.convertToC());
+                        break;
+                    case "Java":
+                        writer.write(tree.convertToJava());
+                        break;
+                    case "Python":
+                        writer.write(tree.convertToPython(0));
+                        break;
                 }
                 writer.close();
             } catch (InvalidValidateException ive) {
@@ -34,8 +54,7 @@ public class Jott
         }
         System.out.println();
 
-
-
-
     }
+
+
 }

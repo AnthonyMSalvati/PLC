@@ -38,17 +38,19 @@ public class StringLiteralNode implements JottTree {
 
     @Override
     public String convertToJava() {
-        return "\"" + this.value + "\"";
+		return this.value;
     }
 
     @Override
     public String convertToC() {
-        return "\"" + this.value + "\"";
+		return this.value;
     }
 
     @Override
     public String convertToPython(int nestLevel) { //Ian
-		return "\"" + this.value + "\""; //assumed strings need quotes
+		return this.value;
+		// lower line is WRONG -Ian
+		//return "\"" + this.value + "\""; //assumed strings need quotes
     }
 
     @Override
