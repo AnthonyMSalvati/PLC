@@ -44,6 +44,10 @@ public class TypeNode implements JottTree {
 
     @Override
     public String convertToC() {
+        // C uses char, not String
+        if (type.equals("String")) {
+            return "char";
+        }
         return type;
     }
 
