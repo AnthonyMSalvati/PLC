@@ -58,11 +58,10 @@ public class ProgramNode implements JottTree {
 
     @Override
     public String convertToC() {
-        String header = "\n"
-                + "#include <stdio.h>\n"
+        String header = "#include <stdio.h>\n"
                 + "#include <string.h>\n"
                 + "#include <stdlib.h>\n"
-                ;
+                + "#include <stdbool.h>\n";
         if (functionListNode != null) {
             return header + functionListNode.convertToJava();
         }
