@@ -86,12 +86,30 @@ public class StringExpressionNode implements JottTree {
 
     @Override
     public String convertToJava() {
-        return null;
+        if (this.stringLiteralNode != null) {
+			return this.stringLiteralNode.convertToJava();
+		}
+		if (this.idNode != null) {
+			return this.idNode.convertToJava();
+		}
+		if (this.functionCallNode != null) {
+			return this.functionCallNode.convertToJava();
+		}
+        return "";
     }
 
     @Override
     public String convertToC() {
-        return null;
+        if (this.stringLiteralNode != null) {
+			return this.stringLiteralNode.convertToC();
+		}
+		if (this.idNode != null) {
+			return this.idNode.convertToC();
+		}
+		if (this.functionCallNode != null) {
+			return this.functionCallNode.convertToC();
+		}
+        return "";
     }
 
     @Override

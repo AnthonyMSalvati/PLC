@@ -233,12 +233,48 @@ public class ExpressionNode implements JottTree {
 
     @Override
     public String convertToJava() {
-        return null;
+        if (this.idNode != null) {
+			return this.idNode.convertToJava();
+		}
+		if (this.functionCallNode != null) {
+			return this.functionCallNode.convertToJava();
+		}
+		if (this.integerExpressionNode != null) {
+			return this.integerExpressionNode.convertToJava();
+		}
+		if (this.doubleExpressionNode != null) {
+			return this.doubleExpressionNode.convertToJava();
+		}
+		if (this.stringExpressionNode != null) {
+			return this.stringExpressionNode.convertToJava();
+		}
+		if (this.booleanExpressionNode != null) {
+			return this.booleanExpressionNode.convertToJava();
+		}
+        return "";
     }
 
     @Override
     public String convertToC() {
-        return null;
+        if (this.idNode != null) {
+			return this.idNode.convertToC();
+		}
+		if (this.functionCallNode != null) {
+			return this.functionCallNode.convertToC();
+		}
+		if (this.integerExpressionNode != null) {
+			return this.integerExpressionNode.convertToC();
+		}
+		if (this.doubleExpressionNode != null) {
+			return this.doubleExpressionNode.convertToC();
+		}
+		if (this.stringExpressionNode != null) {
+			return this.stringExpressionNode.convertToC();
+		}
+		if (this.booleanExpressionNode != null) {
+			return this.booleanExpressionNode.convertToC();
+		}
+        return "";
     }
 
     @Override

@@ -383,12 +383,70 @@ public class BooleanExpressionNode implements JottTree {
 
     @Override
     public String convertToJava() {
-        return null;
+        if (this.idNode != null) {
+			return this.idNode.convertToJava();
+		}
+        if (this.functionCallNode != null) {
+			return this.functionCallNode.convertToJava();
+		}
+        if (this.booleanNode != null) {
+			return this.booleanNode.convertToJava();
+		}
+        if (this.integerExpressionNode1 != null) {
+			return this.integerExpressionNode1.convertToJava()
+				+ this.relationOperatorNode.convertToJava()
+				+ this.integerExpressionNode2.convertToJava();
+		}
+        if (this.doubleExpressionNode1 != null) {
+			return this.doubleExpressionNode1.convertToJava()
+				+ this.relationOperatorNode.convertToJava()
+				+ this.doubleExpressionNode2.convertToJava();
+		}
+        if (this.stringExpressionNode1 != null) {
+			return this.stringExpressionNode1.convertToJava()
+				+ this.relationOperatorNode.convertToJava()
+				+ this.stringExpressionNode2.convertToJava();
+		}
+        if (this.booleanExpressionNode1 != null) {
+			return this.booleanExpressionNode1.convertToJava()
+				+ this.relationOperatorNode.convertToJava()
+				+ this.booleanExpressionNode2.convertToJava();
+		}
+        return "";
     }
 
     @Override
     public String convertToC() {
-        return null;
+        if (this.idNode != null) {
+			return this.idNode.convertToC();
+		}
+        if (this.functionCallNode != null) {
+			return this.functionCallNode.convertToC();
+		}
+        if (this.booleanNode != null) {
+			return this.booleanNode.convertToC();
+		}
+        if (this.integerExpressionNode1 != null) {
+			return this.integerExpressionNode1.convertToC()
+				+ this.relationOperatorNode.convertToC()
+				+ this.integerExpressionNode2.convertToC();
+		}
+        if (this.doubleExpressionNode1 != null) {
+			return this.doubleExpressionNode1.convertToC()
+				+ this.relationOperatorNode.convertToC()
+				+ this.doubleExpressionNode2.convertToC();
+		}
+        if (this.stringExpressionNode1 != null) {
+			return this.stringExpressionNode1.convertToC()
+				+ this.relationOperatorNode.convertToC()
+				+ this.stringExpressionNode2.convertToC();
+		}
+        if (this.booleanExpressionNode1 != null) {
+			return this.booleanExpressionNode1.convertToC()
+				+ this.relationOperatorNode.convertToC()
+				+ this.booleanExpressionNode2.convertToC();
+		}
+        return "";
     }
 
     @Override
