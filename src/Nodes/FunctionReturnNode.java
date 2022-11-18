@@ -55,7 +55,7 @@ public class FunctionReturnNode implements JottTree {
         if (typeNode != null){
             return typeNode.convertToJava();
         } else {
-            return voidNode;
+            return "void";
         }
     }
 
@@ -64,7 +64,7 @@ public class FunctionReturnNode implements JottTree {
         if (typeNode != null){
             return typeNode.convertToC();
         } else {
-            return voidNode;
+            return "void";
         }
     }
 

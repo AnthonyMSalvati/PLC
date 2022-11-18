@@ -141,7 +141,7 @@ public class FunctionDefNode implements JottTree {
             if (functionDefParamsNode != null) {
                 if (functionReturnNode != null) {
                     if (bodyNode != null) {
-                        return functionReturnNode.convertToC() + idNode.convertToC() + "(" + functionDefParamsNode.convertToC() +
+                        return functionReturnNode.convertToC() + " " + idNode.convertToC() + "(" + functionDefParamsNode.convertToC() +
                                 "){" + bodyNode.convertToC() + "}";
                     }
                     return functionReturnNode.convertToC() + idNode.convertToC() + "(" +
@@ -150,10 +150,10 @@ public class FunctionDefNode implements JottTree {
             }
             if (functionReturnNode != null) {
                 if (bodyNode != null) {
-                    return functionReturnNode.convertToC() + idNode.convertToC() + "(){" +
+                    return functionReturnNode.convertToC() + " " + idNode.convertToC() + "(){" +
                             bodyNode.convertToC() + "}";
                 }
-                return functionReturnNode.convertToC() + idNode.convertToC() + "(){}";
+                return functionReturnNode.convertToC() + " " + idNode.convertToC() + "(){}";
             }
         }
         return "";

@@ -72,19 +72,16 @@ public class FunctionCallNode implements JottTree {
     @Override
     public String convertToJott() {
 		return this.id.convertToJott() + "[" + (this.params == null ? "" : this.params.convertToJott()) + "]";
-		/*
-		old version (I don't think it works correctly if params == null)
-		if (this.id != null) {
-			if (this.params != null) {
-				return this.id.convertToJott() + "[" +
-                        this.params.convertToJott() + "]";
-			}
-		}
-        return ""; //*/
+
     }
 
     @Override
     public String convertToJava() { //Ian
+        if (this.id.getName().equals("print")) {
+            return "System.out.println" + "("
+                    + (this.params!=null?this.params.convertToJava():"") + ")";
+        }
+
 		return this.id.convertToJava() + "("
 			+ (this.params!=null?this.params.convertToJava():"") + ")";
     }
@@ -107,6 +104,13 @@ public class FunctionCallNode implements JottTree {
 		if (symbolTable.getFunctionReturnType(id.getName()) == null) {
 			throw new InvalidValidateException("Function has not yet been defined", this.lastToken.getFilename(), this.lastToken.getLineNum());
 		}
+
+        if (this.id.getName().equals("print")) {
+            if (params == null || this.params.getParamLength() != 1) {
+                throw new InvalidValidateException("Number of parameters does not match function definition",
+                        this.lastToken.getFilename(), this.lastToken.getLineNum());
+            }
+        }
 
         // Check parameter length matches
         if (symbolTable.getParamLength(id.getName()) > 0) {
