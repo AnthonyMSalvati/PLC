@@ -22,7 +22,6 @@ public class ElseStatementNode implements JottTree {
     {
         Token token;
         token = tokens.get(0);
-        String returnType = "";
         if (!(token.getToken().equals("else")))
         {
             return new ElseStatementNode();
@@ -78,12 +77,18 @@ public class ElseStatementNode implements JottTree {
 
     @Override
     public String convertToJava() {
-        return "else{" + bodyNode.convertToJava() + "}";
+        if (this.bodyNode != null){
+            return "else{" + bodyNode.convertToJava() + "}";
+        }
+        else return "";
     }
 
     @Override
     public String convertToC() {
-        return "else{" + bodyNode.convertToJava() + "}";
+        if (this.bodyNode != null){
+            return "else{" + bodyNode.convertToC() + "}";
+        }
+        else return "";
     }
 
     @Override

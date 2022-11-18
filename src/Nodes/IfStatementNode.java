@@ -112,12 +112,14 @@ public class IfStatementNode implements JottTree {
 
     @Override
     public String convertToJava() {
-        return null;
+        return "if (" + this.booleanExpressionNode.convertToJava() + "){ " + this.bodyNode.convertToJava() + "} "
+                + this.elseIfStatementNode.convertToJava() + this.elseStatementNode.convertToJava();
     }
 
     @Override
     public String convertToC() {
-        return null;
+        return "if (" + this.booleanExpressionNode.convertToC() + "){ " + this.bodyNode.convertToC() + "} "
+                + this.elseIfStatementNode.convertToC() + this.elseStatementNode.convertToC();
     }
 
     @Override
