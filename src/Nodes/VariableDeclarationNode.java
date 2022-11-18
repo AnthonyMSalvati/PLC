@@ -54,12 +54,32 @@ public class VariableDeclarationNode implements JottTree {
 
     @Override
     public String convertToJava() {
-        return null;
+        if (this.typeNode != null){
+            if (this.idNode != null){
+                if (this.endStatementNode != null){
+                    return typeNode.convertToJava() + " " +  idNode.convertToJava() + endStatementNode.convertToJava();
+                }
+            }
+        }
+        return "";
     }
 
     @Override
     public String convertToC() {
-        return null;
+
+        if (this.typeNode != null){
+            if (this.idNode != null){
+                if (this.endStatementNode != null){
+                    if (typeNode.getType().equals("String")){
+                        return typeNode.convertToC()  + idNode.convertToC() + endStatementNode.convertToC();
+                    }
+                    else{
+                        return typeNode.convertToC() + " " +  idNode.convertToC() + endStatementNode.convertToC();
+                    }
+                }
+            }
+        }
+        return "";
     }
 
     @Override
