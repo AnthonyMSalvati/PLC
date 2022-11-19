@@ -319,19 +319,19 @@ public class AssignmentNode implements JottTree {
         if (value != null) {
             if (idNode != null) {
                 if (doubleExpressionNode != null) {
-                    return "double" + " " + idNode.convertToJott() + "=" +
+                    return this.value + " " + idNode.convertToJott() + "=" +
                             doubleExpressionNode.convertToJott() + endStatementNode.convertToJott();
                 }
                 if (integerExpressionNode != null) {
-                    return "int" + " " + idNode.convertToJott() + "=" +
+                    return this.value + " " + idNode.convertToJott() + "=" +
                             integerExpressionNode.convertToJott() + endStatementNode.convertToJott();
                 }
                 if (stringExpressionNode != null) {
-                    return "String" + " " + idNode.convertToJott() + "=" +
+                    return this.value + " " + idNode.convertToJott() + "=" +
                             stringExpressionNode.convertToJott() + endStatementNode.convertToJott();
                 }
                 if (booleanExpressionNode != null) {
-                    return "bool" + " " + idNode.convertToJott() + "=" +
+                    return this.value + " " + idNode.convertToJott() + "=" +
                             booleanExpressionNode.convertToJott() + endStatementNode.convertToJott();
                 }
             }
@@ -362,11 +362,11 @@ public class AssignmentNode implements JottTree {
         if (this.value != null){
             if (this.idNode != null){
                 if (this.doubleExpressionNode != null) {
-                    return this.value + " " + this.idNode.convertToJava() + "=" +
+                    return "double" + " " + this.idNode.convertToJava() + "=" +
                             this.doubleExpressionNode.convertToJava() + this.endStatementNode.convertToJava();
                 }
                 if (integerExpressionNode != null) {
-                    return this.value + " " + this.idNode.convertToJava() + "=" +
+                    return "int" + " " + this.idNode.convertToJava() + "=" +
                             this.integerExpressionNode.convertToJava() + this.endStatementNode.convertToJava();
                 }
                 if (this.stringExpressionNode != null) {
@@ -374,7 +374,7 @@ public class AssignmentNode implements JottTree {
                             this.stringExpressionNode.convertToJava() + this.endStatementNode.convertToJava();
                 }
                 if (this.booleanExpressionNode != null) {
-                    return this.value + " " + this.idNode.convertToJava() + "=" +
+                    return "boolean" + " " + this.idNode.convertToJava() + "=" +
                             this.booleanExpressionNode.convertToJava() + this.endStatementNode.convertToJava();
                 }
             }
