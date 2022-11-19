@@ -1,4 +1,7 @@
 
 Run using 
 
-javac main.Jott.java <filename>
+	javac main/*.java Nodes/*.java
+	java main/Jott {inputfile} {outputfile} {outputfileLanguage}
+
+from the "src" folder
