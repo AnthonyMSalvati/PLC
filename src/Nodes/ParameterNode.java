@@ -53,6 +53,10 @@ public class ParameterNode implements JottTree {
 		this.functionName = functionName;
 	}
 
+	public ExpressionNode getExpr(){
+		return this.expr;
+	}
+
     @Override
     public String convertToJott() {
 		if (this.expr != null) {

@@ -12,6 +12,8 @@ public class FunctionCallNode implements JottTree {
 	private final IdNode id;
 	private final ParameterNode params;
     private final Token lastToken;
+
+    private String printType;
 	
 	public FunctionCallNode(IdNode id, Token token) {
 		this.id = id;
@@ -88,6 +90,11 @@ public class FunctionCallNode implements JottTree {
 
     @Override
     public String convertToC() { //Ian
+        if (this.id.getName().equals("print")) {
+            return "print" + printType + "("
+                    + (this.params!=null?this.params.convertToC():"") + ")";
+        }
+
 		return this.id.convertToC() + "("
 			+ (this.params!=null?this.params.convertToC():"") + ")";
     }
@@ -115,6 +122,7 @@ public class FunctionCallNode implements JottTree {
                 throw new InvalidValidateException("Number of parameters does not match function definition",
                         this.lastToken.getFilename(), this.lastToken.getLineNum());
             }
+            printType = this.params.getExpr().getType(symbolTable);
         }
 
         // Check parameter length matches

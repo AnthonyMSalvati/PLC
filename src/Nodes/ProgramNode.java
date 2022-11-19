@@ -91,23 +91,23 @@ public class ProgramNode implements JottTree {
 
         // print functions
         // int
-        header = header + "void print(int val){\n";
+        header = header + "void printInteger(int val){\n";
         header = header + "\tprintf(\"%d\\n\", val);\n";
         header = header + "\tfflush (stdout);\n}\n";
 
         // double
-        header = header + "void print(double val){\n";
+        header = header + "void printDouble(double val){\n";
         header = header + "\tprintf(\"%lf\\n\", val);\n";
         header = header + "\tfflush (stdout);\n}\n";
 
         // string
-        header = header + "void print(char* val){\n";
+        header = header + "void printString(char* val){\n";
         header = header + "\tprintf(\"%s\\n\", val);\n";
         header = header + "\tfflush (stdout);\n}\n";
 
         // boolean
-        header = header + "void print(bool val){\n";
-        header = header + "\tprintf(\"%B\\n\", val);\n";
+        header = header + "void printBoolean(bool val){\n";
+        header = header + "\tprintf(\"%s\\n\", val ? \"true\" : \"false\");\n";
         header = header + "\tfflush (stdout);\n}\n";
 
         if (functionListNode != null) {
