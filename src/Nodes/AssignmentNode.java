@@ -319,19 +319,19 @@ public class AssignmentNode implements JottTree {
         if (value != null) {
             if (idNode != null) {
                 if (doubleExpressionNode != null) {
-                    return value + " " + idNode.convertToJott() + "=" +
+                    return "double" + " " + idNode.convertToJott() + "=" +
                             doubleExpressionNode.convertToJott() + endStatementNode.convertToJott();
                 }
                 if (integerExpressionNode != null) {
-                    return value + " " + idNode.convertToJott() + "=" +
+                    return "int" + " " + idNode.convertToJott() + "=" +
                             integerExpressionNode.convertToJott() + endStatementNode.convertToJott();
                 }
                 if (stringExpressionNode != null) {
-                    return value + " " + idNode.convertToJott() + "=" +
+                    return "String" + " " + idNode.convertToJott() + "=" +
                             stringExpressionNode.convertToJott() + endStatementNode.convertToJott();
                 }
                 if (booleanExpressionNode != null) {
-                    return value + " " + idNode.convertToJott() + "=" +
+                    return "bool" + " " + idNode.convertToJott() + "=" +
                             booleanExpressionNode.convertToJott() + endStatementNode.convertToJott();
                 }
             }
@@ -405,19 +405,19 @@ public class AssignmentNode implements JottTree {
         if (this.value != null){
             if (this.idNode != null){
                 if (this.doubleExpressionNode != null) {
-                    return this.value + " " + this.idNode.convertToC() + "=" +
+                    return "double" + " " + this.idNode.convertToC() + "=" +
                             this.doubleExpressionNode.convertToC() + this.endStatementNode.convertToC();
                 }
                 if (integerExpressionNode != null) {
-                    return this.value + " " + this.idNode.convertToC() + "=" +
+                    return "int" + " " + this.idNode.convertToC() + "=" +
                             this.integerExpressionNode.convertToC() + this.endStatementNode.convertToC();
                 }
                 if (this.stringExpressionNode != null) {
-                    return this.value + " " + this.idNode.convertToC() + "=" +
+                    return "char *" + " " + this.idNode.convertToC() + "=" +
                             this.stringExpressionNode.convertToC() + this.endStatementNode.convertToC();
                 }
                 if (this.booleanExpressionNode != null) {
-                    return this.value + " " + this.idNode.convertToC() + "=" +
+                    return "bool" + " " + this.idNode.convertToC() + "=" +
                             this.booleanExpressionNode.convertToC() + this.endStatementNode.convertToC();
                 }
             }

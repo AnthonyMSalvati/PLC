@@ -41,12 +41,20 @@ public class BooleanNode implements JottTree {
 
     @Override
     public String convertToJava() {
-        return this.value;
+        if (this.value.equals("True")) {
+            return "true";
+        } else {
+            return "false";
+        }
     }
 
     @Override
     public String convertToC() {
-        return this.value;
+        if (this.value.equals("True")) {
+            return "true";
+        } else {
+            return "false";
+        }
     }
 
     @Override

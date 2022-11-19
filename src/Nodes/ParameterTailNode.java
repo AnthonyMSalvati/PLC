@@ -32,12 +32,8 @@ public class ParameterTailNode implements JottTree {
 			ExpressionNode expr = ExpressionNode.parseExpressionNode(tokens);
 			if (expr != null) {
 				ParameterTailNode params_t = ParameterTailNode.parseParameterTailNode(tokens);
-				if (params_t != null) {
-					token = tokens.get(0);
-					return new ParameterTailNode(expr, params_t, token);
-				}
-				throw new InvalidParseException("Error: expected <params_t>", 
-				tokens.get(0).getFilename(), tokens.get(0).getLineNum());
+				token = tokens.get(0);
+				return new ParameterTailNode(expr, params_t, token);
 			}
 			throw new InvalidParseException("Error: expected <expr>", 
 			tokens.get(0).getFilename(), tokens.get(0).getLineNum());

@@ -94,6 +94,11 @@ public class FunctionCallNode implements JottTree {
 
     @Override
     public String convertToPython(int nestLevel) { //Ian
+        if (this.id.getName().equals("input")) {
+            return "inputFunc" + "("
+                    + (this.params!=null?this.params.convertToPython(nestLevel):"") + ")";
+        }
+
 		return this.id.convertToPython(nestLevel) + "("
 			+ (this.params!=null?this.params.convertToPython(nestLevel):"") + ")";
     }

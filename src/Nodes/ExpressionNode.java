@@ -188,7 +188,7 @@ public class ExpressionNode implements JottTree {
 
     public String getType(SymbolTable symbolTable) throws Exception{
         if (functionCallNode != null) {
-            functionCallNode.getType(symbolTable);
+            return functionCallNode.getType(symbolTable);
         }
         if (idNode != null) {
             return symbolTable.getType(idNode.getName());

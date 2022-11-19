@@ -60,7 +60,7 @@ public class TypeNode implements JottTree {
             return "int";
         }
         else if (this.type.equals("Double")){
-            return "float";
+            return "double";
         }
         else if (this.type.equals("Boolean")){
             return "bool";

@@ -49,7 +49,8 @@ public class ProgramNode implements JottTree {
 
         String fileName = token.getFilename();
         String className = fileName.split("\\.")[0];
-        String header = "public class " + className + " {\n";
+        String header = "import java.util.Scanner;\n";
+        header = header + "public class " + className + " {\n";
         // input function
         header = header + "public static String input(String msg, int length){\n";
         header = header + "\tSystem.out.print(msg);\n\tScanner in = new Scanner(System.in);\n";
@@ -77,8 +78,8 @@ public class ProgramNode implements JottTree {
                 + "#include <stdbool.h>\n";
         // input function
         header = header + "char * input(char * msg, int length){\n";
-        header = header + "\tprintf(\"%s\", msg);\n\tfflush (sdout);\n\tchar s[length]\n";
-        header = header + "\tfgets(s, length, stdin;\n\treturn s;\n}\n";
+        header = header + "\tprintf(\"%s\", msg);\n\tfflush (stdout);\n\tchar s[length];\n";
+        header = header + "\tfgets(s, length, stdin);\n\treturn s;\n}\n";
 
         // concat function
         header = header + "char * concat(char * s1, char * s2){\n";
@@ -91,23 +92,23 @@ public class ProgramNode implements JottTree {
         // print functions
         // int
         header = header + "void print(int val){\n";
-        header = header + "\tprintf(\"%d\\n\", val;\n";
-        header = header + "\tfflush (sdout);\n}\n";
+        header = header + "\tprintf(\"%d\\n\", val);\n";
+        header = header + "\tfflush (stdout);\n}\n";
 
         // double
         header = header + "void print(double val){\n";
-        header = header + "\tprintf(\"%lf\\n\", val;\n";
-        header = header + "\tfflush (sdout);\n}\n";
+        header = header + "\tprintf(\"%lf\\n\", val);\n";
+        header = header + "\tfflush (stdout);\n}\n";
 
         // string
         header = header + "void print(char* val){\n";
-        header = header + "\tprintf(\"%s\\n\", val;\n";
-        header = header + "\tfflush (sdout);\n}\n";
+        header = header + "\tprintf(\"%s\\n\", val);\n";
+        header = header + "\tfflush (stdout);\n}\n";
 
         // boolean
         header = header + "void print(bool val){\n";
-        header = header + "\tprintf(\"%B\\n\", val;\n";
-        header = header + "\tfflush (sdout);\n}\n";
+        header = header + "\tprintf(\"%B\\n\", val);\n";
+        header = header + "\tfflush (stdout);\n}\n";
 
         if (functionListNode != null) {
             return header + functionListNode.convertToC();
@@ -118,7 +119,7 @@ public class ProgramNode implements JottTree {
     @Override
     public String convertToPython(int nestLevel) { //Ian
         // input function
-        String builtInFunctions = "def input(msg, length):\n";
+        String builtInFunctions = "def inputFunc(msg, length):\n";
         builtInFunctions = builtInFunctions + "\treturn input(msg)\n";
 
         // concat function
